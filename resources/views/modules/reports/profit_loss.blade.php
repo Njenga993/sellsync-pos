@@ -1,134 +1,368 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold text-gray-800">Profit & Loss Report</h2>
+            <div>
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Finance</p>
+                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                    Profit & Loss Report
+                </h1>
+            </div>
             <div class="flex gap-2">
                 <a href="{{ route('reports.stock-valuation') }}"
-                   class="border border-gray-300 text-gray-600 px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
+                   style="background:transparent;color:#6b7280;padding:9px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s">
                     Stock Valuation
                 </a>
                 <a href="{{ route('reports.cashier-performance') }}"
-                   class="border border-gray-300 text-gray-600 px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
+                   style="background:transparent;color:#6b7280;padding:9px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s">
                     Cashier Performance
                 </a>
             </div>
         </div>
     </x-slot>
 
-    <div class="py-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        
+        .dash-wrap { display: flex; flex-direction: column; gap: 20px; }
+        
+        .filter-bar {
+            background: #ffffff;
+            border: 1px solid #e4e7ef;
+            border-radius: 14px;
+            padding: 18px 22px;
+            display: flex;
+            align-items: flex-end;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .filter-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .filter-input {
+            padding: 9px 12px;
+            border: 1.5px solid #e4e7ef;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            color: #111827;
+            background: #fafbff;
+            transition: all 0.15s;
+            outline: none;
+        }
+        .filter-input:focus {
+            border-color: #1a56db;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+        }
+        
+        .btn-filter {
+            padding: 9px 18px;
+            background: #1a56db;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
+            transition: all 0.15s;
+        }
+        .btn-filter:hover {
+            background: #1e40af;
+            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.35);
+        }
+        
+        .btn-reset {
+            padding: 9px 18px;
+            background: transparent;
+            color: #6b7280;
+            border: 1.5px solid #e4e7ef;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.15s;
+            display: inline-block;
+        }
+        .btn-reset:hover {
+            border-color: #1a56db;
+            color: #1a56db;
+            background: #eff4ff;
+        }
+        
+        .panel {
+            background: #ffffff;
+            border: 1px solid #e4e7ef;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+        .panel-padded { padding: 22px; }
+        
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 22px;
+            border-bottom: 1px solid #f1f3f8;
+            background: #fafbff;
+        }
+        .panel-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #111827;
+        }
+        .panel-subtitle {
+            font-family: 'Outfit', sans-serif;
+            font-size: 11px;
+            color: #9ca3af;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+        
+        .pl-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 22px;
+            border-bottom: 1px solid #f8f9fb;
+        }
+        .pl-row:last-child { border-bottom: none; }
+        
+        .pl-row-green  { background: #f0fdf4; }
+        .pl-row-red    { background: #fff1f2; }
+        .pl-row-blue   { background: #eff4ff; }
+        .pl-row-yellow { background: #fffbeb; }
+        
+        .pl-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #111827;
+        }
+        .pl-description {
+            font-family: 'Outfit', sans-serif;
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 2px;
+        }
+        .pl-amount {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 15px;
+            font-weight: 700;
+            text-align: right;
+        }
+        .pl-amount.positive { color: #16a34a; }
+        .pl-amount.negative { color: #dc2626; }
+        .pl-amount.brand   { color: #1a56db; }
+        
+        .pl-row-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 22px;
+        }
+        .pl-row-total.green-bg { background: #f0fdf4; }
+        .pl-row-total.red-bg   { background: #fff1f2; }
+        
+        .pl-total-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: #111827;
+        }
+        .pl-total-amount {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .pl-total-amount.positive { color: #16a34a; }
+        .pl-total-amount.negative { color: #dc2626; }
+        
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+        
+        .progress-bar {
+            height: 8px;
+            background: #f1f3f8;
+            border-radius: 99px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 99px;
+            transition: width 0.4s ease;
+        }
+        
+        .data-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-family: 'Outfit', sans-serif; 
+        }
+        .data-table th {
+            text-align: left;
+            font-size: 10px;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 12px 20px;
+            background: #fafbff;
+            border-bottom: 1px solid #f1f3f8;
+        }
+        .data-table td {
+            padding: 14px 20px;
+            font-size: 13px;
+            color: #374151;
+            border-bottom: 1px solid #f8f9fb;
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tbody tr:hover td { background: #fafbff; }
+        
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .fw6 { font-weight: 600; }
+        .fw7 { font-weight: 700; }
+        
+        .expense-row {
+            margin-bottom: 12px;
+        }
+        .expense-row:last-child { margin-bottom: 0; }
+        
+        .color-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+            flex-shrink: 0;
+        }
+    </style>
 
-            {{-- Date Filter --}}
-            <div class="bg-white rounded-xl border border-gray-200 p-4 mb-6">
-                <form method="GET" action="{{ route('reports.profit-loss') }}"
-                      class="flex items-end gap-4 flex-wrap">
-                    <div>
-                        <label class="text-xs text-gray-500 block mb-1">From</label>
-                        <input type="date" name="from" value="{{ $from }}"
-                            class="border border-gray-300 rounded-lg px-3 py-2 text-sm" />
-                    </div>
-                    <div>
-                        <label class="text-xs text-gray-500 block mb-1">To</label>
-                        <input type="date" name="to" value="{{ $to }}"
-                            class="border border-gray-300 rounded-lg px-3 py-2 text-sm" />
-                    </div>
-                    <button type="submit"
-                        class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700">
-                        Apply
-                    </button>
-                    <a href="{{ route('reports.profit-loss') }}"
-                        class="px-4 py-2 text-sm text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-50">
-                        Reset
-                    </a>
-                </form>
+    <div class="dash-wrap" style="padding:0 0 20px">
+
+        {{-- Date Filter --}}
+        <div class="filter-bar">
+            <form method="GET" action="{{ route('reports.profit-loss') }}" style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;width:100%">
+                <div class="filter-group">
+                    <span class="filter-label">From</span>
+                    <input type="date" name="from" value="{{ $from }}" class="filter-input" />
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">To</span>
+                    <input type="date" name="to" value="{{ $to }}" class="filter-input" />
+                </div>
+                <button type="submit" class="btn-filter">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:4px">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+                    </svg>
+                    Apply
+                </button>
+                <a href="{{ route('reports.profit-loss') }}" class="btn-reset">Reset</a>
+            </form>
+        </div>
+
+        {{-- P&L Statement --}}
+        <div class="panel">
+            <div class="panel-header">
+                <div>
+                    <span class="panel-title">Profit & Loss Statement</span>
+                    <span class="panel-subtitle">
+                        {{ \Carbon\Carbon::parse($from)->format('d M Y') }} — {{ \Carbon\Carbon::parse($to)->format('d M Y') }}
+                    </span>
+                </div>
             </div>
 
-            {{-- P&L Summary --}}
-            <div class="bg-white rounded-xl border border-gray-200 overflow-hidden mb-6">
-                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
-                    <h3 class="text-sm font-semibold text-gray-700">
-                        Profit & Loss Statement
-                        <span class="text-xs font-normal text-gray-400 ml-2">
-                            {{ \Carbon\Carbon::parse($from)->format('d M Y') }} —
-                            {{ \Carbon\Carbon::parse($to)->format('d M Y') }}
-                        </span>
-                    </h3>
+            {{-- Revenue --}}
+            <div class="pl-row">
+                <div>
+                    <div class="pl-label">Gross Revenue</div>
+                    <div class="pl-description">Total sales collected</div>
                 </div>
-                <div class="divide-y divide-gray-100">
-                    <div class="px-6 py-4 flex justify-between items-center">
-                        <div>
-                            <p class="font-medium text-gray-800">Gross Revenue</p>
-                            <p class="text-xs text-gray-400 mt-0.5">Total sales collected</p>
-                        </div>
-                        <p class="text-lg font-bold text-green-600">KES {{ number_format($revenue, 2) }}</p>
-                    </div>
-                    <div class="px-6 py-4 flex justify-between items-center bg-red-50">
-                        <div>
-                            <p class="font-medium text-gray-800">Cost of Goods Sold (COGS)</p>
-                            <p class="text-xs text-gray-400 mt-0.5">Cost price × qty sold</p>
-                        </div>
-                        <p class="text-lg font-bold text-red-500">− KES {{ number_format($cogs, 2) }}</p>
-                    </div>
-                    <div class="px-6 py-4 flex justify-between items-center bg-red-50">
-                        <div>
-                            <p class="font-medium text-gray-800">Refunds Issued</p>
-                            <p class="text-xs text-gray-400 mt-0.5">Total returned amount</p>
-                        </div>
-                        <p class="text-lg font-bold text-red-500">− KES {{ number_format($refunds, 2) }}</p>
-                    </div>
-                    <div class="px-6 py-4 flex justify-between items-center bg-blue-50">
-                        <div>
-                            <p class="font-semibold text-gray-800">Gross Profit</p>
-                            <p class="text-xs text-gray-400 mt-0.5">Revenue − COGS − Refunds</p>
-                        </div>
-                        <p class="text-xl font-bold {{ $grossProfit >= 0 ? 'text-blue-600' : 'text-red-500' }}">
-                            KES {{ number_format($grossProfit, 2) }}
-                        </p>
-                    </div>
-                    <div class="px-6 py-4 flex justify-between items-center bg-red-50">
-                        <div>
-                            <p class="font-medium text-gray-800">Operating Expenses</p>
-                            <p class="text-xs text-gray-400 mt-0.5">Rent, utilities, salaries, etc.</p>
-                        </div>
-                        <p class="text-lg font-bold text-red-500">− KES {{ number_format($expenses, 2) }}</p>
-                    </div>
-                    <div class="px-6 py-4 flex justify-between items-center
-                        {{ $netProfit >= 0 ? 'bg-green-50' : 'bg-red-50' }}">
-                        <div>
-                            <p class="font-bold text-gray-800 text-base">Net Profit</p>
-                            <p class="text-xs text-gray-400 mt-0.5">Gross profit − expenses</p>
-                        </div>
-                        <p class="text-2xl font-bold {{ $netProfit >= 0 ? 'text-green-600' : 'text-red-500' }}">
-                            KES {{ number_format($netProfit, 2) }}
-                        </p>
-                    </div>
-                </div>
+                <span class="pl-amount positive">KES {{ number_format($revenue, 2) }}</span>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {{-- COGS --}}
+            <div class="pl-row pl-row-red">
+                <div>
+                    <div class="pl-label">Cost of Goods Sold (COGS)</div>
+                    <div class="pl-description">Cost price × quantity sold</div>
+                </div>
+                <span class="pl-amount negative">− KES {{ number_format($cogs, 2) }}</span>
+            </div>
 
-                {{-- Monthly Breakdown --}}
-                @if($monthlySales->count() > 0)
-                <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-100">
-                        <h3 class="text-sm font-semibold text-gray-700">Monthly Revenue</h3>
+            {{-- Refunds --}}
+            <div class="pl-row pl-row-red">
+                <div>
+                    <div class="pl-label">Refunds Issued</div>
+                    <div class="pl-description">Total returned amount</div>
+                </div>
+                <span class="pl-amount negative">− KES {{ number_format($refunds, 2) }}</span>
+            </div>
+
+            {{-- Gross Profit --}}
+            <div class="pl-row pl-row-blue">
+                <div>
+                    <div class="pl-label">Gross Profit</div>
+                    <div class="pl-description">Revenue − COGS − Refunds</div>
+                </div>
+                <span class="pl-amount brand" style="font-size:17px">KES {{ number_format($grossProfit, 2) }}</span>
+            </div>
+
+            {{-- Expenses --}}
+            <div class="pl-row pl-row-red">
+                <div>
+                    <div class="pl-label">Operating Expenses</div>
+                    <div class="pl-description">Rent, utilities, salaries, etc.</div>
+                </div>
+                <span class="pl-amount negative">− KES {{ number_format($expenses, 2) }}</span>
+            </div>
+
+            {{-- Net Profit --}}
+            <div class="pl-row-total {{ $netProfit >= 0 ? 'green-bg' : 'red-bg' }}">
+                <span class="pl-total-label">Net Profit</span>
+                <span class="pl-total-amount {{ $netProfit >= 0 ? 'positive' : 'negative' }}">
+                    KES {{ number_format($netProfit, 2) }}
+                </span>
+            </div>
+        </div>
+
+        {{-- Monthly Breakdown + Expenses by Category --}}
+        <div class="two-col">
+
+            {{-- Monthly Revenue --}}
+            @if($monthlySales->count() > 0)
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">Monthly Revenue</span>
                     </div>
-                    <table class="min-w-full text-sm">
-                        <thead class="bg-gray-50">
+                    <table class="data-table">
+                        <thead>
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Month</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Transactions</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Revenue</th>
+                                <th>Month</th>
+                                <th>Transactions</th>
+                                <th style="text-align:right">Revenue</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-100">
+                        <tbody>
                             @foreach($monthlySales as $month)
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-3 text-gray-700 font-medium">
+                                <tr>
+                                    <td class="fw6" style="color:#111827">
                                         {{ \Carbon\Carbon::parse($month->month . '-01')->format('F Y') }}
                                     </td>
-                                    <td class="px-6 py-3 text-gray-500">{{ $month->transactions }}</td>
-                                    <td class="px-6 py-3 font-semibold text-green-600">
+                                    <td class="mono" style="font-size:12px;color:#6b7280">{{ $month->transactions }}</td>
+                                    <td class="mono fw6" style="text-align:right;color:#16a34a">
                                         KES {{ number_format($month->revenue, 2) }}
                                     </td>
                                 </tr>
@@ -136,34 +370,43 @@
                         </tbody>
                     </table>
                 </div>
-                @endif
+            @endif
 
-                {{-- Expenses by Category --}}
-                @if($expensesByCategory->count() > 0)
-                <div class="bg-white rounded-xl border border-gray-200 p-5">
-                    <h3 class="text-sm font-semibold text-gray-700 mb-4">Expenses by Category</h3>
-                    @foreach($expensesByCategory as $cat)
+            {{-- Expenses by Category --}}
+            @if($expensesByCategory->count() > 0)
+                <div class="panel panel-padded">
+                    <div style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:#111827;margin-bottom:16px">
+                        Expenses by Category
+                    </div>
+                    @php
+                        $catColors = ['#1a56db','#0d9488','#7c3aed','#d97706','#dc2626','#0891b2','#4f46e5','#16a34a'];
+                    @endphp
+                    @foreach($expensesByCategory as $i => $cat)
                         @php
-                            $pct   = $expenses > 0 ? round(($cat->total / $expenses) * 100) : 0;
-                            $color = $cat->category->color ?? '#6366f1';
+                            $pct = $expenses > 0 ? round(($cat->total / $expenses) * 100) : 0;
+                            $color = $cat->category->color ?? $catColors[$i % count($catColors)];
                         @endphp
-                        <div class="mb-3">
-                            <div class="flex justify-between text-sm mb-1">
-                                <span class="text-gray-600">{{ $cat->category->name ?? 'Uncategorised' }}</span>
-                                <span class="font-medium">
+                        <div class="expense-row">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                                <div style="display:flex;align-items:center;gap:6px">
+                                    <span class="color-dot" style="background:{{ $color }}"></span>
+                                    <span style="font-size:13px;color:#374151;font-weight:500;font-family:'Outfit',sans-serif">
+                                        {{ $cat->category->name ?? 'Uncategorised' }}
+                                    </span>
+                                </div>
+                                <span style="font-size:12px;color:#6b7280;font-family:'JetBrains Mono',monospace;font-weight:600">
                                     KES {{ number_format($cat->total, 2) }}
-                                    <span class="text-xs text-gray-400">({{ $pct }}%)</span>
+                                    <span style="color:#9ca3af;font-weight:400;margin-left:4px">({{ $pct }}%)</span>
                                 </span>
                             </div>
-                            <div class="w-full bg-gray-100 rounded-full h-2">
-                                <div class="h-2 rounded-full" style="width:{{ $pct }}%;background:{{ $color }}"></div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width:{{ $pct }}%;background:{{ $color }}"></div>
                             </div>
                         </div>
                     @endforeach
                 </div>
-                @endif
+            @endif
 
-            </div>
         </div>
     </div>
 </x-app-layout>

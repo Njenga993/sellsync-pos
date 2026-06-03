@@ -6,7 +6,7 @@
     box-shadow:1px 0 0 #f1f3f8;
 " id="pos-sidebar">
 
-    {{-- ── Logo / Brand ── --}}
+    {{-- Logo / Brand --}}
     <div style="padding:22px 20px 18px;border-bottom:1px solid #f1f3f8">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
             <div style="width:38px;height:38px;background:#eff4ff;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
@@ -15,13 +15,14 @@
                 </svg>
             </div>
             <div>
-                <div style="font-size:16px;font-weight:700;color:#111827;line-height:1">RetailHub</div>
-                <div style="font-size:11px;color:#9ca3af;margin-top:2px;font-weight:500">{{ auth()->user()->tenant->name ?? 'Your Store' }}</div>
+                <div style="font-size:16px;font-weight:700;color:#111827;line-height:1">SellSync</div>
+                <div style="font-size:11px;color:#9ca3af;margin-top:2px;font-weight:500;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em">POS</div>
             </div>
         </div>
+        <div style="font-size:11px;color:#9ca3af;font-weight:500">{{ auth()->user()->tenant->name ?? 'Your Store' }}</div>
     </div>
 
-    {{-- ── Navigation ── --}}
+    {{-- Navigation --}}
     <div style="flex:1;padding:12px 10px;display:flex;flex-direction:column;gap:1px;overflow-y:auto">
 
         @php
@@ -30,9 +31,10 @@
             $bg     = $active ? 'background:#eff4ff' : '';
             $color  = $active ? 'color:#1a56db;font-weight:600' : 'color:#4b5563;font-weight:500';
             $bar    = $active ? '<span style="position:absolute;left:0;top:20%;height:60%;width:3px;background:#1a56db;border-radius:0 3px 3px 0"></span>' : '';
+            $hover  = !$active ? 'onmouseover="this.style.background=\'#f9fafb\';this.style.color=\'#1a56db\'" onmouseout="this.style.background=\'\';this.style.color=\'#4b5563\'"' : '';
             $url    = route($route);
             return "
-            <a href=\"{$url}\" style=\"display:flex;align-items:center;gap:11px;padding:9px 14px;border-radius:10px;text-decoration:none;font-size:13.5px;transition:all .12s;position:relative;{$bg};{$color}\">
+            <a href=\"{$url}\" style=\"display:flex;align-items:center;gap:11px;padding:9px 14px;border-radius:10px;text-decoration:none;font-size:13.5px;transition:all .12s;position:relative;{$bg};{$color}\" {$hover}>
                 {$bar}
                 <span style=\"width:30px;display:flex;align-items:center;justify-content:center;flex-shrink:0\">{$icon}</span>
                 <span style=\"flex:1\">{$label}</span>
@@ -127,10 +129,10 @@
 
     </div>
 
-    {{-- ── Footer / User ── --}}
+    {{-- Footer / User --}}
     <div style="padding:14px 16px 16px;border-top:1px solid #f1f3f8;margin-top:auto">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-            <div style="width:36px;height:36px;background:#1a56db;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px;flex-shrink:0">
+            <div style="width:36px;height:36px;background:#1a56db;border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px;flex-shrink:0">
                 {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
             </div>
             <div style="flex:1;min-width:0">
@@ -142,7 +144,7 @@
             @csrf
             <button type="submit" style="
                 display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;
-                border-radius:8px;background:transparent;border:1px solid #e4e7ef;
+                border-radius:10px;background:transparent;border:1.5px solid #e4e7ef;
                 font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;
                 color:#6b7280;cursor:pointer;transition:all .15s;
             " onmouseover="this.style.background='#fef2f2';this.style.borderColor='#dc2626';this.style.color='#dc2626'"
@@ -155,16 +157,3 @@
         </form>
     </div>
 </nav>
-
-{{-- Push content right of sidebar --}}
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
-    body { font-family:'Outfit',sans-serif; }
-    /* Offset main content for sidebar */
-    .min-h-screen.bg-gray-100 { padding-left: 260px !important; }
-    @media(max-width:768px) {
-        .min-h-screen.bg-gray-100 { padding-left:0 !important; }
-        #pos-sidebar { transform:translateX(-100%); transition:transform .25s ease; }
-        #pos-sidebar.open { transform:translateX(0); }
-    }
-</style>

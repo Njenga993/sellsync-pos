@@ -1,124 +1,397 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center gap-3">
-            <a href="{{ route('returns.index') }}" class="text-gray-400 hover:text-gray-600">← Back</a>
-            <h2 class="text-xl font-semibold text-gray-800">Process Return</h2>
+        <div class="flex items-center gap-4">
+            <a href="{{ route('returns.index') }}" 
+               style="display:flex;align-items:center;gap:6px;color:#9ca3af;font-size:13px;text-decoration:none;padding:6px 10px;border-radius:8px;border:1px solid #e4e7ef;font-family:'Outfit',sans-serif;transition:all .15s"
+               onmouseover="this.style.borderColor='#1a56db';this.style.color='#1a56db';this.style.background='#eff4ff'"
+               onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#9ca3af';this.style.background='transparent'">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Back
+            </a>
+            <div>
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Finance</p>
+                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                    Process Return
+                </h1>
+            </div>
         </div>
     </x-slot>
 
-    <div class="py-6">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        
+        .form-panel {
+            background: #ffffff;
+            border: 1px solid #e4e7ef;
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .step-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            background: #1a56db;
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+        
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #111827;
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 14px;
+        }
+        
+        .form-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+            display: block;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid #e4e7ef;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            color: #111827;
+            background: #fafbff;
+            transition: all 0.15s ease;
+            outline: none;
+        }
+        .form-input:focus {
+            border-color: #1a56db;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+        }
+        .form-input::placeholder { color: #c4c9d6; }
+        
+        .form-select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid #e4e7ef;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            color: #111827;
+            background: #fafbff;
+            transition: all 0.15s ease;
+            outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' fill='none' stroke='%239ca3af' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+            cursor: pointer;
+        }
+        .form-select:focus {
+            border-color: #1a56db;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid #e4e7ef;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            color: #111827;
+            background: #fafbff;
+            transition: all 0.15s ease;
+            outline: none;
+            resize: vertical;
+            min-height: 60px;
+        }
+        .form-textarea:focus {
+            border-color: #1a56db;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+        }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+        
+        .btn-primary {
+            background: #1a56db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
+            transition: all 0.15s;
+        }
+        .btn-primary:hover {
+            background: #1e40af;
+            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.35);
+            transform: translateY(-1px);
+        }
+        
+        .btn-return {
+            background: #dc2626;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
+            transition: all 0.15s;
+        }
+        .btn-return:hover {
+            background: #b91c1c;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35);
+            transform: translateY(-1px);
+        }
+        
+        .btn-cancel {
+            background: transparent;
+            color: #6b7280;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            border: 1.5px solid #e4e7ef;
+            text-decoration: none;
+            transition: all 0.15s;
+            display: inline-block;
+        }
+        .btn-cancel:hover {
+            border-color: #dc2626;
+            color: #dc2626;
+            background: #fef2f2;
+        }
+        
+        .sale-found {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sale-not-found {
+            background: #fef2f2;
+            border: 1px solid #fecdd3;
+            border-radius: 10px;
+            padding: 14px 18px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            color: #b91c1c;
+        }
+        
+        .data-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-family: 'Outfit', sans-serif; 
+        }
+        .data-table th {
+            text-align: left;
+            font-size: 10px;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 10px 16px;
+            background: #fafbff;
+            border-bottom: 1px solid #f1f3f8;
+        }
+        .data-table td {
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #374151;
+            border-bottom: 1px solid #f8f9fb;
+        }
+        
+        .qty-input {
+            width: 70px;
+            padding: 6px 8px;
+            border: 1.5px solid #e4e7ef;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: #111827;
+            background: #fafbff;
+            text-align: center;
+            transition: all 0.15s;
+            outline: none;
+        }
+        .qty-input:focus {
+            border-color: #1a56db;
+            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+        }
+        
+        .checkbox-custom {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 1.5px solid #d1d5db;
+            border-radius: 4px;
+            background: #ffffff;
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .checkbox-custom:checked {
+            background: #1a56db;
+            border-color: #1a56db;
+        }
+        .checkbox-custom:checked::after {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 1px;
+            width: 5px;
+            height: 9px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        
+        .error-msg {
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            color: #dc2626;
+            margin-top: 6px;
+        }
+    </style>
+
+    <div style="padding:0 0 20px">
+        <div style="max-width:800px;margin:0 auto;padding:0 16px">
 
             @if(session('error'))
-                <div class="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
+                <div class="sale-not-found" style="margin-bottom:16px">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right:8px;flex-shrink:0">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
                     {{ session('error') }}
                 </div>
             @endif
 
             {{-- Step 1: Search Invoice --}}
-            <div class="bg-white rounded-xl border border-gray-200 p-6 mb-4">
-                <h3 class="text-sm font-semibold text-gray-700 mb-4">
-                    Step 1 — Find the original sale
-                </h3>
-                <form method="GET" action="{{ route('returns.create') }}"
-                      class="flex gap-3 items-end">
-                    <div class="flex-1">
-                        <label class="text-xs text-gray-500 block mb-1">Invoice Number</label>
-                        <input type="text" name="invoice_no"
+            <div class="form-panel">
+                <div class="section-title">
+                    <span class="step-badge">1</span>
+                    Find the original sale
+                </div>
+                <form method="GET" action="{{ route('returns.create') }}" style="display:flex;gap:12px;align-items:flex-end">
+                    <div style="flex:1" class="form-group" style="margin-bottom:0">
+                        <label class="form-label" for="invoice_search">Invoice Number</label>
+                        <input type="text" name="invoice_no" id="invoice_search"
                             value="{{ request('invoice_no') }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
-                            placeholder="e.g. INV-NYAK-000001" />
+                            class="form-input" placeholder="e.g. INV-NYAK-000001" />
                     </div>
-                    <button type="submit"
-                        class="bg-indigo-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700">
-                        Find Sale
-                    </button>
+                    <button type="submit" class="btn-primary" style="padding-top:11px;padding-bottom:11px">Find Sale</button>
                 </form>
             </div>
 
-            {{-- Step 2: Process Return --}}
+            {{-- Step 2 & 3: Process Return --}}
             @if($sale)
-                <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-4 text-sm">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="font-semibold text-green-800">{{ $sale->invoice_no }}</p>
-                            <p class="text-green-600 text-xs mt-0.5">
-                                {{ $sale->created_at->format('d M Y, h:i A') }} •
-                                {{ $sale->customer->name ?? 'Walk-in Customer' }} •
-                                KES {{ number_format($sale->total, 2) }}
-                            </p>
+                {{-- Sale Found --}}
+                <div class="sale-found">
+                    <div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#15803d">{{ $sale->invoice_no }}</div>
+                        <div style="font-size:12px;color:#6b7280;margin-top:2px">
+                            {{ $sale->created_at->format('d M Y, h:i A') }} ·
+                            {{ $sale->customer->name ?? 'Walk-in Customer' }} ·
+                            KES {{ number_format($sale->total, 2) }}
                         </div>
-                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
-                            Found
-                        </span>
                     </div>
+                    <span class="badge" style="background:#dcfce7;color:#15803d;font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;font-family:'Outfit',sans-serif">Found</span>
                 </div>
 
                 <form method="POST" action="{{ route('returns.store') }}">
                     @csrf
                     <input type="hidden" name="sale_id" value="{{ $sale->id }}" />
 
-                    {{-- Return Items --}}
-                    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden mb-4">
-                        <div class="px-6 py-4 border-b border-gray-100">
-                            <h3 class="text-sm font-semibold text-gray-700">
-                                Step 2 — Select items to return
-            </h3>
+                    {{-- Step 2: Select Items --}}
+                    <div class="form-panel" style="padding:0;overflow:hidden">
+                        <div style="padding:18px 24px;border-bottom:1px solid #f1f3f8">
+                            <div class="section-title" style="margin-bottom:0">
+                                <span class="step-badge">2</span>
+                                Select items to return
+                            </div>
                         </div>
-                        <table class="min-w-full divide-y divide-gray-100 text-sm">
-                            <thead class="bg-gray-50">
+                        <table class="data-table">
+                            <thead>
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Product</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Sold Qty</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Unit Price</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Return Qty</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Restock</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Refund</th>
+                                    <th>Product</th>
+                                    <th>Sold Qty</th>
+                                    <th>Unit Price</th>
+                                    <th>Return Qty</th>
+                                    <th>Restock</th>
+                                    <th style="text-align:right">Refund</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-100">
+                            <tbody>
                                 @foreach($sale->items as $i => $item)
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-6 py-4">
-                                            <input type="hidden"
-                                                name="items[{{ $i }}][sale_item_id]"
-                                                value="{{ $item->id }}" />
-                                            <p class="font-medium text-gray-800">{{ $item->product_name }}</p>
+                                    <tr>
+                                        <td>
+                                            <input type="hidden" name="items[{{ $i }}][sale_item_id]" value="{{ $item->id }}" />
+                                            <span class="fw6" style="color:#111827">{{ $item->product_name }}</span>
                                         </td>
-                                        <td class="px-6 py-4 text-gray-500">{{ $item->qty }}</td>
-                                        <td class="px-6 py-4 text-gray-500">
-                                            KES {{ number_format($item->unit_price, 2) }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <input type="number"
-                                                name="items[{{ $i }}][qty]"
+                                        <td style="font-size:12px;color:#6b7280">{{ $item->qty }}</td>
+                                        <td class="mono" style="font-size:12px;color:#6b7280">KES {{ number_format($item->unit_price, 2) }}</td>
+                                        <td>
+                                            <input type="number" name="items[{{ $i }}][qty]"
                                                 min="0" max="{{ $item->qty }}" value="0"
-                                                class="w-20 border border-gray-300 rounded-lg px-2 py-1 text-sm"
-                                                onchange="calcRefund()" />
+                                                class="qty-input" onchange="calcRefund()" />
                                         </td>
-                                        <td class="px-6 py-4">
-                                            <label class="flex items-center gap-2 cursor-pointer">
-                                                <input type="checkbox"
-                                                    name="items[{{ $i }}][restock]"
-                                                    value="1" checked
-                                                    class="rounded border-gray-300 text-indigo-600" />
-                                                <span class="text-xs text-gray-500">Return to stock</span>
+                                        <td>
+                                            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:#6b7280;font-family:'Outfit',sans-serif">
+                                                <input type="checkbox" name="items[{{ $i }}][restock]" value="1" checked class="checkbox-custom" />
+                                                Return to stock
                                             </label>
                                         </td>
-                                        <td class="px-6 py-4 text-sm font-medium text-gray-700"
-                                            id="refund-{{ $i }}"
-                                            data-price="{{ $item->unit_price }}">
+                                        <td class="mono fw6" style="text-align:right;font-size:13px;color:#111827"
+                                            id="refund-{{ $i }}" data-price="{{ $item->unit_price }}">
                                             KES 0.00
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
-                            <tfoot class="bg-gray-50">
-                                <tr>
-                                    <td colspan="5" class="px-6 py-3 text-right text-sm font-semibold text-gray-700">
+                            <tfoot>
+                                <tr style="background:#fafbff">
+                                    <td colspan="5" style="text-align:right;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:#111827">
                                         Total Refund:
                                     </td>
-                                    <td class="px-6 py-3 font-bold text-indigo-600 text-base" id="total-refund">
+                                    <td class="mono fw7" style="text-align:right;font-size:18px;color:#dc2626" id="total-refund">
                                         KES 0.00
                                     </td>
                                 </tr>
@@ -126,18 +399,18 @@
                         </table>
                     </div>
 
-                    {{-- Return Details --}}
-                    <div class="bg-white rounded-xl border border-gray-200 p-6 mb-4">
-                        <h3 class="text-sm font-semibold text-gray-700 mb-4">
-                            Step 3 — Return details
-                        </h3>
+                    {{-- Step 3: Return Details --}}
+                    <div class="form-panel">
+                        <div class="section-title">
+                            <span class="step-badge">3</span>
+                            Return details
+                        </div>
 
-                        <div class="grid grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <label class="text-xs text-gray-500 block mb-1">Reason for Return *</label>
-                                <select name="reason" required
-                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
-                                    <option value="">-- Select reason --</option>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label class="form-label" for="reason">Reason for Return *</label>
+                                <select name="reason" id="reason" required class="form-select">
+                                    <option value="">Select reason</option>
                                     <option value="Defective product">Defective product</option>
                                     <option value="Wrong item delivered">Wrong item delivered</option>
                                     <option value="Customer changed mind">Customer changed mind</option>
@@ -146,10 +419,9 @@
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
-                            <div>
-                                <label class="text-xs text-gray-500 block mb-1">Refund Method *</label>
-                                <select name="refund_method" required
-                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                            <div class="form-group">
+                                <label class="form-label" for="refund_method">Refund Method *</label>
+                                <select name="refund_method" id="refund_method" required class="form-select">
                                     <option value="cash">Cash</option>
                                     <option value="card">Card</option>
                                     <option value="mobile">M-Pesa</option>
@@ -158,30 +430,25 @@
                             </div>
                         </div>
 
-                        <div>
-                            <label class="text-xs text-gray-500 block mb-1">Additional Notes</label>
-                            <textarea name="notes" rows="2"
-                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                        <div class="form-group" style="margin-bottom:0">
+                            <label class="form-label" for="notes">Additional Notes</label>
+                            <textarea name="notes" id="notes" rows="2" class="form-textarea"
                                 placeholder="Any additional information about this return"></textarea>
                         </div>
                     </div>
 
-                    <div class="flex gap-3">
-                        <button type="submit"
-                            class="bg-red-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-red-700">
-                            Process Return & Refund
-                        </button>
-                        <a href="{{ route('returns.index') }}"
-                           class="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
-                            Cancel
-                        </a>
+                    <div style="display:flex;gap:12px">
+                        <button type="submit" class="btn-return">Process Return & Refund</button>
+                        <a href="{{ route('returns.index') }}" class="btn-cancel">Cancel</a>
                     </div>
                 </form>
 
             @elseif(request('invoice_no'))
-                <div class="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-700">
-                    No sale found with invoice number <strong>{{ request('invoice_no') }}</strong>.
-                    Please check and try again.
+                <div class="sale-not-found">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right:8px;flex-shrink:0">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    No sale found with invoice number <strong style="margin:0 4px">{{ request('invoice_no') }}</strong>. Please check and try again.
                 </div>
             @endif
         </div>
@@ -190,7 +457,7 @@
 <script>
 function calcRefund() {
     let total = 0;
-    document.querySelectorAll('[id^="refund-"]').forEach((cell, i) => {
+    document.querySelectorAll('[id^="refund-"]').forEach(cell => {
         const row   = cell.closest('tr');
         const qty   = parseFloat(row.querySelector('input[type="number"]').value) || 0;
         const price = parseFloat(cell.dataset.price) || 0;
@@ -201,4 +468,5 @@ function calcRefund() {
     document.getElementById('total-refund').textContent = 'KES ' + total.toFixed(2);
 }
 </script>
+</div>
 </x-app-layout>

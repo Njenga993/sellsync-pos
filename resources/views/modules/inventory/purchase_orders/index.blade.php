@@ -1,95 +1,201 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold text-gray-800">Purchase Orders</h2>
+            <div>
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Inventory</p>
+                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                    Purchase Orders
+                </h1>
+            </div>
             <div class="flex gap-2">
                 <a href="{{ route('suppliers.index') }}"
-                   class="border border-gray-300 text-gray-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50">
+                   style="background:transparent;color:#6b7280;padding:10px 18px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s">
                     Suppliers
                 </a>
                 <a href="{{ route('purchase-orders.create') }}"
-                   class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700">
+                   style="background:#1a56db;color:white;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;letter-spacing:.01em;box-shadow:0 2px 8px rgba(26,86,219,.25);transition:all .15s">
                     + New PO
                 </a>
             </div>
         </div>
     </x-slot>
 
-    <div class="py-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        
+        .dash-wrap { display: flex; flex-direction: column; gap: 20px; }
+        
+        .panel {
+            background: #ffffff;
+            border: 1px solid #e4e7ef;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+        
+        .data-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-family: 'Outfit', sans-serif; 
+        }
+        .data-table th {
+            text-align: left;
+            font-size: 10px;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 12px 20px;
+            background: #fafbff;
+            border-bottom: 1px solid #f1f3f8;
+        }
+        .data-table td {
+            padding: 14px 20px;
+            font-size: 13px;
+            color: #374151;
+            border-bottom: 1px solid #f8f9fb;
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tbody tr:hover td { background: #fafbff; }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+        }
+        .badge-green  { background: #dcfce7; color: #15803d; }
+        .badge-blue   { background: #dbeafe; color: #1d4ed8; }
+        .badge-yellow { background: #fef9c3; color: #a16207; }
+        .badge-red    { background: #fee2e2; color: #b91c1c; }
+        .badge-gray   { background: #f3f4f6; color: #6b7280; }
+        .badge-purple { background: #f3e8ff; color: #7c3aed; }
+        
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .fw6 { font-weight: 600; }
+        .fw7 { font-weight: 700; }
+        .text-brand { color: #1a56db; }
+        
+        .action-link {
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+        .action-link.view { color: #1a56db; }
+        .action-link.view:hover { color: #1e40af; text-decoration: underline; }
+        .action-link.delete { color: #dc2626; background: none; border: none; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 600; }
+        .action-link.delete:hover { color: #b91c1c; text-decoration: underline; }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .empty-state svg {
+            width: 48px;
+            height: 48px;
+            color: #d1d5db;
+            margin-bottom: 16px;
+        }
+    </style>
 
-            @if(session('success'))
-                <div class="mb-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm">
-                    {{ session('success') }}
-                </div>
-            @endif
+    <div class="dash-wrap" style="padding:0 0 20px">
 
-            <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                <table class="min-w-full divide-y divide-gray-200 text-sm">
-                    <thead class="bg-gray-50">
+        {{-- Flash Messages --}}
+        @if(session('success'))
+            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;font-family:'Outfit',sans-serif;font-size:13px;color:#15803d;font-weight:500;display:flex;align-items:center;gap:10px">
+                <svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                {{ session('success') }}
+            </div>
+        @endif
+
+        {{-- Purchase Orders Table --}}
+        <div class="panel">
+            @if($orders->count())
+                <table class="data-table">
+                    <thead>
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">PO Number</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Supplier</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Order Date</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Expected</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Items</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                            <th>PO Number</th>
+                            <th>Supplier</th>
+                            <th>Order Date</th>
+                            <th>Expected</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th style="width:100px">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        @forelse($orders as $order)
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 font-mono text-xs text-indigo-600 font-semibold">
-                                    {{ $order->po_number }}
+                    <tbody>
+                        @foreach($orders as $order)
+                            @php
+                                $statusBadge = match($order->status) {
+                                    'draft'     => 'badge-gray',
+                                    'ordered'   => 'badge-blue',
+                                    'partial'   => 'badge-yellow',
+                                    'received'  => 'badge-green',
+                                    'cancelled' => 'badge-red',
+                                    default     => 'badge-gray',
+                                };
+                            @endphp
+                            <tr>
+                                <td>
+                                    <span class="mono fw6 text-brand" style="font-size:12px">{{ $order->po_number }}</span>
                                 </td>
-                                <td class="px-6 py-4">
-                                    <p class="font-medium text-gray-800">{{ $order->supplier->name }}</p>
-                                    <p class="text-xs text-gray-400">{{ $order->user->name }}</p>
+                                <td>
+                                    <div class="fw6" style="color:#111827">{{ $order->supplier->name }}</div>
+                                    <div style="font-size:11px;color:#9ca3af">{{ $order->user->name }}</div>
                                 </td>
-                                <td class="px-6 py-4 text-gray-500">
+                                <td style="font-size:12px;color:#6b7280">
                                     {{ $order->order_date->format('d M Y') }}
                                 </td>
-                                <td class="px-6 py-4 text-gray-500">
+                                <td style="font-size:12px;color:#6b7280">
                                     {{ $order->expected_date?->format('d M Y') ?? '—' }}
                                 </td>
-                                <td class="px-6 py-4 text-gray-500">{{ $order->items_count }} items</td>
-                                <td class="px-6 py-4 font-semibold text-gray-800">
-                                    KES {{ number_format($order->total, 2) }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="px-2 py-1 rounded-full text-xs font-medium {{ $order->status_color }}">
+                                <td style="font-size:12px;color:#6b7280">{{ $order->items_count }} items</td>
+                                <td class="mono fw6" style="color:#111827">KES {{ number_format($order->total, 2) }}</td>
+                                <td>
+                                    <span class="badge {{ $statusBadge }}">
                                         {{ ucfirst($order->status) }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 flex gap-3">
-                                    <a href="{{ route('purchase-orders.show', $order) }}"
-                                       class="text-indigo-600 hover:underline text-xs">View</a>
-                                    @if($order->status === 'draft')
-                                        <form method="POST" action="{{ route('purchase-orders.destroy', $order) }}"
-                                              onsubmit="return confirm('Delete this PO?')">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" class="text-red-500 hover:underline text-xs">Delete</button>
-                                        </form>
-                                    @endif
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:12px">
+                                        <a href="{{ route('purchase-orders.show', $order) }}" class="action-link view">View</a>
+                                        @if($order->status === 'draft')
+                                            <form method="POST" action="{{ route('purchase-orders.destroy', $order) }}"
+                                                  onsubmit="return confirm('Delete this PO?')" style="display:inline">
+                                                @csrf @method('DELETE')
+                                                <button type="submit" class="action-link delete">Delete</button>
+                                            </form>
+                                        @endif
+                                    </div>
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="8" class="px-6 py-12 text-center text-gray-400">
-                                    No purchase orders yet.
-                                    <a href="{{ route('purchase-orders.create') }}"
-                                       class="text-indigo-600 hover:underline ml-1">Create your first PO</a>
-                                </td>
-                            </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
                 @if($orders->hasPages())
-                    <div class="px-6 py-4 border-t border-gray-100">{{ $orders->links() }}</div>
+                    <div style="padding:14px 20px;border-top:1px solid #f1f3f8">
+                        {{ $orders->links() }}
+                    </div>
                 @endif
-            </div>
+            @else
+                <div class="empty-state">
+                    <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <p style="font-family:'Outfit',sans-serif;font-size:14px;color:#9ca3af;margin-bottom:6px">No purchase orders yet</p>
+                    <a href="{{ route('purchase-orders.create') }}" 
+                       style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:#1a56db;text-decoration:none">
+                        Create your first PO →
+                    </a>
+                </div>
+            @endif
         </div>
     </div>
 </x-app-layout>

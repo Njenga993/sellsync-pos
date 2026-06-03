@@ -13,7 +13,7 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --brand:       #1a56db;   /* solid blue — brand colour */
+            --brand:       #1a56db;
             --brand-dark:  #1348c4;
             --brand-light: #eff4ff;
             --brand-muted: #dbeafe;
@@ -101,7 +101,16 @@
         }
         .search-input::placeholder { color: var(--text-3); }
         .search-input:focus { border-color: var(--brand); background: var(--surface); box-shadow: 0 0 0 3px var(--brand-muted); }
-        .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-3); font-size: 14px; }
+        .search-icon { 
+            position: absolute; left: 12px; top: 50%; transform: translateY(-50%); 
+            color: var(--text-3); display: flex; align-items: center;
+        }
+        .search-shortcut {
+            position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+            background: var(--border); color: var(--text-3); font-size: 10px; font-weight: 600;
+            padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.05em; pointer-events: none;
+        }
 
         /* User chip */
         .user-chip {
@@ -151,12 +160,14 @@
             border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-muted), var(--shadow-md);
             transform: translateY(-1px);
         }
+        .product-card:hover .product-icon { transform: scale(1.05); }
         .product-card:active { transform: scale(0.97); }
 
         .product-icon {
             width: 100%; aspect-ratio: 1.2; border-radius: var(--radius-md);
             background: var(--brand-light); display: flex; align-items: center;
-            justify-content: center; font-size: 30px; margin-bottom: 12px;
+            justify-content: center; margin-bottom: 12px;
+            transition: transform 0.2s ease;
         }
         .product-name {
             font-size: 12px; font-weight: 600; color: var(--text-1);
@@ -178,8 +189,11 @@
         }
         .product-card.out-of-stock { opacity: 0.5; pointer-events: none; }
 
-        .no-results { text-align: center; color: var(--text-3); padding: 60px; font-size: 14px; }
-        .no-results-icon { font-size: 40px; margin-bottom: 12px; }
+        .no-results { 
+            text-align: center; color: var(--text-3); padding: 60px; font-size: 14px; 
+            display: none;
+        }
+        .no-results-icon { margin-bottom: 12px; color: var(--border-2); }
 
         /* ══════════════════════════════════════
            CART — HEADER
@@ -193,7 +207,10 @@
         .cart-badge {
             background: var(--brand); color: white;
             font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 99px;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            min-width: 20px; text-align: center;
         }
+        .cart-badge.pulse { transform: scale(1.3); }
         .clear-btn {
             font-size: 12px; color: var(--text-3); background: none; border: none;
             cursor: pointer; font-family: 'Outfit', sans-serif; padding: 5px 10px;
@@ -215,15 +232,23 @@
 
         /* Cart items */
         .cart-items-wrap { flex: 1; overflow-y: auto; padding: 8px 20px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-        .cart-empty { text-align: center; padding: 40px 20px; }
-        .cart-empty-icon { font-size: 48px; margin-bottom: 12px; opacity: .25; }
+        .cart-empty { 
+            text-align: center; padding: 40px 20px; 
+            opacity: 0.6; transition: opacity 0.3s;
+        }
+        .cart-empty-icon { margin-bottom: 12px; }
         .cart-empty-text { font-size: 13px; color: var(--text-3); }
 
         .cart-item {
             display: flex; align-items: center; gap: 12px;
             padding: 11px 0; border-bottom: 1px solid var(--border);
+            animation: slideIn 0.2s ease;
         }
         .cart-item:last-child { border-bottom: none; }
+        @keyframes slideIn { 
+            from { opacity: 0; transform: translateX(10px); } 
+            to { opacity: 1; transform: translateX(0); } 
+        }
         .cart-item-num {
             width: 22px; height: 22px; border-radius: 6px;
             background: var(--brand-light); color: var(--brand);
@@ -244,6 +269,7 @@
         }
         .qty-btn:hover.plus { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
         .qty-btn:hover.minus { border-color: var(--danger); color: var(--danger); background: #fef2f2; }
+        .qty-btn:active { transform: scale(0.9); }
         .qty-num { font-size: 14px; font-weight: 700; color: var(--text-1); width: 28px; text-align: center; font-family: 'JetBrains Mono', monospace; }
 
         .remove-btn {
@@ -309,9 +335,10 @@
             cursor: pointer; transition: all .15s; font-family: 'Outfit', sans-serif;
             display: flex; flex-direction: column; align-items: center; gap: 5px;
         }
-        .pay-btn .p-icon { font-size: 18px; }
+        .pay-btn svg { width: 18px; height: 18px; }
         .pay-btn:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
         .pay-btn.active { background: var(--brand); border-color: var(--brand); color: white; }
+        .pay-btn.active svg { color: white; }
 
         /* Amount received */
         .amount-section { margin-bottom: 10px; }
@@ -336,7 +363,7 @@
         .split-box { background: var(--surface-2); border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 12px; margin-bottom: 12px; }
         .split-row-inp { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
         .split-row-inp:last-child { margin-bottom: 0; }
-        .split-icon { font-size: 16px; width: 22px; text-align: center; }
+        .split-row-inp svg { width: 16px; height: 16px; flex-shrink: 0; }
         .split-lbl { font-size: 12px; color: var(--text-2); font-weight: 500; width: 48px; }
         .split-inp {
             flex: 1; background: var(--surface); border: 1.5px solid var(--border);
@@ -360,7 +387,7 @@
         }
         .complete-btn:hover { background: var(--brand-dark); box-shadow: 0 6px 20px rgba(26, 86, 219, .4); transform: translateY(-1px); }
         .complete-btn:active { transform: translateY(0); box-shadow: none; }
-        .complete-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+        .complete-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
 
         /* ══════════════════════════════════════
            RECEIPT MODAL
@@ -382,8 +409,9 @@
         .modal-icon-wrap {
             width: 64px; height: 64px; border-radius: 50%; border: 2px solid #bbf7d0;
             background: #f0fdf4; display: flex; align-items: center; justify-content: center;
-            font-size: 28px; margin: 0 auto 18px;
+            margin: 0 auto 18px;
         }
+        .modal-icon-wrap svg { width: 28px; height: 28px; color: var(--success); }
         .modal-title { text-align: center; font-size: 20px; font-weight: 700; color: var(--text-1); margin-bottom: 4px; }
         .modal-invoice { text-align: center; font-size: 12px; color: var(--text-3); font-family: 'JetBrains Mono', monospace; margin-bottom: 20px; }
 
@@ -401,6 +429,7 @@
             border: 1.5px solid var(--border); background: transparent;
             color: var(--text-2); font-size: 13px; font-weight: 600;
             cursor: pointer; font-family: 'Outfit', sans-serif; transition: all .15s;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
         }
         .modal-btn-outline:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
         .modal-btn-solid {
@@ -440,7 +469,12 @@
         {{-- Top bar --}}
         <div class="top-bar">
             <div class="top-bar-left">
-                <a href="{{ route('dashboard') }}" class="back-btn">← Back</a>
+                <a href="{{ route('dashboard') }}" class="back-btn">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    Back
+                </a>
                 <div class="divider-v"></div>
                 <div class="brand-info">
                     <span class="brand-name">{{ auth()->user()->tenant->name }}</span>
@@ -453,9 +487,14 @@
             </div>
             <div style="display:flex;align-items:center;gap:12px">
                 <div class="search-wrap">
-                    <span class="search-icon">🔍</span>
+                    <span class="search-icon">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </span>
                     <input type="text" id="search-input" class="search-input"
                         placeholder="Search products or scan barcode…" />
+                    <span class="search-shortcut" id="search-shortcut">/</span>
                 </div>
                 <div class="user-chip">
                     <div class="user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 2)) }}</div>
@@ -479,10 +518,13 @@
         <div class="product-grid-wrap">
             <div class="product-grid" id="product-grid">
                 @php
-                    $icons = ['🥤','🍎','📦','🛍️','🧴','🧃','🍫','🥛','🌽','🧹','💊','🧂','🥩','🍞','🧀','🥚','🍵','🫙'];
+                    $iconColors = ['#1a56db','#0d9488','#7c3aed','#16a34a','#d97706','#dc2626','#0891b2','#4f46e5'];
                 @endphp
                 @foreach($products as $product)
-                    @php $icon = $icons[$product->id % count($icons)]; @endphp
+                    @php 
+                        $colorIndex = $product->id % count($iconColors);
+                        $iconColor = $iconColors[$colorIndex];
+                    @endphp
                     <div class="product-card {{ ($product->track_stock && $product->stock_qty <= 0) ? 'out-of-stock' : '' }}"
                          data-id="{{ $product->id }}"
                          data-name="{{ $product->name }}"
@@ -496,13 +538,17 @@
                             <span class="stock-out-badge">OUT OF STOCK</span>
                         @endif
 
-                        <div class="product-icon">{{ $icon }}</div>
+                        <div class="product-icon">
+                            <svg width="28" height="28" fill="none" stroke="{{ $iconColor }}" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                            </svg>
+                        </div>
                         <div class="product-name">{{ $product->name }}</div>
                         <div class="product-price">KES {{ number_format($product->price, 2) }}</div>
 
                         @if($product->track_stock)
                             @if($product->stock_qty > 0 && $product->isLowStock())
-                                <div class="product-stock stock-low">⚠ Only {{ $product->stock_qty }} left</div>
+                                <div class="product-stock stock-low">Only {{ $product->stock_qty }} left</div>
                             @elseif($product->stock_qty > 0)
                                 <div class="product-stock stock-ok">{{ $product->stock_qty }} in stock</div>
                             @endif
@@ -510,8 +556,12 @@
                     </div>
                 @endforeach
             </div>
-            <div id="no-results" class="no-results" style="display:none">
-                <div class="no-results-icon">🔍</div>
+            <div id="no-results" class="no-results">
+                <div class="no-results-icon">
+                    <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
                 No products found
             </div>
         </div>
@@ -535,7 +585,7 @@
         <div class="customer-wrap">
             <div class="section-label">Customer</div>
             <select id="customer-select" class="customer-select">
-                <option value="">👤 Walk-in Customer</option>
+                <option value="">Walk-in Customer</option>
                 @foreach($customers as $customer)
                     <option value="{{ $customer->id }}">{{ $customer->name }} · {{ $customer->phone }}</option>
                 @endforeach
@@ -545,7 +595,11 @@
         {{-- Cart items --}}
         <div class="cart-items-wrap" id="cart-items">
             <div class="cart-empty" id="empty-cart">
-                <div class="cart-empty-icon">🛒</div>
+                <div class="cart-empty-icon">
+                    <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="opacity:0.3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
+                    </svg>
+                </div>
                 <div class="cart-empty-text">Tap a product to add it to the sale</div>
             </div>
         </div>
@@ -590,13 +644,22 @@
             <div id="single-payment">
                 <div class="pay-methods">
                     <button class="pay-btn active" data-method="cash" onclick="setPayment('cash', this)">
-                        <span class="p-icon">💵</span>Cash
+                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Cash
                     </button>
                     <button class="pay-btn" data-method="card" onclick="setPayment('card', this)">
-                        <span class="p-icon">💳</span>Card
+                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                        </svg>
+                        Card
                     </button>
                     <button class="pay-btn" data-method="mobile" onclick="setPayment('mobile', this)">
-                        <span class="p-icon">📱</span>M-Pesa
+                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                        </svg>
+                        M-Pesa
                     </button>
                 </div>
                 <div class="amount-section">
@@ -614,19 +677,25 @@
             <div id="split-payment" style="display:none">
                 <div class="split-box">
                     <div class="split-row-inp">
-                        <span class="split-icon">💵</span>
+                        <svg fill="none" stroke="#16a34a" stroke-width="1.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
                         <span class="split-lbl">Cash</span>
                         <input type="number" id="split-cash" class="split-inp"
                             placeholder="0.00" min="0" step="0.01" oninput="updateSplitChange()" />
                     </div>
                     <div class="split-row-inp">
-                        <span class="split-icon">💳</span>
+                        <svg fill="none" stroke="#1a56db" stroke-width="1.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                        </svg>
                         <span class="split-lbl">Card</span>
                         <input type="number" id="split-card" class="split-inp"
                             placeholder="0.00" min="0" step="0.01" oninput="updateSplitChange()" />
                     </div>
                     <div class="split-row-inp">
-                        <span class="split-icon">📱</span>
+                        <svg fill="none" stroke="#7c3aed" stroke-width="1.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                        </svg>
                         <span class="split-lbl">M-Pesa</span>
                         <input type="number" id="split-mobile" class="split-inp"
                             placeholder="0.00" min="0" step="0.01" oninput="updateSplitChange()" />
@@ -644,7 +713,7 @@
                 </div>
             </div>
 
-            <button class="complete-btn" id="complete-btn" onclick="processSale()">
+            <button class="complete-btn" id="complete-btn" onclick="processSale()" disabled>
                 Complete Sale
             </button>
         </div>
@@ -656,7 +725,11 @@
 ═══════════════════════════════════ --}}
 <div class="modal-overlay" id="receipt-modal">
     <div class="modal-card">
-        <div class="modal-icon-wrap">✅</div>
+        <div class="modal-icon-wrap">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+        </div>
         <div class="modal-title">Sale Complete!</div>
         <div class="modal-invoice" id="receipt-invoice"></div>
         <div class="modal-summary">
@@ -674,8 +747,13 @@
             </div>
         </div>
         <div class="modal-btns">
-            <button class="modal-btn-outline" onclick="printReceipt()">🖨 Print Receipt</button>
-            <button class="modal-btn-solid" onclick="newSale()">New Sale →</button>
+            <button class="modal-btn-outline" onclick="printReceipt()">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                </svg>
+                Print Receipt
+            </button>
+            <button class="modal-btn-solid" onclick="newSale()">New Sale</button>
         </div>
     </div>
 </div>
@@ -697,11 +775,33 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
+/* ─── Keyboard shortcuts ─── */
+document.addEventListener('keydown', function(e) {
+    // Ignore if user is typing in an input
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+    
+    // Press "/" to focus search
+    if (e.key === '/') {
+        e.preventDefault();
+        document.getElementById('search-input').focus();
+    }
+});
+
+// Hide shortcut hint when search is focused
+document.getElementById('search-input').addEventListener('focus', function() {
+    document.getElementById('search-shortcut').style.display = 'none';
+});
+document.getElementById('search-input').addEventListener('blur', function() {
+    if (!this.value) {
+        document.getElementById('search-shortcut').style.display = '';
+    }
+});
+
 /* ─── Add to cart ─── */
 function addToCart(el) {
     if (el.classList.contains('out-of-stock')) return;
 
-    const id    = el.dataset.id;
+    const id    = parseInt(el.dataset.id);
     const name  = el.dataset.name;
     const price = parseFloat(el.dataset.price);
     const stock = parseInt(el.dataset.stock);
@@ -709,7 +809,10 @@ function addToCart(el) {
 
     const existing = cart.find(i => i.id === id);
     if (existing) {
-        if (track && existing.qty >= stock) { toast('Not enough stock available', 'error'); return; }
+        if (track && existing.qty >= stock) { 
+            toast('Not enough stock available', 'error'); 
+            return; 
+        }
         existing.qty++;
     } else {
         cart.push({ id, name, price, qty: 1, stock, track });
@@ -725,62 +828,117 @@ function addToCart(el) {
 /* ─── Render cart ─── */
 function renderCart() {
     const wrap  = document.getElementById('cart-items');
-    const empty = document.getElementById('empty-cart');
     const count = document.getElementById('cart-count');
 
     const totalItems = cart.reduce((s, i) => s + i.qty, 0);
+    
+    // Update badge with animation
     count.textContent = totalItems;
+    count.classList.add('pulse');
+    setTimeout(() => count.classList.remove('pulse'), 200);
 
     if (cart.length === 0) {
-        wrap.innerHTML = '';
-        wrap.appendChild(empty);
-        empty.style.display = 'block';
+        wrap.innerHTML = `
+            <div class="cart-empty" id="empty-cart">
+                <div class="cart-empty-icon">
+                    <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="opacity:0.3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
+                    </svg>
+                </div>
+                <div class="cart-empty-text">Tap a product to add it to the sale</div>
+            </div>
+        `;
         updateTotals();
+        updateCompleteButton();
         return;
     }
 
-    empty.style.display = 'none';
     wrap.innerHTML = cart.map((item, i) => `
-        <div class="cart-item">
+        <div class="cart-item" data-index="${i}">
             <div class="cart-item-num">${i + 1}</div>
             <div class="cart-item-info">
                 <div class="cart-item-name" title="${item.name}">${item.name}</div>
                 <div class="cart-item-price">KES ${(item.price * item.qty).toFixed(2)}</div>
             </div>
             <div class="qty-control">
-                <button class="qty-btn minus" data-action="decrease" data-index="${i}">−</button>
+                <button class="qty-btn minus" onclick="updateQty(${i}, -1)" type="button">−</button>
                 <span class="qty-num">${item.qty}</span>
-                <button class="qty-btn plus" data-action="increase" data-index="${i}">+</button>
+                <button class="qty-btn plus" onclick="updateQty(${i}, 1)" type="button">+</button>
             </div>
-            <button class="remove-btn" data-action="remove" data-index="${i}" title="Remove">✕</button>
+            <button class="remove-btn" onclick="removeItem(${i})" title="Remove" type="button">×</button>
         </div>
     `).join('');
 
     updateTotals();
+    updateCompleteButton();
 }
 
-/* ─── Cart event delegation ─── */
-document.getElementById('cart-items').addEventListener('click', function(e) {
-    const btn = e.target.closest('[data-action]');
-    if (!btn) return;
-    const action = btn.dataset.action;
-    const i      = parseInt(btn.dataset.index);
+/* ─── Update complete button state ─── */
+function updateCompleteButton() {
+    const btn = document.getElementById('complete-btn');
+    if (cart.length === 0) {
+        btn.disabled = true;
+    } else {
+        btn.disabled = false;
+    }
+}
 
-    if (action === 'increase') {
-        if (cart[i].track && cart[i].qty >= cart[i].stock) { toast('Not enough stock', 'error'); return; }
-        cart[i].qty++;
-        renderCart();
+/* ─── Update quantity ─── */
+function updateQty(index, change) {
+    if (index < 0 || index >= cart.length) return;
+    
+    const item = cart[index];
+    
+    if (change > 0) {
+        // Increasing quantity
+        if (item.track && item.qty >= item.stock) {
+            toast('Not enough stock available', 'error');
+            return;
+        }
+        item.qty++;
+    } else {
+        // Decreasing quantity
+        item.qty--;
+        if (item.qty <= 0) {
+            cart.splice(index, 1);
+            renderCart();
+            return;
+        }
     }
-    if (action === 'decrease') {
-        cart[i].qty--;
-        if (cart[i].qty <= 0) cart.splice(i, 1);
-        renderCart();
-    }
-    if (action === 'remove') {
-        cart.splice(i, 1);
-        renderCart();
-    }
-});
+    
+    // Update just this item's display without full re-render
+    updateCartItemDisplay(index);
+    updateTotals();
+}
+
+/* ─── Update single cart item display ─── */
+function updateCartItemDisplay(index) {
+    const item = cart[index];
+    const cartItem = document.querySelector(`.cart-item[data-index="${index}"]`);
+    if (!cartItem) return;
+    
+    // Update price display
+    const priceEl = cartItem.querySelector('.cart-item-price');
+    if (priceEl) priceEl.textContent = `KES ${(item.price * item.qty).toFixed(2)}`;
+    
+    // Update quantity number
+    const qtyEl = cartItem.querySelector('.qty-num');
+    if (qtyEl) qtyEl.textContent = item.qty;
+    
+    // Update cart count badge with animation
+    const totalItems = cart.reduce((s, i) => s + i.qty, 0);
+    const count = document.getElementById('cart-count');
+    count.textContent = totalItems;
+    count.classList.add('pulse');
+    setTimeout(() => count.classList.remove('pulse'), 200);
+}
+
+/* ─── Remove item ─── */
+function removeItem(index) {
+    if (index < 0 || index >= cart.length) return;
+    cart.splice(index, 1);
+    renderCart();
+}
 
 function clearCart() {
     if (!cart.length) return;
@@ -914,7 +1072,7 @@ async function processSale() {
     }
 
     const btn = document.getElementById('complete-btn');
-    btn.disabled = true; btn.textContent = 'Processing…';
+    btn.disabled = true; btn.textContent = 'Processing...';
 
     try {
         const res  = await fetch('{{ route("pos.store") }}', {
@@ -928,7 +1086,7 @@ async function processSale() {
             currentSaleId = data.sale_id;
             document.getElementById('receipt-invoice').textContent = data.invoice_no;
             document.getElementById('receipt-total').textContent   = 'KES ' + parseFloat(data.total).toFixed(2);
-            document.getElementById('receipt-payment').textContent = payload.payment_method;
+            document.getElementById('receipt-payment').textContent = payload.payment_method === 'split' ? 'Split Payment' : paymentMethod;
             document.getElementById('receipt-change').textContent  = 'KES ' + parseFloat(data.change).toFixed(2);
             document.getElementById('receipt-modal').classList.add('show');
         } else {
@@ -938,6 +1096,7 @@ async function processSale() {
         toast('Network error. Please try again.', 'error');
     } finally {
         btn.disabled = false; btn.textContent = 'Complete Sale';
+        updateCompleteButton();
     }
 }
 
@@ -952,7 +1111,10 @@ function newSale() {
         document.getElementById(id).value = id === 'discount-input' ? '0' : '';
     });
     document.getElementById('customer-select').value = '';
-    if (isSplit) { document.getElementById('split-toggle').checked = false; toggleSplit(); }
+    if (isSplit) { 
+        document.getElementById('split-toggle').checked = false; 
+        toggleSplit(); 
+    }
     renderCart();
 }
 </script>

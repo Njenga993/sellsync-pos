@@ -1,93 +1,231 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold text-gray-800">Customers</h2>
+            <div>
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">People</p>
+                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                    Customers
+                </h1>
+            </div>
             <a href="{{ route('customers.create') }}"
-               class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700">
+               style="background:#1a56db;color:white;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;letter-spacing:.01em;box-shadow:0 2px 8px rgba(26,86,219,.25);transition:all .15s">
                 + Add Customer
             </a>
         </div>
     </x-slot>
 
-    <div class="py-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        
+        .dash-wrap { display: flex; flex-direction: column; gap: 20px; }
+        
+        .panel {
+            background: #ffffff;
+            border: 1px solid #e4e7ef;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+        
+        .data-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-family: 'Outfit', sans-serif; 
+        }
+        .data-table th {
+            text-align: left;
+            font-size: 10px;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 12px 20px;
+            background: #fafbff;
+            border-bottom: 1px solid #f1f3f8;
+        }
+        .data-table td {
+            padding: 14px 20px;
+            font-size: 13px;
+            color: #374151;
+            border-bottom: 1px solid #f8f9fb;
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tbody tr:hover td { background: #fafbff; }
+        
+        .customer-name-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .customer-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+        }
+        .badge-green  { background: #dcfce7; color: #15803d; }
+        .badge-gray   { background: #f3f4f6; color: #6b7280; }
+        .badge-yellow { background: #fef9c3; color: #a16207; }
+        .badge-indigo { background: #e0e7ff; color: #4338ca; }
+        
+        .loyalty-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 99px;
+            background: #fffbeb;
+            color: #a16207;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .fw6 { font-weight: 600; }
+        .fw7 { font-weight: 700; }
+        .text-brand { color: #1a56db; }
+        
+        .action-link {
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+        .action-link.view { color: #6b7280; }
+        .action-link.view:hover { color: #111827; text-decoration: underline; }
+        .action-link.edit { color: #1a56db; }
+        .action-link.edit:hover { color: #1e40af; text-decoration: underline; }
+        .action-link.delete { color: #dc2626; background: none; border: none; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 600; }
+        .action-link.delete:hover { color: #b91c1c; text-decoration: underline; }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .empty-state svg {
+            width: 48px;
+            height: 48px;
+            color: #d1d5db;
+            margin-bottom: 16px;
+        }
+    </style>
 
-            @if(session('success'))
-                <div class="mb-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm">
-                    {{ session('success') }}
-                </div>
-            @endif
+    <div class="dash-wrap" style="padding:0 0 20px">
 
-            <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                <table class="min-w-full divide-y divide-gray-200 text-sm">
-                    <thead class="bg-gray-50">
+        {{-- Flash Message --}}
+        @if(session('success'))
+            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;font-family:'Outfit',sans-serif;font-size:13px;color:#15803d;font-weight:500;display:flex;align-items:center;gap:10px">
+                <svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                {{ session('success') }}
+            </div>
+        @endif
+
+        {{-- Customers Table --}}
+        <div class="panel">
+            @if($customers->count())
+                <table class="data-table">
+                    <thead>
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Customer</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">City</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Loyalty Points</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total Spent</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                            <th>Customer</th>
+                            <th>Phone</th>
+                            <th>City</th>
+                            <th>Loyalty Points</th>
+                            <th>Total Spent</th>
+                            <th>Status</th>
+                            <th style="width:140px">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        @forelse($customers as $customer)
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4">
-                                    <p class="font-medium text-gray-800">{{ $customer->name }}</p>
-                                    @if($customer->email)
-                                        <p class="text-xs text-gray-400">{{ $customer->email }}</p>
-                                    @endif
+                    <tbody>
+                        @php
+                            $avatarColors = ['#1a56db','#0d9488','#7c3aed','#d97706','#dc2626','#0891b2','#4f46e5','#16a34a'];
+                        @endphp
+                        @foreach($customers as $customer)
+                            @php
+                                $initials = strtoupper(substr($customer->name, 0, 2));
+                                $avatarBg = $avatarColors[$customer->id % count($avatarColors)];
+                            @endphp
+                            <tr>
+                                <td>
+                                    <div class="customer-name-cell">
+                                        <div class="customer-avatar" style="background:{{ $avatarBg }}">
+                                            {{ $initials }}
+                                        </div>
+                                        <div>
+                                            <div class="fw6" style="color:#111827">{{ $customer->name }}</div>
+                                            @if($customer->email)
+                                                <div style="font-size:11px;color:#9ca3af">{{ $customer->email }}</div>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </td>
-                                <td class="px-6 py-4 text-gray-500">{{ $customer->phone ?? '—' }}</td>
-                                <td class="px-6 py-4 text-gray-500">{{ $customer->city ?? '—' }}</td>
-                                <td class="px-6 py-4">
-                                    <span class="px-2 py-1 bg-yellow-50 text-yellow-700 rounded-full text-xs font-medium">
+                                <td class="mono" style="font-size:12px;color:#6b7280">{{ $customer->phone ?? '—' }}</td>
+                                <td style="font-size:12px;color:#6b7280">{{ $customer->city ?? '—' }}</td>
+                                <td>
+                                    <span class="loyalty-chip">
+                                        <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                        </svg>
                                         {{ number_format($customer->loyalty_points) }} pts
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-gray-700 font-medium">
-                                    KES {{ number_format($customer->total_spent, 2) }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="px-2 py-1 rounded-full text-xs font-medium
-                                        {{ $customer->status === 'active'
-                                            ? 'bg-green-100 text-green-700'
-                                            : 'bg-gray-100 text-gray-500' }}">
+                                <td class="mono fw6" style="color:#111827">KES {{ number_format($customer->total_spent, 2) }}</td>
+                                <td>
+                                    <span class="badge {{ $customer->status === 'active' ? 'badge-green' : 'badge-gray' }}">
                                         {{ ucfirst($customer->status) }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 flex gap-3">
-                                    <a href="{{ route('customers.show', $customer) }}"
-                                       class="text-gray-500 hover:underline text-xs">View</a>
-                                    <a href="{{ route('customers.edit', $customer) }}"
-                                       class="text-indigo-600 hover:underline text-xs">Edit</a>
-                                    <form method="POST" action="{{ route('customers.destroy', $customer) }}"
-                                          onsubmit="return confirm('Delete this customer?')">
-                                        @csrf @method('DELETE')
-                                        <button type="submit"
-                                                class="text-red-500 hover:underline text-xs">Delete</button>
-                                    </form>
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:10px">
+                                        <a href="{{ route('customers.show', $customer) }}" class="action-link view">View</a>
+                                        <a href="{{ route('customers.edit', $customer) }}" class="action-link edit">Edit</a>
+                                        <form method="POST" action="{{ route('customers.destroy', $customer) }}"
+                                              onsubmit="return confirm('Delete this customer?')" style="display:inline">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="action-link delete">Delete</button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="7" class="px-6 py-12 text-center text-gray-400">
-                                    No customers yet.
-                                    <a href="{{ route('customers.create') }}"
-                                       class="text-indigo-600 hover:underline ml-1">Add your first customer</a>
-                                </td>
-                            </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
                 @if($customers->hasPages())
-                    <div class="px-6 py-4 border-t border-gray-100">
+                    <div style="padding:14px 20px;border-top:1px solid #f1f3f8">
                         {{ $customers->links() }}
                     </div>
                 @endif
-            </div>
+            @else
+                <div class="empty-state">
+                    <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <p style="font-family:'Outfit',sans-serif;font-size:14px;color:#9ca3af;margin-bottom:6px">No customers yet</p>
+                    <a href="{{ route('customers.create') }}" 
+                       style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:#1a56db;text-decoration:none">
+                        Add your first customer →
+                    </a>
+                </div>
+            @endif
         </div>
     </div>
 </x-app-layout>

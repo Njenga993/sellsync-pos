@@ -1,184 +1,432 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold text-gray-800">Cashier Performance</h2>
+            <div>
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Finance</p>
+                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                    Cashier Performance
+                </h1>
+            </div>
             <div class="flex gap-2">
                 <a href="{{ route('reports.profit-loss') }}"
-                   class="border border-gray-300 text-gray-600 px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
+                   style="background:transparent;color:#6b7280;padding:9px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s">
                     P&L Report
                 </a>
                 <a href="{{ route('reports.stock-valuation') }}"
-                   class="border border-gray-300 text-gray-600 px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
+                   style="background:transparent;color:#6b7280;padding:9px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s">
                     Stock Valuation
                 </a>
             </div>
         </div>
     </x-slot>
 
-    <div class="py-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        
+        .dash-wrap { display: flex; flex-direction: column; gap: 20px; }
+        
+        .filter-bar {
+            background: #ffffff;
+            border: 1px solid #e4e7ef;
+            border-radius: 14px;
+            padding: 18px 22px;
+            display: flex;
+            align-items: flex-end;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .filter-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .filter-input {
+            padding: 9px 12px;
+            border: 1.5px solid #e4e7ef;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            color: #111827;
+            background: #fafbff;
+            transition: all 0.15s;
+            outline: none;
+        }
+        .filter-input:focus {
+            border-color: #1a56db;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+        }
+        
+        .btn-filter {
+            padding: 9px 18px;
+            background: #1a56db;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
+            transition: all 0.15s;
+        }
+        .btn-filter:hover {
+            background: #1e40af;
+            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.35);
+        }
+        
+        .btn-reset {
+            padding: 9px 18px;
+            background: transparent;
+            color: #6b7280;
+            border: 1.5px solid #e4e7ef;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.15s;
+            display: inline-block;
+        }
+        .btn-reset:hover {
+            border-color: #1a56db;
+            color: #1a56db;
+            background: #eff4ff;
+        }
+        
+        .panel {
+            background: #ffffff;
+            border: 1px solid #e4e7ef;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+        .panel-padded { padding: 22px; }
+        
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 22px;
+            border-bottom: 1px solid #f1f3f8;
+        }
+        .panel-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #111827;
+        }
+        
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+        
+        .data-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-family: 'Outfit', sans-serif; 
+        }
+        .data-table th {
+            text-align: left;
+            font-size: 10px;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 12px 16px;
+            background: #fafbff;
+            border-bottom: 1px solid #f1f3f8;
+        }
+        .data-table td {
+            padding: 14px 16px;
+            font-size: 13px;
+            color: #374151;
+            border-bottom: 1px solid #f8f9fb;
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tbody tr:hover td { background: #fafbff; }
+        
+        .rank-cell {
+            width: 44px;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            color: #9ca3af;
+        }
+        .rank-medal {
+            font-size: 20px;
+            display: inline-block;
+        }
+        
+        .staff-avatar-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .staff-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-family: 'Outfit', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .top-row-highlight {
+            background: #fffbeb;
+        }
+        .top-row-highlight:hover td {
+            background: #fef3c7 !important;
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+        }
+        .badge-purple { background: #f3e8ff; color: #7c3aed; }
+        .badge-blue   { background: #dbeafe; color: #1d4ed8; }
+        .badge-teal   { background: #ccfbf1; color: #0f766e; }
+        .badge-amber  { background: #fef3c7; color: #b45309; }
+        
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .fw6 { font-weight: 600; }
+        .fw7 { font-weight: 700; }
+        .text-brand { color: #1a56db; }
+        .text-positive { color: #16a34a; }
+        .text-danger { color: #dc2626; }
+        .text-warning { color: #d97706; }
+        
+        .progress-bar {
+            height: 6px;
+            background: #f1f3f8;
+            border-radius: 99px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 99px;
+            transition: width 0.4s ease;
+            background: #1a56db;
+        }
+        
+        .peak-row {
+            margin-bottom: 8px;
+        }
+        .peak-row:last-child { margin-bottom: 0; }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            color: #9ca3af;
+        }
+        .empty-state-sm {
+            text-align: center;
+            padding: 40px 20px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            color: #9ca3af;
+        }
+    </style>
 
-            {{-- Date Filter --}}
-            <div class="bg-white rounded-xl border border-gray-200 p-4 mb-6">
-                <form method="GET" action="{{ route('reports.cashier-performance') }}"
-                      class="flex items-end gap-4 flex-wrap">
-                    <div>
-                        <label class="text-xs text-gray-500 block mb-1">From</label>
-                        <input type="date" name="from" value="{{ $from }}"
-                            class="border border-gray-300 rounded-lg px-3 py-2 text-sm" />
-                    </div>
-                    <div>
-                        <label class="text-xs text-gray-500 block mb-1">To</label>
-                        <input type="date" name="to" value="{{ $to }}"
-                            class="border border-gray-300 rounded-lg px-3 py-2 text-sm" />
-                    </div>
-                    <button type="submit"
-                        class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700">
-                        Apply
-                    </button>
-                    <a href="{{ route('reports.cashier-performance') }}"
-                        class="px-4 py-2 text-sm text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-50">
-                        Reset
-                    </a>
-                </form>
-            </div>
+    <div class="dash-wrap" style="padding:0 0 20px">
 
-            {{-- Cashier Leaderboard --}}
-            <div class="bg-white rounded-xl border border-gray-200 overflow-hidden mb-6">
-                <div class="px-6 py-4 border-b border-gray-100">
-                    <h3 class="text-sm font-semibold text-gray-700">Staff Performance</h3>
+        {{-- Date Filter --}}
+        <div class="filter-bar">
+            <form method="GET" action="{{ route('reports.cashier-performance') }}" style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;width:100%">
+                <div class="filter-group">
+                    <span class="filter-label">From</span>
+                    <input type="date" name="from" value="{{ $from }}" class="filter-input" />
                 </div>
-                <table class="min-w-full divide-y divide-gray-100 text-sm">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Rank</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Staff Member</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Branch</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Sales</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Items Sold</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Avg Sale</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Returns</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Revenue</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        @forelse($cashiers as $rank => $cashier)
-                            <tr class="hover:bg-gray-50 {{ $rank === 0 ? 'bg-yellow-50' : '' }}">
-                                <td class="px-6 py-4">
-                                    @if($rank === 0)
-                                        <span class="text-lg">🥇</span>
-                                    @elseif($rank === 1)
-                                        <span class="text-lg">🥈</span>
-                                    @elseif($rank === 2)
-                                        <span class="text-lg">🥉</span>
-                                    @else
-                                        <span class="text-gray-400 font-medium">{{ $rank + 1 }}</span>
-                                    @endif
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-semibold text-xs">
-                                            {{ strtoupper(substr($cashier->name, 0, 2)) }}
-                                        </div>
-                                        <div>
-                                            <p class="font-medium text-gray-800">{{ $cashier->name }}</p>
-                                            <p class="text-xs text-gray-400">{{ $cashier->email }}</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="px-2 py-1 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
-                                        {{ ucfirst($cashier->roles->first()?->name ?? '—') }}
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 text-gray-500 text-xs">{{ $cashier->branch->name ?? '—' }}</td>
-                                <td class="px-6 py-4 font-semibold text-gray-800">{{ $cashier->total_sales }}</td>
-                                <td class="px-6 py-4 text-gray-600">{{ $cashier->total_items }}</td>
-                                <td class="px-6 py-4 text-gray-600">KES {{ number_format($cashier->avg_sale, 2) }}</td>
-                                <td class="px-6 py-4">
-                                    <span class="{{ $cashier->total_returns > 0 ? 'text-red-500 font-semibold' : 'text-gray-400' }}">
-                                        {{ $cashier->total_returns }}
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 font-bold text-green-600">
-                                    KES {{ number_format($cashier->total_revenue, 2) }}
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="9" class="px-6 py-12 text-center text-gray-400">
-                                    No sales data for this period.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                <div class="filter-group">
+                    <span class="filter-label">To</span>
+                    <input type="date" name="to" value="{{ $to }}" class="filter-input" />
+                </div>
+                <button type="submit" class="btn-filter">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:4px">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+                    </svg>
+                    Apply
+                </button>
+                <a href="{{ route('reports.cashier-performance') }}" class="btn-reset">Reset</a>
+            </form>
+        </div>
+
+        {{-- Cashier Leaderboard --}}
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">Staff Performance</span>
             </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-                {{-- Top Products --}}
-                <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-100">
-                        <h3 class="text-sm font-semibold text-gray-700">Top 10 Products by Revenue</h3>
-                    </div>
-                    <table class="min-w-full divide-y divide-gray-100 text-sm">
-                        <thead class="bg-gray-50">
+            @if($cashiers->count())
+                <div style="overflow-x:auto">
+                    <table class="data-table" style="min-width:1000px">
+                        <thead>
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Product</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Qty</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Revenue</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Profit</th>
+                                <th style="width:50px;text-align:center">Rank</th>
+                                <th>Staff Member</th>
+                                <th>Role</th>
+                                <th>Branch</th>
+                                <th>Sales</th>
+                                <th>Items Sold</th>
+                                <th>Avg Sale</th>
+                                <th>Returns</th>
+                                <th style="text-align:right">Revenue</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-100">
-                            @forelse($topProducts as $product)
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-medium text-gray-800">{{ $product->product_name }}</td>
-                                    <td class="px-6 py-4 text-gray-500">{{ $product->total_qty }}</td>
-                                    <td class="px-6 py-4 text-indigo-600 font-medium">
-                                        KES {{ number_format($product->total_revenue, 2) }}
+                        <tbody>
+                            @php
+                                $avatarColors = ['#1a56db','#0d9488','#7c3aed','#d97706','#dc2626','#0891b2','#4f46e5','#16a34a'];
+                                $roleColors = [
+                                    'admin'   => 'badge-purple',
+                                    'manager' => 'badge-blue',
+                                    'cashier' => 'badge-teal',
+                                    'staff'   => 'badge-amber',
+                                ];
+                            @endphp
+                            @foreach($cashiers as $rank => $cashier)
+                                @php
+                                    $initials = strtoupper(substr($cashier->name, 0, 2));
+                                    $avatarBg = $avatarColors[$cashier->id % count($avatarColors)];
+                                    $roleName = $cashier->roles->first()?->name ?? 'staff';
+                                    $roleBadge = $roleColors[$roleName] ?? 'badge-blue';
+                                    $isTopRank = $rank < 3;
+                                @endphp
+                                <tr class="{{ $rank === 0 ? 'top-row-highlight' : '' }}">
+                                    <td class="rank-cell">
+                                        @if($rank === 0)
+                                            <span class="rank-medal">🥇</span>
+                                        @elseif($rank === 1)
+                                            <span class="rank-medal">🥈</span>
+                                        @elseif($rank === 2)
+                                            <span class="rank-medal">🥉</span>
+                                        @else
+                                            {{ $rank + 1 }}
+                                        @endif
                                     </td>
-                                    <td class="px-6 py-4 text-green-600 font-medium">
-                                        KES {{ number_format($product->total_profit, 2) }}
+                                    <td>
+                                        <div class="staff-avatar-cell">
+                                            <div class="staff-avatar" style="background:{{ $avatarBg }}">
+                                                {{ $initials }}
+                                            </div>
+                                            <div>
+                                                <div class="fw6" style="color:#111827">{{ $cashier->name }}</div>
+                                                <div style="font-size:11px;color:#9ca3af">{{ $cashier->email }}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge {{ $roleBadge }}">{{ ucfirst($roleName) }}</span>
+                                    </td>
+                                    <td style="font-size:12px;color:#6b7280">{{ $cashier->branch->name ?? '—' }}</td>
+                                    <td class="mono fw6" style="color:#111827">{{ $cashier->total_sales }}</td>
+                                    <td class="mono" style="font-size:12px;color:#6b7280">{{ $cashier->total_items }}</td>
+                                    <td class="mono" style="font-size:12px;color:#6b7280">KES {{ number_format($cashier->avg_sale, 2) }}</td>
+                                    <td>
+                                        <span class="mono fw6 {{ $cashier->total_returns > 0 ? 'text-warning' : '' }}" style="font-size:12px;color:{{ $cashier->total_returns > 0 ? '#d97706' : '#9ca3af' }}">
+                                            {{ $cashier->total_returns }}
+                                        </span>
+                                    </td>
+                                    <td class="mono fw7 text-positive" style="text-align:right;font-size:14px">
+                                        KES {{ number_format($cashier->total_revenue, 2) }}
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="px-6 py-8 text-center text-gray-400">
-                                        No sales data yet.
-                                    </td>
-                                </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
+            @else
+                <div class="empty-state">No sales data for this period.</div>
+            @endif
+        </div>
 
-                {{-- Peak Hours --}}
-                <div class="bg-white rounded-xl border border-gray-200 p-5">
-                    <h3 class="text-sm font-semibold text-gray-700 mb-4">Peak Sales Hours</h3>
-                    @forelse($hourly as $hour)
+        {{-- Top Products + Peak Hours --}}
+        <div class="two-col">
+
+            {{-- Top 10 Products --}}
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">Top 10 Products by Revenue</span>
+                </div>
+                @if($topProducts->count())
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Qty</th>
+                                <th>Revenue</th>
+                                <th style="text-align:right">Profit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($topProducts as $product)
+                                <tr>
+                                    <td class="fw6" style="color:#111827">{{ $product->product_name }}</td>
+                                    <td class="mono" style="font-size:12px;color:#6b7280">{{ $product->total_qty }}</td>
+                                    <td class="mono fw6 text-brand">KES {{ number_format($product->total_revenue, 2) }}</td>
+                                    <td class="mono fw6 text-positive" style="text-align:right">
+                                        KES {{ number_format($product->total_profit, 2) }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <div class="empty-state-sm">No sales data yet.</div>
+                @endif
+            </div>
+
+            {{-- Peak Sales Hours --}}
+            <div class="panel panel-padded">
+                <div style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:#111827;margin-bottom:16px">
+                    Peak Sales Hours
+                </div>
+                @if($hourly->count())
+                    @php $maxRevenue = $hourly->max('revenue'); @endphp
+                    @foreach($hourly as $hour)
                         @php
-                            $maxRevenue = $hourly->max('revenue');
-                            $pct        = $maxRevenue > 0 ? round(($hour->revenue / $maxRevenue) * 100) : 0;
-                            $label      = \Carbon\Carbon::createFromTime($hour->hour)->format('h:00 A');
+                            $pct   = $maxRevenue > 0 ? round(($hour->revenue / $maxRevenue) * 100) : 0;
+                            $label = \Carbon\Carbon::createFromTime($hour->hour)->format('h:00 A');
                         @endphp
-                        <div class="mb-2">
-                            <div class="flex justify-between text-xs mb-1">
-                                <span class="text-gray-600 w-20">{{ $label }}</span>
-                                <span class="text-gray-500">{{ $hour->transactions }} sales</span>
-                                <span class="font-medium text-gray-800">KES {{ number_format($hour->revenue, 2) }}</span>
+                        <div class="peak-row">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                                <span style="font-size:12px;color:#374151;font-weight:500;font-family:'Outfit',sans-serif;width:56px">
+                                    {{ $label }}
+                                </span>
+                                <span style="font-size:11px;color:#9ca3af;font-family:'JetBrains Mono',monospace">
+                                    {{ $hour->transactions }} sales
+                                </span>
+                                <span style="font-size:12px;color:#111827;font-weight:600;font-family:'JetBrains Mono',monospace">
+                                    KES {{ number_format($hour->revenue, 2) }}
+                                </span>
                             </div>
-                            <div class="w-full bg-gray-100 rounded-full h-2">
-                                <div class="bg-indigo-500 h-2 rounded-full" style="width:{{ $pct }}%"></div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width:{{ $pct }}%"></div>
                             </div>
                         </div>
-                    @empty
-                        <p class="text-sm text-gray-400 text-center py-4">No sales data for this period.</p>
-                    @endforelse
-                </div>
+                    @endforeach
+                @else
+                    <div class="empty-state-sm">No sales data for this period.</div>
+                @endif
             </div>
+
         </div>
     </div>
 </x-app-layout>
