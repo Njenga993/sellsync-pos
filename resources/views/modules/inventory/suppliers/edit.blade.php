@@ -1,0 +1,85 @@
+<x-app-layout>
+    <x-slot name="header">
+        <div class="flex items-center gap-3">
+            <a href="{{ route('suppliers.index') }}" class="text-gray-400 hover:text-gray-600">← Back</a>
+            <h2 class="text-xl font-semibold text-gray-800">Edit Supplier</h2>
+        </div>
+    </x-slot>
+
+    <div class="py-6">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-xl border border-gray-200 p-6">
+                <form method="POST" action="{{ route('suppliers.update', $supplier) }}">
+                    @csrf @method('PUT')
+
+                    <div class="mb-4">
+                        <x-input-label for="name" value="Supplier / Company Name *" />
+                        <x-text-input id="name" name="name" type="text"
+                            class="block mt-1 w-full"
+                            :value="old('name', $supplier->name)" required />
+                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <x-input-label for="contact_person" value="Contact Person" />
+                            <x-text-input id="contact_person" name="contact_person" type="text"
+                                class="block mt-1 w-full"
+                                :value="old('contact_person', $supplier->contact_person)" />
+                        </div>
+                        <div>
+                            <x-input-label for="phone" value="Phone Number" />
+                            <x-text-input id="phone" name="phone" type="text"
+                                class="block mt-1 w-full"
+                                :value="old('phone', $supplier->phone)" />
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <x-input-label for="email" value="Email Address" />
+                            <x-text-input id="email" name="email" type="email"
+                                class="block mt-1 w-full"
+                                :value="old('email', $supplier->email)" />
+                        </div>
+                        <div>
+                            <x-input-label for="city" value="City / Town" />
+                            <x-text-input id="city" name="city" type="text"
+                                class="block mt-1 w-full"
+                                :value="old('city', $supplier->city)" />
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <x-input-label for="address" value="Address (optional)" />
+                        <textarea id="address" name="address" rows="2"
+                            class="block mt-1 w-full border-gray-300 rounded-md shadow-sm text-sm">{{ old('address', $supplier->address) }}</textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <x-input-label for="notes" value="Notes (optional)" />
+                        <textarea id="notes" name="notes" rows="2"
+                            class="block mt-1 w-full border-gray-300 rounded-md shadow-sm text-sm">{{ old('notes', $supplier->notes) }}</textarea>
+                    </div>
+
+                    <div class="mb-6">
+                        <x-input-label for="status" value="Status" />
+                        <select id="status" name="status"
+                            class="block mt-1 w-full border-gray-300 rounded-md shadow-sm text-sm">
+                            <option value="active"   {{ old('status', $supplier->status) === 'active'   ? 'selected' : '' }}>Active</option>
+                            <option value="inactive" {{ old('status', $supplier->status) === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                        </select>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <x-primary-button>Update Supplier</x-primary-button>
+                        <a href="{{ route('suppliers.index') }}"
+                           class="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</x-app-layout>
