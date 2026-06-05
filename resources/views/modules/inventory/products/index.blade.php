@@ -1,18 +1,25 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Inventory</p>
-                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
-                    Products
-                </h1>
-            </div>
+       <x-slot name="header">
+    <div class="flex items-center justify-between">
+        <div>
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Inventory</p>
+            <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                Products
+            </h1>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+            <a href="{{ route('products.import') }}"
+               style="background:transparent;color:#6b7280;padding:10px 18px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s">
+                Import CSV
+            </a>
             <a href="{{ route('products.create') }}"
                style="background:#1a56db;color:white;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;letter-spacing:.01em;box-shadow:0 2px 8px rgba(26,86,219,.25);transition:all .15s">
                 + Add Product
             </a>
         </div>
-    </x-slot>
+    </div>
+</x-slot>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');

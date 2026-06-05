@@ -17,6 +17,7 @@
             --success:     #16a34a;
         }
 
+        /* ── Screen View ── */
         body {
             font-family: 'Outfit', sans-serif;
             font-size: 12px;
@@ -29,9 +30,7 @@
 
         .center { text-align: center; }
 
-        .brand-section {
-            margin-bottom: 12px;
-        }
+        .brand-section { margin-bottom: 12px; }
 
         .logo {
             max-width: 70px;
@@ -89,11 +88,7 @@
             font-size: 11px;
         }
 
-        .row-label {
-            color: var(--text-2);
-            font-weight: 500;
-        }
-
+        .row-label { color: var(--text-2); font-weight: 500; }
         .row-value {
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
@@ -111,9 +106,7 @@
             color: var(--brand);
         }
 
-        .item-block {
-            margin: 6px 0;
-        }
+        .item-block { margin: 6px 0; }
 
         .item-name {
             font-size: 11px;
@@ -149,12 +142,7 @@
             margin: 4px 0;
         }
 
-        .total-label {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-1);
-        }
-
+        .total-label { font-size: 14px; font-weight: 700; color: var(--text-1); }
         .total-value {
             font-size: 16px;
             font-weight: 700;
@@ -170,16 +158,8 @@
             font-size: 11px;
         }
 
-        .payment-label {
-            color: var(--text-2);
-            font-weight: 500;
-        }
-
-        .payment-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-        }
-
+        .payment-label { color: var(--text-2); font-weight: 500; }
+        .payment-value { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
         .change-value {
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
@@ -195,12 +175,7 @@
             margin: 8px 0;
         }
 
-        .loyalty-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
+        .loyalty-row { display: flex; justify-content: space-between; align-items: center; }
         .loyalty-label {
             font-size: 10px;
             color: #15803d;
@@ -223,6 +198,20 @@
             margin-top: 4px;
         }
 
+        /* ── Barcode placeholder ── */
+        .barcode-area {
+            text-align: center;
+            margin: 10px 0;
+            padding: 6px 0;
+        }
+        .barcode-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.1em;
+            color: #111827;
+        }
+
+        /* ── Buttons (screen only) ── */
         .btn-group {
             display: flex;
             gap: 8px;
@@ -288,16 +277,62 @@
             font-family: 'Outfit', sans-serif;
         }
 
+        /* ══════════════════════════════════════
+           PRINT STYLES — Thermal 80mm
+        ══════════════════════════════════════ */
         @media print {
-            body { 
-                width: 100%; 
-                padding: 12px; 
-                font-size: 10px;
+            @page { 
+                margin: 0; 
+                size: 80mm 297mm; /* Standard 80mm thermal roll */
             }
-            .no-print { display: none; }
-            .divider { border-color: #d1d5db; }
-            .watermark { display: none; }
-            @page { margin: 0; size: 80mm auto; }
+            
+            body { 
+                width: 72mm; 
+                padding: 4mm 4mm 8mm;
+                font-size: 9px;
+                margin: 0 auto;
+                color: #000;
+                background: #fff;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            /* Hide everything not needed for print */
+            .no-print,
+            .btn-group,
+            .watermark { display: none !important; }
+            
+            /* Convert colors to grayscale for thermal */
+            .divider { border-color: #000; }
+            .divider-solid { border-color: #000; }
+            .business-name { font-size: 13px; color: #000; }
+            .business-branch { font-size: 9px; color: #000; }
+            .business-info { font-size: 8px; color: #000; }
+            .receipt-header-msg { font-size: 8px; color: #000; }
+            .invoice-no { font-size: 9px; color: #000; font-weight: 700; }
+            .row { font-size: 9px; margin: 2px 0; }
+            .row-label { color: #000; }
+            .row-value { font-size: 9px; color: #000; }
+            .item-name { font-size: 9px; color: #000; }
+            .item-qty-price { font-size: 8px; color: #333; }
+            .item-subtotal { font-size: 9px; color: #000; }
+            .total-label { font-size: 12px; color: #000; }
+            .total-value { font-size: 14px; color: #000; }
+            .payment-label { color: #000; }
+            .payment-value { color: #000; }
+            .change-value { color: #000; }
+            
+            .loyalty-section {
+                background: none;
+                border: 1px dashed #000;
+                border-radius: 0;
+            }
+            .loyalty-label { color: #000; }
+            .loyalty-value { color: #000; }
+            .receipt-footer { font-size: 8px; color: #000; }
+            
+            .logo { max-width: 50px; max-height: 50px; }
+            .item-block { margin: 4px 0; }
         }
     </style>
 </head>
@@ -454,6 +489,11 @@
         @endif
     @endif
 
+    {{-- Barcode (Invoice number as barcode text) --}}
+    <div class="barcode-area">
+        <div class="barcode-text">*{{ $sale->invoice_no }}*</div>
+    </div>
+
     {{-- Loyalty Points --}}
     @if($settings->receipt_show_loyalty && $sale->customer && $sale->customer->loyalty_points)
         <div class="loyalty-section">
@@ -470,7 +510,7 @@
         <p class="center receipt-footer">{{ $settings->receipt_footer }}</p>
     @endif
 
-    {{-- Buttons --}}
+    {{-- Buttons (hidden when printing) --}}
     <div class="btn-group no-print">
         <button onclick="window.print()" class="btn-primary">
             <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -485,10 +525,5 @@
             Close
         </button>
     </div>
-
-    <script>
-        // Auto-print on load (optional — remove if not needed)
-        // window.onload = function() { window.print(); };
-    </script>
 </body>
 </html>

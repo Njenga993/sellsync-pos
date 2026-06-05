@@ -61,7 +61,7 @@ class TenantManagementController extends Controller
             ->get();
 
         $monthlySales = Sale::where('tenant_id', $tenant->id)
-            ->selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, SUM(total) as revenue, COUNT(*) as transactions')
+            ->selectRaw("TO_CHAR(created_at, 'YYYY-MM') as month, SUM(total) as revenue, COUNT(*) as transactions")
             ->groupBy('month')
             ->orderBy('month')
             ->take(6)

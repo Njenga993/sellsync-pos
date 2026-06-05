@@ -157,116 +157,33 @@
         .action-btn:hover .action-label { color: #1a56db; }
 
         /* ── Charts layout ── */
-        .charts-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
+        .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         @media(max-width:900px){ .charts-grid{ grid-template-columns: 1fr; } }
 
-        .chart-container {
-            padding: 16px 20px;
-            position: relative;
-        }
+        .chart-container { padding: 16px 20px; position: relative; }
         @media(max-width:640px){ .chart-container{ padding:12px 14px; } }
-        .chart-container canvas {
-            max-height: 280px;
-        }
-        @media(max-width:640px){ .chart-container canvas{ max-height:220px; } }
 
-        .bar-chart-row {
-            display: flex;
-            align-items: flex-end;
-            gap: 6px;
-            height: 180px;
-            padding-top: 20px;
-        }
+        .bar-chart-row { display: flex; align-items: flex-end; gap: 6px; height: 180px; padding-top: 20px; }
         @media(max-width:640px){ .bar-chart-row{ height:140px;gap:4px; } }
-        .bar-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100%;
-            justify-content: flex-end;
-        }
+        .bar-item { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
         .bar-fill {
-            width: 100%;
-            max-width: 48px;
-            border-radius: 6px 6px 0 0;
+            width: 100%; max-width: 48px; border-radius: 6px 6px 0 0;
             transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            min-height: 4px;
-            position: relative;
+            min-height: 4px; position: relative;
         }
-        .bar-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            color: #6b7280;
-            margin-top: 4px;
-            white-space: nowrap;
-        }
-        .bar-label {
-            font-family: 'Outfit', sans-serif;
-            font-size: 10px;
-            color: #9ca3af;
-            margin-top: 2px;
-            text-align: center;
-        }
+        .bar-value { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6b7280; margin-top: 4px; white-space: nowrap; }
+        .bar-label { font-family: 'Outfit', sans-serif; font-size: 10px; color: #9ca3af; margin-top: 2px; text-align: center; }
 
-        .pie-legend {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 14px;
-            justify-content: center;
-        }
-        .pie-legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 11px;
-            color: #6b7280;
-        }
-        .pie-legend-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 3px;
-            flex-shrink: 0;
-        }
+        .pie-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; justify-content: center; }
+        .pie-legend-item { display: flex; align-items: center; gap: 6px; font-family: 'Outfit', sans-serif; font-size: 11px; color: #6b7280; }
+        .pie-legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
 
-        .pie-chart-wrap {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px 0;
-        }
-        .pie-svg {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            position: relative;
-        }
+        .pie-chart-wrap { display: flex; justify-content: center; align-items: center; padding: 10px 0; }
+        .pie-svg { width: 180px; height: 180px; border-radius: 50%; position: relative; }
         @media(max-width:640px){ .pie-svg{ width:140px;height:140px; } }
-        .pie-center {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-        .pie-center-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 16px;
-            font-weight: 700;
-            color: #111827;
-        }
-        .pie-center-label {
-            font-family: 'Outfit', sans-serif;
-            font-size: 10px;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
+        .pie-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+        .pie-center-value { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; color: #111827; }
+        .pie-center-label { font-family: 'Outfit', sans-serif; font-size: 10px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; }
 
         /* ── Three-col layout ── */
         .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
@@ -285,19 +202,12 @@
             padding:10px 16px; background:#fafbff; border-bottom:1px solid #f1f3f8;
         }
         @media(max-width:640px){ .data-table th{ padding:8px 12px;font-size:9px; } }
-        .data-table td {
-            padding:12px 16px; font-size:13px; color:#374151;
-            border-bottom:1px solid #f8f9fb;
-        }
+        .data-table td { padding:12px 16px; font-size:13px; color:#374151; border-bottom:1px solid #f8f9fb; }
         @media(max-width:640px){ .data-table td{ padding:10px 12px;font-size:12px; } }
         .data-table tr:last-child td { border-bottom:none; }
         .data-table tr:hover td { background:#fafbff; }
 
-        .badge {
-            display:inline-flex; align-items:center;
-            padding:3px 10px; border-radius:99px;
-            font-size:11px; font-weight:600; font-family:'Outfit',sans-serif;
-        }
+        .badge { display:inline-flex; align-items:center; padding:3px 10px; border-radius:99px; font-size:11px; font-weight:600; font-family:'Outfit',sans-serif; }
         .badge-green  { background:#dcfce7; color:#15803d; }
         .badge-blue   { background:#dbeafe; color:#1d4ed8; }
         .badge-yellow { background:#fef9c3; color:#a16207; }
@@ -326,9 +236,7 @@
         /* ── Stock alert bar ── */
         .alert-bar {
             display:flex; align-items:center; gap:12px;
-            padding:14px 20px;
-            background:#fff7ed; border-bottom:1px solid #fed7aa;
-            flex-wrap: wrap;
+            padding:14px 20px; background:#fff7ed; border-bottom:1px solid #fed7aa; flex-wrap: wrap;
         }
         @media(max-width:640px){ .alert-bar{ padding:12px 14px;gap:8px; } }
         .alert-dot { width:8px; height:8px; border-radius:50%; background:#ea580c; flex-shrink:0; }
@@ -338,12 +246,7 @@
         .alert-link:hover { text-decoration:underline; }
 
         /* ── Month summary ── */
-        .month-summary-inner {
-            padding:16px 20px;
-            display:flex;
-            flex-direction:column;
-            gap:12px;
-        }
+        .month-summary-inner { padding:16px 20px; display:flex; flex-direction:column; gap:12px; }
         @media(max-width:640px){ .month-summary-inner{ padding:14px 16px; } }
     </style>
 
@@ -680,16 +583,18 @@
 </x-app-layout>
 
 @php
-function pieSlice($cx, $cy, $r, $startAngle, $endAngle) {
-    $start = [
-        'x' => $cx + $r * cos(deg2rad($startAngle - 90)),
-        'y' => $cy + $r * sin(deg2rad($startAngle - 90)),
-    ];
-    $end = [
-        'x' => $cx + $r * cos(deg2rad($endAngle - 90)),
-        'y' => $cy + $r * sin(deg2rad($endAngle - 90)),
-    ];
-    $largeArc = ($endAngle - $startAngle) > 180 ? 1 : 0;
-    return "M {$start['x']} {$start['y']} A {$r} {$r} 0 {$largeArc} 1 {$end['x']} {$end['y']} L {$cx} {$cy} Z";
+if (!function_exists('pieSlice')) {
+    function pieSlice($cx, $cy, $r, $startAngle, $endAngle) {
+        $start = [
+            'x' => $cx + $r * cos(deg2rad($startAngle - 90)),
+            'y' => $cy + $r * sin(deg2rad($startAngle - 90)),
+        ];
+        $end = [
+            'x' => $cx + $r * cos(deg2rad($endAngle - 90)),
+            'y' => $cy + $r * sin(deg2rad($endAngle - 90)),
+        ];
+        $largeArc = ($endAngle - $startAngle) > 180 ? 1 : 0;
+        return "M {$start['x']} {$start['y']} A {$r} {$r} 0 {$largeArc} 1 {$end['x']} {$end['y']} L {$cx} {$cy} Z";
+    }
 }
 @endphp

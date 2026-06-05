@@ -206,6 +206,13 @@
                 <div class="stat-card-value">{{ $summary['out_of_stock'] }} / {{ $summary['low_stock'] }}</div>
                 <div class="stat-card-sub">Out of stock / Low stock</div>
             </div>
+            <a href="{{ route('reports.stock-valuation.export', request()->query()) }}" 
+   style="background:transparent;color:#6b7280;padding:8px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s;display:inline-flex;align-items:center;gap:6px">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+    </svg>
+    Export PDF
+</a>
         </div>
 
         {{-- Valuation by Category --}}

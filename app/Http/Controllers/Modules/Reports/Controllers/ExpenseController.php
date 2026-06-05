@@ -7,6 +7,7 @@ use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use App\Models\Sale;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ExpenseController extends Controller
 {
@@ -103,4 +104,43 @@ class ExpenseController extends Controller
         return redirect()->route('expenses.index')
             ->with('success', 'Category added successfully.');
     }
+
+    public function exportPdf(Request $request)
+{
+    $tenantId = auth()->user()->tenant_id;
+    $from     = $request->from ?? now()->startOfMonth()->toDateString();
+    $to       = $request->to   ?? now()->toDateString();
+
+    $expenses = Expense::where('tenant_id', $tenantId)
+        ->whereBetween('expense_date', [$from, $to])
+        ->with('category', 'user')
+        ->latest('expense_date')
+        ->get();
+
+    $summary = Expense::where('tenant_id', $tenantId)
+        ->whereBetween('expense_date', [$from, $to])
+        ->selectRaw('SUM(amount) as total_expenses, COUNT(*) as total_count')
+        ->first();
+
+    $totalRevenue = Sale::where('tenant_id', $tenantId)
+        ->whereBetween(\DB::raw('DATE(created_at)'), [$from, $to])
+        ->sum('total');
+
+    $byCategory = Expense::where('tenant_id', $tenantId)
+        ->whereBetween('expense_date', [$from, $to])
+        ->with('category')
+        ->selectRaw('expense_category_id, SUM(amount) as total')
+        ->groupBy('expense_category_id')
+        ->orderByDesc('total')
+        ->get();
+
+    $pdf = Pdf::loadView('modules.reports.exports.expenses', compact(
+        'expenses', 'summary', 'totalRevenue', 'byCategory', 'from', 'to'
+    ));
+    
+    $pdf->setPaper('a4', 'portrait');
+    
+    return $pdf->download('expense-report-' . $from . '-to-' . $to . '.pdf');
+}
+
 }
