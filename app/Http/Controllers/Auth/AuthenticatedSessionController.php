@@ -27,7 +27,7 @@ class AuthenticatedSessionController extends Controller
     {
         $key = strtolower($request->input('email')) . '|' . $request->ip();
         
-        // Check rate limit (5 attempts per minute)
+        // Check if too many attempts
         if (RateLimiter::tooManyAttempts('login:' . $key, 5)) {
             $seconds = RateLimiter::availableIn('login:' . $key);
             
@@ -36,7 +36,13 @@ class AuthenticatedSessionController extends Controller
             ])->withInput();
         }
 
-        $request->authenticate();
+        try {
+            $request->authenticate();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Record the failed attempt
+            RateLimiter::hit('login:' . $key);
+            throw $e;
+        }
 
         $request->session()->regenerate();
 
