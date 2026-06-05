@@ -1,4 +1,23 @@
 <x-app-layout>
+
+
+    @php
+    if (!function_exists('pieSlice')) {
+        function pieSlice($cx, $cy, $r, $startAngle, $endAngle) {
+            $start = [
+                'x' => $cx + $r * cos(deg2rad($startAngle - 90)),
+                'y' => $cy + $r * sin(deg2rad($startAngle - 90)),
+            ];
+            $end = [
+                'x' => $cx + $r * cos(deg2rad($endAngle - 90)),
+                'y' => $cy + $r * sin(deg2rad($endAngle - 90)),
+            ];
+            $largeArc = ($endAngle - $startAngle) > 180 ? 1 : 0;
+            return "M {$start['x']} {$start['y']} A {$r} {$r} 0 {$largeArc} 1 {$end['x']} {$end['y']} L {$cx} {$cy} Z";
+        }
+    }
+    @endphp
+
     <x-slot name="header">
         <div class="flex items-center justify-between" style="flex-wrap:wrap;gap:12px">
             <div>
@@ -581,20 +600,3 @@
 
     </div>
 </x-app-layout>
-
-@php
-if (!function_exists('pieSlice')) {
-    function pieSlice($cx, $cy, $r, $startAngle, $endAngle) {
-        $start = [
-            'x' => $cx + $r * cos(deg2rad($startAngle - 90)),
-            'y' => $cy + $r * sin(deg2rad($startAngle - 90)),
-        ];
-        $end = [
-            'x' => $cx + $r * cos(deg2rad($endAngle - 90)),
-            'y' => $cy + $r * sin(deg2rad($endAngle - 90)),
-        ];
-        $largeArc = ($endAngle - $startAngle) > 180 ? 1 : 0;
-        return "M {$start['x']} {$start['y']} A {$r} {$r} 0 {$largeArc} 1 {$end['x']} {$end['y']} L {$cx} {$cy} Z";
-    }
-}
-@endphp
