@@ -6,21 +6,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Activitylog\Traits\CausesActivity;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles, CausesActivity, LogsActivity;
 
     protected $fillable = [
-    'tenant_id',
-    'branch_id',
-    'name',
-    'email',
-    'password',
-    'phone',
-    'status',
-    'is_super_admin',
-];
+        'tenant_id',
+        'branch_id',
+        'name',
+        'email',
+        'password',
+        'phone',
+        'status',
+        'is_super_admin',
+    ];
 
     protected $hidden = [
         'password',
@@ -31,6 +34,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'email', 'status'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn(string $eventName) => "User {$eventName}: {$this->name}");
+    }
 
     public function tenant()
     {
@@ -48,7 +60,7 @@ class User extends Authenticatable
     }
 
     public function isSuperAdmin(): bool
-{
-    return (bool) $this->is_super_admin;
-}
+    {
+        return (bool) $this->is_super_admin;
+    }
 }
