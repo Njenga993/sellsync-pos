@@ -503,7 +503,7 @@
             {{-- Business Info --}}
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">Business Details</span>
+                    <span class="panel-title">Busines Details</span>
                     <a href="{{ route('settings.index') }}" class="panel-link">Edit</a>
                 </div>
                 <div class="biz-grid">
