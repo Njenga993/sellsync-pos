@@ -324,41 +324,122 @@
                     </div>
 
                     {{-- Security Section --}}
-                    <div class="section-label">Security</div>
+<div class="section-label">Security</div>
 
-                    <div class="two-col">
-                        <div class="form-group">
-                            <label class="form-label" for="password">Password</label>
-                            <input 
-                                id="password" 
-                                class="form-input" 
-                                type="password"
-                                name="password" 
-                                required 
-                                autocomplete="new-password"
-                                placeholder="Min. 8 characters"
-                            >
-                            @if ($errors->has('password'))
-                                <div class="error-message">{{ $errors->first('password') }}</div>
-                            @endif
-                        </div>
+<div class="two-col">
+    <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input 
+            id="password" 
+            class="form-input" 
+            type="password"
+            name="password" 
+            required 
+            autocomplete="new-password"
+            placeholder="Min. 8 characters"
+            x-data
+            @input="password = $el.value"
+        >
+        @if ($errors->has('password'))
+            <div class="error-message">{{ $errors->first('password') }}</div>
+        @endif
+        
+        {{-- Password Strength Checker --}}
+        <div x-data="{
+            password: '',
+            get lengthOk() { return this.password.length >= 8; },
+            get uppercaseOk() { return /[A-Z]/.test(this.password); },
+            get lowercaseOk() { return /[a-z]/.test(this.password); },
+            get numberOk() { return /[0-9]/.test(this.password); },
+            get specialOk() { return /[\W_]/.test(this.password); },
+            get strength() {
+                let score = 0;
+                if (this.lengthOk) score++;
+                if (this.uppercaseOk) score++;
+                if (this.lowercaseOk) score++;
+                if (this.numberOk) score++;
+                if (this.specialOk) score++;
+                return score;
+            },
+            get strengthLabel() {
+                if (this.strength <= 1) return 'Weak';
+                if (this.strength <= 3) return 'Fair';
+                if (this.strength <= 4) return 'Good';
+                return 'Strong';
+            },
+            get strengthColor() {
+                if (this.strength <= 1) return '#dc2626';
+                if (this.strength <= 3) return '#d97706';
+                if (this.strength <= 4) return '#1a56db';
+                return '#16a34a';
+            },
+            init() {
+                const pwInput = document.getElementById('password');
+                pwInput.addEventListener('input', () => {
+                    this.password = pwInput.value;
+                });
+            }
+        }" style="margin-top:10px">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+                <div style="flex:1;height:4px;background:#e4e7ef;border-radius:99px;overflow:hidden">
+                    <div style="height:100%;width:0%;border-radius:99px;transition:all 0.3s"
+                         :style="'width:' + (strength / 5 * 100) + '%;background:' + strengthColor"></div>
+                </div>
+                <span style="font-size:11px;font-weight:600;font-family:'Outfit',sans-serif"
+                      :style="'color:' + strengthColor" x-text="strengthLabel"></span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;font-size:11px;font-family:'Outfit',sans-serif">
+                <div style="display:flex;align-items:center;gap:5px;color:#9ca3af;transition:color 0.2s" :style="lengthOk ? 'color:#16a34a' : ''">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>8+ characters</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:5px;color:#9ca3af;transition:color 0.2s" :style="uppercaseOk ? 'color:#16a34a' : ''">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Uppercase letter</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:5px;color:#9ca3af;transition:color 0.2s" :style="lowercaseOk ? 'color:#16a34a' : ''">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Lowercase letter</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:5px;color:#9ca3af;transition:color 0.2s" :style="numberOk ? 'color:#16a34a' : ''">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Number</span>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:5px;margin-top:3px;font-size:11px;font-family:'Outfit',sans-serif;color:#9ca3af;transition:color 0.2s"
+                 :style="specialOk ? 'color:#16a34a' : ''">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span>Special character (!@#$%^&*)</span>
+            </div>
+        </div>
+    </div>
 
-                        <div class="form-group">
-                            <label class="form-label" for="password_confirmation">Confirm Password</label>
-                            <input 
-                                id="password_confirmation" 
-                                class="form-input" 
-                                type="password"
-                                name="password_confirmation" 
-                                required 
-                                autocomplete="new-password"
-                                placeholder="Re-enter password"
-                            >
-                            @if ($errors->has('password_confirmation'))
-                                <div class="error-message">{{ $errors->first('password_confirmation') }}</div>
-                            @endif
-                        </div>
-                    </div>
+    <div class="form-group">
+        <label class="form-label" for="password_confirmation">Confirm Password</label>
+        <input 
+            id="password_confirmation" 
+            class="form-input" 
+            type="password"
+            name="password_confirmation" 
+            required 
+            autocomplete="new-password"
+            placeholder="Re-enter password"
+        >
+        @if ($errors->has('password_confirmation'))
+            <div class="error-message">{{ $errors->first('password_confirmation') }}</div>
+        @endif
+    </div>
+</div>
 
                     {{-- Submit Button --}}
                     <button type="submit" class="btn-register" style="margin-top:4px">
@@ -368,6 +449,31 @@
                         Create My POS Account
                     </button>
                 </form>
+                {{-- Divider --}}
+<div style="display:flex;align-items:center;gap:12px;margin:20px 0">
+    <div style="flex:1;height:1px;background:#e4e7ef"></div>
+    <span style="font-size:11px;color:#9ca3af;font-family:'Outfit',sans-serif;text-transform:uppercase;letter-spacing:0.05em">or continue with</span>
+    <div style="flex:1;height:1px;background:#e4e7ef"></div>
+</div>
+
+{{-- Google Login Button --}}
+<a href="{{ route('google.login') }}" style="
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    width:100%;padding:10px 20px;background:#ffffff;
+    border:1.5px solid #e4e7ef;border-radius:10px;
+    font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;
+    color:#374151;text-decoration:none;cursor:pointer;
+    transition:all 0.15s ease;
+" onmouseover="this.style.borderColor='#1a56db';this.style.background='#eff4ff'"
+   onmouseout="this.style.borderColor='#e4e7ef';this.style.background='#ffffff'">
+    <svg width="18" height="18" viewBox="0 0 24 24">
+        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+    </svg>
+    Continue with Google
+</a>
             </div>
 
             {{-- Sign In Link --}}

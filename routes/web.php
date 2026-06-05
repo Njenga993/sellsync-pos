@@ -155,10 +155,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/returns',          [SaleReturnController::class, 'store'])->name('returns.store')->middleware('check_permission:process_returns');
     Route::get('/returns/{return}',  [SaleReturnController::class, 'show'])->name('returns.show')->middleware('check_permission:process_returns');
 
-    // Settings
+        // Settings
     Route::get('/settings',  [SettingsController::class, 'index'])->name('settings.index')->middleware('check_permission:manage_settings');
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update')->middleware('check_permission:manage_settings');
+
 });
+
+// ── Google OAuth (outside auth group — user isn't logged in yet) ──
+Route::get('/auth/google/redirect', [App\Http\Controllers\Auth\GoogleAuthController::class, 'redirect'])
+    ->name('google.login');
+Route::get('/auth/google/callback', [App\Http\Controllers\Auth\GoogleAuthController::class, 'callback'])
+    ->name('google.callback');
 
 // ── Auth Routes (rate-limited for login) ──
 Route::middleware('throttle:5,1')->group(function () {
