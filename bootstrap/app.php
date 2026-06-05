@@ -11,12 +11,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-    $middleware->alias([
-        'super_admin'      => \App\Http\Middleware\SuperAdmin::class,
-        'check_permission' => \App\Http\Middleware\CheckPermission::class,
-        'role_redirect'    => \App\Http\Middleware\RedirectByRole::class,
-    ]);
-})
+        $middleware->alias([
+            'super_admin'      => \App\Http\Middleware\SuperAdmin::class,
+            'check_permission' => \App\Http\Middleware\CheckPermission::class,
+            'role_redirect'    => \App\Http\Middleware\RedirectByRole::class,
+        ]);
+        
+        // Force HTTPS in production
+        $middleware->append(\App\Http\Middleware\ForceHttps::class);
+    })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();
