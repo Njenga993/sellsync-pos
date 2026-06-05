@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Branch;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Rules\StrongPassword;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class RegisteredUserController extends Controller
             'name'          => ['required', 'string', 'max:255'],
             'email'         => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone'         => ['required', 'string', 'max:20'],
-            'password'      => ['required', 'confirmed', Rules\Password::defaults()],
+            'password'      => ['required', 'confirmed', new StrongPassword],
         ]);
 
         $tenant = Tenant::create([

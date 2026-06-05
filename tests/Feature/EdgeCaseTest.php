@@ -37,7 +37,7 @@ class EdgeCaseTest extends TestCase
             'branch_id' => $branch->id,
             'name' => 'Admin',
             'email' => 'admin@test.com',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('Password-123!'),
             'status' => 'active',
         ]);
         $this->admin->syncRoles(['admin']);
@@ -121,7 +121,7 @@ public function stock_can_be_oversold_with_warning(): void
     $cashier = User::create([
         'tenant_id' => $this->tenant->id, 'branch_id' => 1,
         'name' => 'Cashier', 'email' => 'cash2@test.com',
-        'password' => bcrypt('password'), 'status' => 'active',
+        'password' => bcrypt('Password-123!'), 'status' => 'active',
     ]);
     $cashier->syncRoles(['cashier']);
 

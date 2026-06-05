@@ -51,7 +51,7 @@ class PosSystemTest extends TestCase
             'branch_id' => $this->branch->id,
             'name' => 'Admin User',
             'email' => 'admin@test.com',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('Password-123!'),
             'status' => 'active',
         ]);
         $this->admin->syncRoles(['admin']);
@@ -61,7 +61,7 @@ class PosSystemTest extends TestCase
             'branch_id' => $this->branch->id,
             'name' => 'Manager User',
             'email' => 'manager@test.com',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('Password-123!'),
             'status' => 'active',
         ]);
         $this->manager->syncRoles(['manager']);
@@ -71,7 +71,7 @@ class PosSystemTest extends TestCase
             'branch_id' => $this->branch->id,
             'name' => 'Cashier User',
             'email' => 'cashier@test.com',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('Password-123!'),
             'status' => 'active',
         ]);
         $this->cashier->syncRoles(['cashier']);
@@ -81,7 +81,7 @@ class PosSystemTest extends TestCase
             'branch_id' => $this->branch->id,
             'name' => 'Inventory User',
             'email' => 'inventory@test.com',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('Password-123!'),
             'status' => 'active',
         ]);
         $this->inventory->syncRoles(['inventory']);

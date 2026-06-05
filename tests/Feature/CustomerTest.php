@@ -41,7 +41,7 @@ class CustomerTest extends TestCase
             'branch_id' => $this->branch->id,
             'name' => 'Admin',
             'email' => 'admin@test.com',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('Password-123!'),
             'status' => 'active',
         ]);
         $this->admin->syncRoles(['admin']);
@@ -51,7 +51,7 @@ class CustomerTest extends TestCase
             'branch_id' => $this->branch->id,
             'name' => 'Cashier',
             'email' => 'cashier@test.com',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('Password-123!'),
             'status' => 'active',
         ]);
         $this->cashier->syncRoles(['cashier']);
@@ -155,7 +155,7 @@ class CustomerTest extends TestCase
             'branch_id' => $this->branch->id,
             'name' => 'Inventory',
             'email' => 'inventory@test.com',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('Password-123!'),
             'status' => 'active',
         ]);
         $inventory->syncRoles(['inventory']);

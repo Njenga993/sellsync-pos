@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter;
 use App\Http\Controllers\Modules\Inventory\Controllers\CategoryController;
 use App\Http\Controllers\Modules\Inventory\Controllers\ProductController;
 use App\Http\Controllers\Modules\CRM\Controllers\CustomerController;
@@ -67,9 +69,9 @@ Route::prefix('superadmin')
 // ── Authenticated tenant routes ──
 Route::middleware(['auth'])->group(function () {
 
-    // POS
+    // POS — rate limited
     Route::get('/pos',                [PosController::class, 'index'])->name('pos.index')->middleware('check_permission:access_pos');
-    Route::post('/pos/sale',          [PosController::class, 'store'])->name('pos.store')->middleware('check_permission:access_pos');
+    Route::post('/pos/sale',          [PosController::class, 'store'])->name('pos.store')->middleware('check_permission:access_pos')->middleware('throttle:60,1');
     Route::get('/pos/receipt/{sale}', [PosController::class, 'receipt'])->name('pos.receipt')->middleware('check_permission:access_pos');
 
     // Products
@@ -134,7 +136,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/reports/stock-valuation',     [AdvancedReportController::class, 'stockValuation'])->name('reports.stock-valuation')->middleware('check_permission:view_stock_valuation');
     Route::get('/reports/cashier-performance', [AdvancedReportController::class, 'cashierPerformance'])->name('reports.cashier-performance')->middleware('check_permission:view_cashier_performance');
 
-    // Report Exports — admin & manager
+    // Report Exports
     Route::get('/reports/sales/export', [SalesReportController::class, 'exportPdf'])->name('reports.sales.export')->middleware('check_permission:view_reports');
     Route::get('/reports/profit-loss/export', [AdvancedReportController::class, 'exportProfitLossPdf'])->name('reports.profit-loss.export')->middleware('check_permission:view_profit_loss');
     Route::get('/reports/stock-valuation/export', [AdvancedReportController::class, 'exportStockValuationPdf'])->name('reports.stock-valuation.export')->middleware('check_permission:view_stock_valuation');
@@ -158,4 +160,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update')->middleware('check_permission:manage_settings');
 });
 
-require __DIR__.'/auth.php';
+// ── Auth Routes (rate-limited for login) ──
+Route::middleware('throttle:5,1')->group(function () {
+    require __DIR__.'/auth.php';
+});
