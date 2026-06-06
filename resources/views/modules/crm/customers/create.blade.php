@@ -3,7 +3,7 @@
         <div class="flex items-center gap-4">
             <a href="{{ route('customers.index') }}" 
                style="display:flex;align-items:center;gap:6px;color:#9ca3af;font-size:13px;text-decoration:none;padding:6px 10px;border-radius:8px;border:1px solid #e4e7ef;font-family:'Outfit',sans-serif;transition:all .15s"
-               onmouseover="this.style.borderColor='#1a56db';this.style.color='#1a56db';this.style.background='#eff4ff'"
+               onmouseover="this.style.borderColor='#03A737';this.style.color='#03A737';this.style.background='#e6f7eb'"
                onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#9ca3af';this.style.background='transparent'">
                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -12,7 +12,7 @@
             </a>
             <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">People</p>
-                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#02182F;line-height:1.2">
                     Add Customer
                 </h1>
             </div>
@@ -22,8 +22,16 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
         
+        :root {
+            --brand-green: #03A737;
+            --brand-green-light: #e6f7eb;
+            --brand-green-dark: #028a2e;
+            --brand-black: #02182F;
+            --brand-white: #FFFEFE;
+        }
+        
         .form-panel {
-            background: #ffffff;
+            background: var(--brand-white);
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             padding: 24px;
@@ -41,9 +49,7 @@
             border-bottom: 1px solid #f1f3f8;
         }
         
-        .form-group {
-            margin-bottom: 14px;
-        }
+        .form-group { margin-bottom: 14px; }
         
         .form-label {
             font-family: 'Outfit', sans-serif;
@@ -63,15 +69,15 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
-            color: #111827;
+            color: var(--brand-black);
             background: #fafbff;
             transition: all 0.15s ease;
             outline: none;
         }
         .form-input:focus {
-            border-color: #1a56db;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: var(--brand-green);
+            background: var(--brand-white);
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         .form-input::placeholder { color: #c4c9d6; }
         
@@ -82,7 +88,7 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
-            color: #111827;
+            color: var(--brand-black);
             background: #fafbff;
             transition: all 0.15s ease;
             outline: none;
@@ -94,9 +100,9 @@
             cursor: pointer;
         }
         .form-select:focus {
-            border-color: #1a56db;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: var(--brand-green);
+            background-color: var(--brand-white);
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
         .form-textarea {
@@ -106,7 +112,7 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
-            color: #111827;
+            color: var(--brand-black);
             background: #fafbff;
             transition: all 0.15s ease;
             outline: none;
@@ -114,31 +120,31 @@
             min-height: 60px;
         }
         .form-textarea:focus {
-            border-color: #1a56db;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: var(--brand-green);
+            background: var(--brand-white);
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
         
         .btn-primary {
-            background: #1a56db;
-            color: white;
+            background: var(--brand-green);
+            color: var(--brand-white);
             padding: 11px 24px;
             border-radius: 10px;
             font-size: 13px;
             font-weight: 600;
             font-family: 'Outfit', sans-serif;
             letter-spacing: 0.01em;
-            box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
+            box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
             transition: all 0.15s;
             border: none;
             cursor: pointer;
         }
         .btn-primary:hover {
-            background: #1e40af;
-            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.35);
+            background: var(--brand-green-dark);
+            box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35);
             transform: translateY(-1px);
         }
         
@@ -156,9 +162,9 @@
             display: inline-block;
         }
         .btn-cancel:hover {
-            border-color: #1a56db;
-            color: #1a56db;
-            background: #eff4ff;
+            border-color: var(--brand-green);
+            color: var(--brand-green);
+            background: var(--brand-green-light);
         }
         
         .error-msg {

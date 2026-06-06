@@ -3,7 +3,7 @@
         <div class="flex items-center gap-4">
             <a href="{{ route('customers.index') }}" 
                style="display:flex;align-items:center;gap:6px;color:#9ca3af;font-size:13px;text-decoration:none;padding:6px 10px;border-radius:8px;border:1px solid #e4e7ef;font-family:'Outfit',sans-serif;transition:all .15s"
-               onmouseover="this.style.borderColor='#1a56db';this.style.color='#1a56db';this.style.background='#eff4ff'"
+               onmouseover="this.style.borderColor='#03A737';this.style.color='#03A737';this.style.background='#e6f7eb'"
                onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#9ca3af';this.style.background='transparent'">
                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -12,7 +12,7 @@
             </a>
             <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">People</p>
-                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#02182F;line-height:1.2">
                     {{ $customer->name }}
                 </h1>
             </div>
@@ -50,22 +50,20 @@
             font-size: 24px;
             font-weight: 700;
             line-height: 1;
+            color: #02182F;
         }
         
-        .card-blue   { background: #eff4ff; border-color: #c7d7fb; }
-        .card-blue   .stat-card-label  { color: #3b5fd6; }
-        .card-blue   .stat-card-value  { color: #1a3fad; }
+        .card-blue   { background: #edf3fd; border-color: #c4d9fb; }
+        .card-blue   .stat-card-label  { color: #2b5fc4; }
         
         .card-yellow { background: #fffbeb; border-color: #fde68a; }
         .card-yellow .stat-card-label  { color: #a16207; }
-        .card-yellow .stat-card-value  { color: #854d0e; }
         
-        .card-indigo { background: #f5f3ff; border-color: #c4b5fd; }
-        .card-indigo .stat-card-label  { color: #5b21b6; }
-        .card-indigo .stat-card-value  { color: #3b0764; }
+        .card-dark   { background: #f0f2f5; border-color: #d4d8e0; }
+        .card-dark   .stat-card-label  { color: #4b5563; }
         
         .panel {
-            background: #ffffff;
+            background: #FFFEFE;
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             overflow: hidden;
@@ -83,7 +81,7 @@
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
             font-weight: 700;
-            color: #111827;
+            color: #02182F;
         }
         
         .detail-grid {
@@ -106,7 +104,7 @@
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
             font-weight: 600;
-            color: #111827;
+            color: #02182F;
         }
         
         .data-table { 
@@ -143,14 +141,14 @@
             font-weight: 600;
             font-family: 'Outfit', sans-serif;
         }
-        .badge-green  { background: #dcfce7; color: #15803d; }
-        .badge-blue   { background: #dbeafe; color: #1d4ed8; }
+        .badge-green  { background: #e6f7eb; color: #028a2e; }
+        .badge-blue   { background: #edf3fd; color: #2b5fc4; }
         .badge-yellow { background: #fef9c3; color: #a16207; }
         
         .mono { font-family: 'JetBrains Mono', monospace; }
         .fw6 { font-weight: 600; }
         .fw7 { font-weight: 700; }
-        .text-brand { color: #1a56db; }
+        .text-brand { color: #03A737; }
         
         .empty-state {
             text-align: center;
@@ -173,7 +171,7 @@
                 <div class="stat-card-label">Loyalty Points</div>
                 <div class="stat-card-value">{{ number_format($customer->loyalty_points) }} pts</div>
             </div>
-            <div class="stat-card card-indigo">
+            <div class="stat-card card-dark">
                 <div class="stat-card-label">Credit Limit</div>
                 <div class="stat-card-value">KES {{ number_format($customer->credit_limit, 2) }}</div>
             </div>
@@ -182,9 +180,9 @@
         {{-- Customer Details --}}
         <div class="panel panel-padded">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
-                <span style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:#111827">Customer Details</span>
+                <span style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:#02182F">Customer Details</span>
                 <a href="{{ route('customers.edit', $customer) }}" 
-                   style="font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:#1a56db;text-decoration:none">Edit</a>
+                   style="font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:#03A737;text-decoration:none">Edit</a>
             </div>
             <div class="detail-grid">
                 <div>
@@ -227,7 +225,7 @@
                             <tr>
                                 <td class="mono text-brand fw6" style="font-size:12px">{{ $sale->invoice_no }}</td>
                                 <td style="font-size:12px;color:#6b7280">{{ $sale->created_at->format('d M Y, h:i A') }}</td>
-                                <td class="mono fw6" style="color:#111827">KES {{ number_format($sale->total, 2) }}</td>
+                                <td class="mono fw6" style="color:#02182F">KES {{ number_format($sale->total, 2) }}</td>
                                 <td style="font-size:12px;color:#6b7280">{{ ucfirst($sale->payment_method) }}</td>
                                 <td>
                                     <span class="badge {{ $sale->status === 'completed' ? 'badge-green' : ($sale->status === 'pending' ? 'badge-yellow' : 'badge-blue') }}">

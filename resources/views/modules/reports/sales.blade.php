@@ -3,12 +3,14 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Finance</p>
-                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#02182F;line-height:1.2">
                     Sales Report
                 </h1>
             </div>
             <a href="{{ route('pos.index') }}"
-               style="background:#1a56db;color:white;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;letter-spacing:.01em;box-shadow:0 2px 8px rgba(26,86,219,.25);transition:all .15s">
+               style="background:#03A737;color:#FFFEFE;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;letter-spacing:.01em;box-shadow:0 2px 8px rgba(3,167,55,.25);transition:all .15s"
+               onmouseover="this.style.background='#028a2e';this.style.boxShadow='0 4px 12px rgba(3,167,55,.35)'"
+               onmouseout="this.style.background='#03A737';this.style.boxShadow='0 2px 8px rgba(3,167,55,.25)'">
                 Open POS
             </a>
         </div>
@@ -20,7 +22,7 @@
         .dash-wrap { display: flex; flex-direction: column; gap: 20px; }
         
         .filter-bar {
-            background: #ffffff;
+            background: #FFFEFE;
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             padding: 18px 22px;
@@ -48,33 +50,33 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
-            color: #111827;
+            color: #02182F;
             background: #fafbff;
             transition: all 0.15s;
             outline: none;
         }
         .filter-input:focus {
-            border-color: #1a56db;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: #03A737;
+            background: #FFFEFE;
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
         .btn-filter {
             padding: 9px 18px;
-            background: #1a56db;
-            color: white;
+            background: #03A737;
+            color: #FFFEFE;
             border: none;
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
+            box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
             transition: all 0.15s;
         }
         .btn-filter:hover {
-            background: #1e40af;
-            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.35);
+            background: #028a2e;
+            box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35);
         }
         
         .btn-reset {
@@ -91,9 +93,9 @@
             display: inline-block;
         }
         .btn-reset:hover {
-            border-color: #1a56db;
-            color: #1a56db;
-            background: #eff4ff;
+            border-color: #03A737;
+            color: #03A737;
+            background: #e6f7eb;
         }
         
         .stat-grid {
@@ -123,34 +125,31 @@
             font-weight: 700;
             line-height: 1;
             margin-bottom: 4px;
+            color: #02182F;
         }
         .stat-card-sub {
             font-family: 'Outfit', sans-serif;
             font-size: 11px;
         }
         
-        .card-blue   { background: #eff4ff; border-color: #c7d7fb; }
-        .card-blue   .stat-card-label  { color: #3b5fd6; }
-        .card-blue   .stat-card-value  { color: #1a3fad; }
-        .card-blue   .stat-card-sub    { color: #6b85d6; }
+        .card-green  { background: #e6f7eb; border-color: #b8e6c4; }
+        .card-green  .stat-card-label  { color: #028a2e; }
+        .card-green  .stat-card-sub    { color: #03A737; }
         
-        .card-teal   { background: #f0fdfa; border-color: #99f6e4; }
-        .card-teal   .stat-card-label  { color: #0f766e; }
-        .card-teal   .stat-card-value  { color: #134e4a; }
-        .card-teal   .stat-card-sub    { color: #2dd4bf; }
+        .card-blue   { background: #edf3fd; border-color: #c4d9fb; }
+        .card-blue   .stat-card-label  { color: #2b5fc4; }
+        .card-blue   .stat-card-sub    { color: #3D7BE7; }
         
-        .card-indigo { background: #f5f3ff; border-color: #c4b5fd; }
-        .card-indigo .stat-card-label  { color: #5b21b6; }
-        .card-indigo .stat-card-value  { color: #3b0764; }
-        .card-indigo .stat-card-sub    { color: #7c3aed; }
+        .card-black  { background: #f0f2f5; border-color: #d4d8e0; }
+        .card-black  .stat-card-label  { color: #4b5563; }
+        .card-black  .stat-card-sub    { color: #6b7280; }
         
-        .card-red    { background: #fff1f2; border-color: #fecdd3; }
+        .card-red    { background: #fef2f2; border-color: #fecdd3; }
         .card-red    .stat-card-label  { color: #be123c; }
-        .card-red    .stat-card-value  { color: #881337; }
         .card-red    .stat-card-sub    { color: #e11d48; }
         
         .panel {
-            background: #ffffff;
+            background: #FFFEFE;
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             overflow: hidden;
@@ -168,7 +167,7 @@
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
             font-weight: 700;
-            color: #111827;
+            color: #02182F;
         }
         .panel-meta {
             font-family: 'Outfit', sans-serif;
@@ -190,9 +189,9 @@
             border-radius: 99px;
             transition: width 0.4s ease;
         }
-        .fill-green  { background: #16a34a; }
-        .fill-blue   { background: #1a56db; }
-        .fill-purple { background: #7c3aed; }
+        .fill-green  { background: #03A737; }
+        .fill-blue   { background: #3D7BE7; }
+        .fill-black  { background: #02182F; }
         
         .data-table { 
             width: 100%; 
@@ -228,24 +227,24 @@
             font-weight: 600;
             font-family: 'Outfit', sans-serif;
         }
-        .badge-green  { background: #dcfce7; color: #15803d; }
-        .badge-blue   { background: #dbeafe; color: #1d4ed8; }
+        .badge-green  { background: #e6f7eb; color: #028a2e; }
+        .badge-blue   { background: #edf3fd; color: #2b5fc4; }
         .badge-yellow { background: #fef9c3; color: #a16207; }
         
         .mono { font-family: 'JetBrains Mono', monospace; }
         .fw6 { font-weight: 600; }
         .fw7 { font-weight: 700; }
-        .text-brand { color: #1a56db; }
+        .text-brand { color: #03A737; }
         
         .action-link {
             font-family: 'Outfit', sans-serif;
             font-size: 12px;
             font-weight: 600;
-            color: #1a56db;
+            color: #03A737;
             text-decoration: none;
             transition: all 0.15s;
         }
-        .action-link:hover { color: #1e40af; text-decoration: underline; }
+        .action-link:hover { color: #028a2e; text-decoration: underline; }
         
         .top-product-row {
             display: flex;
@@ -287,7 +286,9 @@
                 <a href="{{ route('reports.sales') }}" class="btn-reset">Reset</a>
             </form>
             <a href="{{ route('reports.sales.export', request()->query()) }}" 
-   style="background:transparent;color:#6b7280;padding:8px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s;display:inline-flex;align-items:center;gap:6px">
+   style="background:transparent;color:#6b7280;padding:8px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s;display:inline-flex;align-items:center;gap:6px"
+   onmouseover="this.style.borderColor='#03A737';this.style.color='#03A737';this.style.background='#e6f7eb'"
+   onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#6b7280';this.style.background='transparent'">
     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
     </svg>
@@ -297,17 +298,17 @@
 
         {{-- Summary Cards --}}
         <div class="stat-grid">
-            <div class="stat-card card-blue">
+            <div class="stat-card card-green">
                 <div class="stat-card-label">Total Revenue</div>
                 <div class="stat-card-value">KES {{ number_format($summary->total_revenue ?? 0, 2) }}</div>
                 <div class="stat-card-sub">{{ $summary->total_transactions ?? 0 }} transactions</div>
             </div>
-            <div class="stat-card card-teal">
+            <div class="stat-card card-blue">
                 <div class="stat-card-label">Average Sale</div>
                 <div class="stat-card-value">KES {{ number_format($summary->avg_sale ?? 0, 2) }}</div>
                 <div class="stat-card-sub">Per transaction</div>
             </div>
-            <div class="stat-card card-indigo">
+            <div class="stat-card card-black">
                 <div class="stat-card-label">Total Tax</div>
                 <div class="stat-card-value">KES {{ number_format($summary->total_tax ?? 0, 2) }}</div>
                 <div class="stat-card-sub">Collected</div>
@@ -330,7 +331,7 @@
                     $methods = [
                         ['label' => 'Cash',   'amount' => $summary->cash_total   ?? 0, 'fill' => 'fill-green'],
                         ['label' => 'Card',   'amount' => $summary->card_total   ?? 0, 'fill' => 'fill-blue'],
-                        ['label' => 'M-Pesa', 'amount' => $summary->mobile_total ?? 0, 'fill' => 'fill-purple'],
+                        ['label' => 'M-Pesa', 'amount' => $summary->mobile_total ?? 0, 'fill' => 'fill-black'],
                     ];
                 @endphp
                 @foreach($methods as $m)
@@ -356,10 +357,10 @@
                 @forelse($topProducts as $product)
                     <div class="top-product-row">
                         <div>
-                            <div style="font-size:13px;font-weight:600;color:#111827;font-family:'Outfit',sans-serif">{{ $product->product_name }}</div>
+                            <div style="font-size:13px;font-weight:600;color:#02182F;font-family:'Outfit',sans-serif">{{ $product->product_name }}</div>
                             <div style="font-size:11px;color:#9ca3af;margin-top:2px">{{ $product->total_qty }} units sold</div>
                         </div>
-                        <span class="mono fw6" style="color:#1a56db">KES {{ number_format($product->total_revenue, 2) }}</span>
+                        <span class="mono fw6" style="color:#03A737">KES {{ number_format($product->total_revenue, 2) }}</span>
                     </div>
                 @empty
                     <div class="empty-state">No sales data yet.</div>
@@ -389,7 +390,7 @@
                                         {{ \Carbon\Carbon::parse($day->date)->format('D, d M Y') }}
                                     </td>
                                     <td class="mono" style="font-size:12px;color:#6b7280">{{ $day->transactions }}</td>
-                                    <td class="mono fw6" style="color:#111827">KES {{ number_format($day->revenue, 2) }}</td>
+                                    <td class="mono fw6" style="color:#02182F">KES {{ number_format($day->revenue, 2) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -441,7 +442,7 @@
                                     <td>
                                         <span class="badge {{ $payBadge }}">{{ ucfirst($sale->payment_method) }}</span>
                                     </td>
-                                    <td class="mono fw6" style="color:#111827">KES {{ number_format($sale->total, 2) }}</td>
+                                    <td class="mono fw6" style="color:#02182F">KES {{ number_format($sale->total, 2) }}</td>
                                     <td>
                                         <a href="{{ route('pos.receipt', $sale) }}" target="_blank" class="action-link">View</a>
                                     </td>

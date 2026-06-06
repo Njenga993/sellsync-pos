@@ -3,7 +3,7 @@
         <div class="flex items-center gap-4">
             <a href="{{ route('products.index') }}" 
                style="display:flex;align-items:center;gap:6px;color:#9ca3af;font-size:13px;text-decoration:none;padding:6px 10px;border-radius:8px;border:1px solid #e4e7ef;font-family:'Outfit',sans-serif;transition:all .15s"
-               onmouseover="this.style.borderColor='#1a56db';this.style.color='#1a56db';this.style.background='#eff4ff'"
+               onmouseover="this.style.borderColor='#03A737';this.style.color='#03A737';this.style.background='#e6f7eb'"
                onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#9ca3af';this.style.background='transparent'">
                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -12,7 +12,7 @@
             </a>
             <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Inventory</p>
-                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#02182F;line-height:1.2">
                     Import Products
                 </h1>
             </div>
@@ -22,8 +22,16 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
         
+        :root {
+            --brand-green: #03A737;
+            --brand-green-light: #e6f7eb;
+            --brand-green-dark: #028a2e;
+            --brand-black: #02182F;
+            --brand-white: #FFFEFE;
+        }
+        
         .form-panel {
-            background: #ffffff;
+            background: var(--brand-white);
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             padding: 24px;
@@ -52,12 +60,12 @@
             background: #fafbff;
         }
         .file-upload-area:hover {
-            border-color: #1a56db;
-            background: #eff4ff;
+            border-color: var(--brand-green);
+            background: var(--brand-green-light);
         }
         .file-upload-area.dragover {
-            border-color: #1a56db;
-            background: #eff4ff;
+            border-color: var(--brand-green);
+            background: var(--brand-green-light);
         }
         
         .file-input {
@@ -68,7 +76,7 @@
             width: 48px;
             height: 48px;
             border-radius: 12px;
-            background: #eff4ff;
+            background: var(--brand-green-light);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -77,14 +85,14 @@
         .upload-icon svg {
             width: 24px;
             height: 24px;
-            color: #1a56db;
+            color: var(--brand-green);
         }
         
         .upload-text {
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
             font-weight: 600;
-            color: #111827;
+            color: var(--brand-black);
             margin-bottom: 4px;
         }
         .upload-hint {
@@ -93,29 +101,29 @@
             color: #9ca3af;
         }
         .upload-hint span {
-            color: #1a56db;
+            color: var(--brand-green);
             font-weight: 600;
         }
         
         .file-name {
             font-family: 'JetBrains Mono', monospace;
             font-size: 13px;
-            color: #1a56db;
+            color: var(--brand-green);
             font-weight: 600;
             margin-top: 12px;
             display: none;
         }
         
         .btn-primary {
-            background: #1a56db;
-            color: white;
+            background: var(--brand-green);
+            color: var(--brand-white);
             padding: 11px 24px;
             border-radius: 10px;
             font-size: 13px;
             font-weight: 600;
             font-family: 'Outfit', sans-serif;
             letter-spacing: 0.01em;
-            box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
+            box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
             transition: all 0.15s;
             border: none;
             cursor: pointer;
@@ -124,8 +132,8 @@
             width: 100%;
         }
         .btn-primary:hover {
-            background: #1e40af;
-            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.35);
+            background: var(--brand-green-dark);
+            box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35);
         }
         .btn-primary:disabled {
             opacity: 0.6;
@@ -147,9 +155,9 @@
             text-align: center;
         }
         .btn-cancel:hover {
-            border-color: #1a56db;
-            color: #1a56db;
-            background: #eff4ff;
+            border-color: var(--brand-green);
+            color: var(--brand-green);
+            background: var(--brand-green-light);
         }
         
         .template-table {
@@ -185,26 +193,26 @@
             font-family: 'Outfit', sans-serif;
             font-size: 12px;
             font-weight: 600;
-            color: #1a56db;
+            color: var(--brand-green);
             text-decoration: none;
             padding: 8px 14px;
-            border: 1.5px solid #1a56db;
+            border: 1.5px solid var(--brand-green);
             border-radius: 8px;
             transition: all 0.15s;
         }
         .download-link:hover {
-            background: #eff4ff;
+            background: var(--brand-green-light);
         }
         
         .info-bar {
-            background: #eff4ff;
-            border: 1px solid #c7d7fb;
+            background: var(--brand-green-light);
+            border: 1px solid #b8e6c4;
             border-radius: 10px;
             padding: 12px 16px;
             margin-top: 16px;
             font-family: 'Outfit', sans-serif;
             font-size: 12px;
-            color: #1a3fad;
+            color: #028a2e;
             display: flex;
             align-items: flex-start;
             gap: 10px;

@@ -3,17 +3,21 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Finance</p>
-                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#02182F;line-height:1.2">
                     Profit & Loss Report
                 </h1>
             </div>
             <div class="flex gap-2">
                 <a href="{{ route('reports.stock-valuation') }}"
-                   style="background:transparent;color:#6b7280;padding:9px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s">
+                   style="background:transparent;color:#6b7280;padding:9px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s"
+                   onmouseover="this.style.borderColor='#03A737';this.style.color='#03A737';this.style.background='#e6f7eb'"
+                   onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#6b7280';this.style.background='transparent'">
                     Stock Valuation
                 </a>
                 <a href="{{ route('reports.cashier-performance') }}"
-                   style="background:transparent;color:#6b7280;padding:9px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s">
+                   style="background:transparent;color:#6b7280;padding:9px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s"
+                   onmouseover="this.style.borderColor='#03A737';this.style.color='#03A737';this.style.background='#e6f7eb'"
+                   onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#6b7280';this.style.background='transparent'">
                     Cashier Performance
                 </a>
             </div>
@@ -26,7 +30,7 @@
         .dash-wrap { display: flex; flex-direction: column; gap: 20px; }
         
         .filter-bar {
-            background: #ffffff;
+            background: #FFFEFE;
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             padding: 18px 22px;
@@ -54,33 +58,33 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
-            color: #111827;
+            color: #02182F;
             background: #fafbff;
             transition: all 0.15s;
             outline: none;
         }
         .filter-input:focus {
-            border-color: #1a56db;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: #03A737;
+            background: #FFFEFE;
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
         .btn-filter {
             padding: 9px 18px;
-            background: #1a56db;
-            color: white;
+            background: #03A737;
+            color: #FFFEFE;
             border: none;
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
+            box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
             transition: all 0.15s;
         }
         .btn-filter:hover {
-            background: #1e40af;
-            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.35);
+            background: #028a2e;
+            box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35);
         }
         
         .btn-reset {
@@ -97,13 +101,13 @@
             display: inline-block;
         }
         .btn-reset:hover {
-            border-color: #1a56db;
-            color: #1a56db;
-            background: #eff4ff;
+            border-color: #03A737;
+            color: #03A737;
+            background: #e6f7eb;
         }
         
         .panel {
-            background: #ffffff;
+            background: #FFFEFE;
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             overflow: hidden;
@@ -122,7 +126,7 @@
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
             font-weight: 700;
-            color: #111827;
+            color: #02182F;
         }
         .panel-subtitle {
             font-family: 'Outfit', sans-serif;
@@ -141,16 +145,16 @@
         }
         .pl-row:last-child { border-bottom: none; }
         
-        .pl-row-green  { background: #f0fdf4; }
-        .pl-row-red    { background: #fff1f2; }
-        .pl-row-blue   { background: #eff4ff; }
+        .pl-row-green  { background: #e6f7eb; }
+        .pl-row-red    { background: #fef2f2; }
+        .pl-row-blue   { background: #edf3fd; }
         .pl-row-yellow { background: #fffbeb; }
         
         .pl-label {
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
             font-weight: 600;
-            color: #111827;
+            color: #02182F;
         }
         .pl-description {
             font-family: 'Outfit', sans-serif;
@@ -164,9 +168,9 @@
             font-weight: 700;
             text-align: right;
         }
-        .pl-amount.positive { color: #16a34a; }
+        .pl-amount.positive { color: #03A737; }
         .pl-amount.negative { color: #dc2626; }
-        .pl-amount.brand   { color: #1a56db; }
+        .pl-amount.brand   { color: #3D7BE7; }
         
         .pl-row-total {
             display: flex;
@@ -174,21 +178,21 @@
             align-items: center;
             padding: 18px 22px;
         }
-        .pl-row-total.green-bg { background: #f0fdf4; }
-        .pl-row-total.red-bg   { background: #fff1f2; }
+        .pl-row-total.green-bg { background: #e6f7eb; }
+        .pl-row-total.red-bg   { background: #fef2f2; }
         
         .pl-total-label {
             font-family: 'Outfit', sans-serif;
             font-size: 15px;
             font-weight: 700;
-            color: #111827;
+            color: #02182F;
         }
         .pl-total-amount {
             font-family: 'JetBrains Mono', monospace;
             font-size: 22px;
             font-weight: 700;
         }
-        .pl-total-amount.positive { color: #16a34a; }
+        .pl-total-amount.positive { color: #03A737; }
         .pl-total-amount.negative { color: #dc2626; }
         
         .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -272,7 +276,9 @@
                 <a href="{{ route('reports.profit-loss') }}" class="btn-reset">Reset</a>
             </form>
             <a href="{{ route('reports.profit-loss.export', request()->query()) }}" 
-   style="background:transparent;color:#6b7280;padding:8px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s;display:inline-flex;align-items:center;gap:6px">
+   style="background:transparent;color:#6b7280;padding:8px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s;display:inline-flex;align-items:center;gap:6px"
+   onmouseover="this.style.borderColor='#03A737';this.style.color='#03A737';this.style.background='#e6f7eb'"
+   onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#6b7280';this.style.background='transparent'">
     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
     </svg>
@@ -292,7 +298,7 @@
             </div>
 
             {{-- Revenue --}}
-            <div class="pl-row">
+            <div class="pl-row pl-row-green">
                 <div>
                     <div class="pl-label">Gross Revenue</div>
                     <div class="pl-description">Total sales collected</div>
@@ -365,11 +371,11 @@
                         <tbody>
                             @foreach($monthlySales as $month)
                                 <tr>
-                                    <td class="fw6" style="color:#111827">
+                                    <td class="fw6" style="color:#02182F">
                                         {{ \Carbon\Carbon::parse($month->month . '-01')->format('F Y') }}
                                     </td>
                                     <td class="mono" style="font-size:12px;color:#6b7280">{{ $month->transactions }}</td>
-                                    <td class="mono fw6" style="text-align:right;color:#16a34a">
+                                    <td class="mono fw6" style="text-align:right;color:#03A737">
                                         KES {{ number_format($month->revenue, 2) }}
                                     </td>
                                 </tr>
@@ -382,11 +388,11 @@
             {{-- Expenses by Category --}}
             @if($expensesByCategory->count() > 0)
                 <div class="panel panel-padded">
-                    <div style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:#111827;margin-bottom:16px">
+                    <div style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:#02182F;margin-bottom:16px">
                         Expenses by Category
                     </div>
                     @php
-                        $catColors = ['#1a56db','#0d9488','#7c3aed','#d97706','#dc2626','#0891b2','#4f46e5','#16a34a'];
+                        $catColors = ['#03A737','#3D7BE7','#02182F','#d97706','#dc2626','#0891b2','#7c3aed','#028a2e'];
                     @endphp
                     @foreach($expensesByCategory as $i => $cat)
                         @php

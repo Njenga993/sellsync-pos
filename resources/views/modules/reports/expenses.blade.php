@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Finance</p>
-                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#02182F;line-height:1.2">
                     Expense Tracker
                 </h1>
             </div>
@@ -16,7 +16,7 @@
         .dash-wrap { display: flex; flex-direction: column; gap: 20px; }
         
         .filter-bar {
-            background: #ffffff;
+            background: #FFFEFE;
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             padding: 18px 22px;
@@ -44,33 +44,33 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
-            color: #111827;
+            color: #02182F;
             background: #fafbff;
             transition: all 0.15s;
             outline: none;
         }
         .filter-input:focus {
-            border-color: #1a56db;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: #03A737;
+            background: #FFFEFE;
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
         .btn-filter {
             padding: 9px 18px;
-            background: #1a56db;
-            color: white;
+            background: #03A737;
+            color: #FFFEFE;
             border: none;
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
+            box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
             transition: all 0.15s;
         }
         .btn-filter:hover {
-            background: #1e40af;
-            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.35);
+            background: #028a2e;
+            box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35);
         }
         
         .btn-reset {
@@ -87,9 +87,9 @@
             display: inline-block;
         }
         .btn-reset:hover {
-            border-color: #1a56db;
-            color: #1a56db;
-            background: #eff4ff;
+            border-color: #03A737;
+            color: #03A737;
+            background: #e6f7eb;
         }
         
         .stat-grid {
@@ -118,26 +118,24 @@
             font-weight: 700;
             line-height: 1;
             margin-bottom: 4px;
+            color: #02182F;
         }
         .stat-card-sub {
             font-family: 'Outfit', sans-serif;
             font-size: 11px;
         }
         
-        .card-red    { background: #fff1f2; border-color: #fecdd3; }
+        .card-red    { background: #fef2f2; border-color: #fecdd3; }
         .card-red    .stat-card-label  { color: #be123c; }
-        .card-red    .stat-card-value  { color: #881337; }
         .card-red    .stat-card-sub    { color: #e11d48; }
         
-        .card-green  { background: #f0fdf4; border-color: #bbf7d0; }
-        .card-green  .stat-card-label  { color: #15803d; }
-        .card-green  .stat-card-value  { color: #14532d; }
-        .card-green  .stat-card-sub    { color: #22c55e; }
+        .card-green  { background: #e6f7eb; border-color: #b8e6c4; }
+        .card-green  .stat-card-label  { color: #028a2e; }
+        .card-green  .stat-card-sub    { color: #03A737; }
         
-        .card-blue   { background: #eff4ff; border-color: #c7d7fb; }
-        .card-blue   .stat-card-label  { color: #3b5fd6; }
-        .card-blue   .stat-card-value  { color: #1a3fad; }
-        .card-blue   .stat-card-sub    { color: #6b85d6; }
+        .card-blue   { background: #edf3fd; border-color: #c4d9fb; }
+        .card-blue   .stat-card-label  { color: #2b5fc4; }
+        .card-blue   .stat-card-sub    { color: #3D7BE7; }
         
         .layout-3-2 {
             display: grid;
@@ -148,7 +146,7 @@
         @media (max-width: 1024px) { .layout-3-2 { grid-template-columns: 1fr; } }
         
         .form-panel {
-            background: #ffffff;
+            background: #FFFEFE;
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             padding: 22px;
@@ -190,15 +188,15 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
-            color: #111827;
+            color: #02182F;
             background: #fafbff;
             transition: all 0.15s ease;
             outline: none;
         }
         .form-input:focus {
-            border-color: #1a56db;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: #03A737;
+            background: #FFFEFE;
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         .form-input::placeholder { color: #c4c9d6; }
         
@@ -209,7 +207,7 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
-            color: #111827;
+            color: #02182F;
             background: #fafbff;
             transition: all 0.15s ease;
             outline: none;
@@ -221,9 +219,9 @@
             cursor: pointer;
         }
         .form-select:focus {
-            border-color: #1a56db;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: #03A737;
+            background-color: #FFFEFE;
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
         .form-textarea {
@@ -233,7 +231,7 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
-            color: #111827;
+            color: #02182F;
             background: #fafbff;
             transition: all 0.15s ease;
             outline: none;
@@ -241,9 +239,9 @@
             min-height: 56px;
         }
         .form-textarea:focus {
-            border-color: #1a56db;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: #03A737;
+            background: #FFFEFE;
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
         .color-input {
@@ -258,28 +256,28 @@
         .btn-primary {
             width: 100%;
             padding: 10px 16px;
-            background: #1a56db;
-            color: white;
+            background: #03A737;
+            color: #FFFEFE;
             border: none;
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
+            box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
             transition: all 0.15s;
         }
         .btn-primary:hover {
-            background: #1e40af;
-            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.35);
+            background: #028a2e;
+            box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35);
             transform: translateY(-1px);
         }
         
         .btn-dark {
             width: 100%;
             padding: 10px 16px;
-            background: #374151;
-            color: white;
+            background: #02182F;
+            color: #FFFEFE;
             border: none;
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
@@ -293,7 +291,7 @@
         }
         
         .panel {
-            background: #ffffff;
+            background: #FFFEFE;
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             overflow: hidden;
@@ -311,7 +309,7 @@
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
             font-weight: 700;
-            color: #111827;
+            color: #02182F;
         }
         .panel-meta {
             font-family: 'Outfit', sans-serif;
@@ -352,7 +350,7 @@
             font-size: 11px;
             font-weight: 600;
             font-family: 'Outfit', sans-serif;
-            color: white;
+            color: #FFFEFE;
         }
         
         .mono { font-family: 'JetBrains Mono', monospace; }
@@ -414,8 +412,8 @@
 
         {{-- Flash Message --}}
         @if(session('success'))
-            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;font-family:'Outfit',sans-serif;font-size:13px;color:#15803d;font-weight:500;display:flex;align-items:center;gap:10px">
-                <svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24">
+            <div style="background:#e6f7eb;border:1px solid #b8e6c4;border-radius:10px;padding:14px 18px;font-family:'Outfit',sans-serif;font-size:13px;color:#028a2e;font-weight:500;display:flex;align-items:center;gap:10px">
+                <svg width="16" height="16" fill="none" stroke="#03A737" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 {{ session('success') }}
@@ -442,7 +440,9 @@
                 <a href="{{ route('expenses.index') }}" class="btn-reset">Reset</a>
             </form>
             <a href="{{ route('expenses.export', request()->query()) }}" 
-   style="background:transparent;color:#6b7280;padding:8px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s;display:inline-flex;align-items:center;gap:6px">
+   style="background:transparent;color:#6b7280;padding:8px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s;display:inline-flex;align-items:center;gap:6px"
+   onmouseover="this.style.borderColor='#03A737';this.style.color='#03A737';this.style.background='#e6f7eb'"
+   onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#6b7280';this.style.background='transparent'">
     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
     </svg>
@@ -551,7 +551,7 @@
                         <div class="form-group" style="margin-bottom:16px">
                             <label class="form-label">Colour</label>
                             <div style="display:flex;align-items:center;gap:10px">
-                                <input type="color" name="color" value="#6366f1" class="color-input" />
+                                <input type="color" name="color" value="#03A737" class="color-input" />
                                 <span style="font-size:12px;color:#9ca3af;font-family:'Outfit',sans-serif">Pick a colour</span>
                             </div>
                         </div>
@@ -568,7 +568,7 @@
                             @php
                                 $total = $summary->total_expenses ?? 1;
                                 $pct   = $total > 0 ? round(($cat->total / $total) * 100) : 0;
-                                $color = $cat->category->color ?? '#6366f1';
+                                $color = $cat->category->color ?? '#03A737';
                             @endphp
                             <div class="category-breakdown-row">
                                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
@@ -578,7 +578,7 @@
                                             {{ $cat->category->name ?? 'Uncategorised' }}
                                         </span>
                                     </div>
-                                    <span class="mono" style="font-size:12px;font-weight:600;color:#111827">
+                                    <span class="mono" style="font-size:12px;font-weight:600;color:#02182F">
                                         KES {{ number_format($cat->total, 2) }}
                                         <span style="color:#9ca3af;font-weight:400;margin-left:4px">({{ $pct }}%)</span>
                                     </span>
@@ -617,7 +617,7 @@
                                         {{ $expense->expense_date->format('d M Y') }}
                                     </td>
                                     <td>
-                                        <div class="fw6" style="color:#111827">{{ $expense->title }}</div>
+                                        <div class="fw6" style="color:#02182F">{{ $expense->title }}</div>
                                         @if($expense->notes)
                                             <div style="font-size:11px;color:#9ca3af;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" 
                                                  title="{{ $expense->notes }}">

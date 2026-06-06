@@ -3,7 +3,7 @@
         <div class="flex items-center gap-4">
             <a href="{{ route('returns.index') }}" 
                style="display:flex;align-items:center;gap:6px;color:#9ca3af;font-size:13px;text-decoration:none;padding:6px 10px;border-radius:8px;border:1px solid #e4e7ef;font-family:'Outfit',sans-serif;transition:all .15s"
-               onmouseover="this.style.borderColor='#1a56db';this.style.color='#1a56db';this.style.background='#eff4ff'"
+               onmouseover="this.style.borderColor='#03A737';this.style.color='#03A737';this.style.background='#e6f7eb'"
                onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#9ca3af';this.style.background='transparent'">
                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -12,7 +12,7 @@
             </a>
             <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Finance</p>
-                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#02182F;line-height:1.2">
                     Process Return
                 </h1>
             </div>
@@ -22,8 +22,18 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
         
+        :root {
+            --brand-green: #03A737;
+            --brand-green-light: #e6f7eb;
+            --brand-green-dark: #028a2e;
+            --brand-blue: #3D7BE7;
+            --brand-blue-light: #edf3fd;
+            --brand-black: #02182F;
+            --brand-white: #FFFEFE;
+        }
+        
         .form-panel {
-            background: #ffffff;
+            background: var(--brand-white);
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             padding: 24px;
@@ -37,8 +47,8 @@
             width: 24px;
             height: 24px;
             border-radius: 6px;
-            background: #1a56db;
-            color: white;
+            background: var(--brand-green);
+            color: var(--brand-white);
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
             font-weight: 700;
@@ -50,7 +60,7 @@
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
             font-weight: 700;
-            color: #111827;
+            color: var(--brand-black);
             display: flex;
             align-items: center;
             margin-bottom: 16px;
@@ -78,15 +88,15 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
-            color: #111827;
+            color: var(--brand-black);
             background: #fafbff;
             transition: all 0.15s ease;
             outline: none;
         }
         .form-input:focus {
-            border-color: #1a56db;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: var(--brand-green);
+            background: var(--brand-white);
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         .form-input::placeholder { color: #c4c9d6; }
         
@@ -97,7 +107,7 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
-            color: #111827;
+            color: var(--brand-black);
             background: #fafbff;
             transition: all 0.15s ease;
             outline: none;
@@ -109,9 +119,9 @@
             cursor: pointer;
         }
         .form-select:focus {
-            border-color: #1a56db;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: var(--brand-green);
+            background-color: var(--brand-white);
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
         .form-textarea {
@@ -121,7 +131,7 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
-            color: #111827;
+            color: var(--brand-black);
             background: #fafbff;
             transition: all 0.15s ease;
             outline: none;
@@ -129,17 +139,17 @@
             min-height: 60px;
         }
         .form-textarea:focus {
-            border-color: #1a56db;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: var(--brand-green);
+            background: var(--brand-white);
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
         
         .btn-primary {
-            background: #1a56db;
-            color: white;
+            background: var(--brand-green);
+            color: var(--brand-white);
             padding: 10px 20px;
             border-radius: 10px;
             font-size: 13px;
@@ -147,18 +157,18 @@
             font-family: 'Outfit', sans-serif;
             border: none;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
+            box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
             transition: all 0.15s;
         }
         .btn-primary:hover {
-            background: #1e40af;
-            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.35);
+            background: var(--brand-green-dark);
+            box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35);
             transform: translateY(-1px);
         }
         
         .btn-return {
             background: #dc2626;
-            color: white;
+            color: var(--brand-white);
             padding: 12px 28px;
             border-radius: 10px;
             font-size: 14px;
@@ -195,8 +205,8 @@
         }
         
         .sale-found {
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
+            background: var(--brand-green-light);
+            border: 1px solid #b8e6c4;
             border-radius: 10px;
             padding: 14px 18px;
             margin-bottom: 16px;
@@ -245,15 +255,15 @@
             border-radius: 8px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 13px;
-            color: #111827;
+            color: var(--brand-black);
             background: #fafbff;
             text-align: center;
             transition: all 0.15s;
             outline: none;
         }
         .qty-input:focus {
-            border-color: #1a56db;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: var(--brand-green);
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
         .checkbox-custom {
@@ -262,15 +272,15 @@
             height: 16px;
             border: 1.5px solid #d1d5db;
             border-radius: 4px;
-            background: #ffffff;
+            background: var(--brand-white);
             cursor: pointer;
             transition: all 0.15s;
             position: relative;
             flex-shrink: 0;
         }
         .checkbox-custom:checked {
-            background: #1a56db;
-            border-color: #1a56db;
+            background: var(--brand-green);
+            border-color: var(--brand-green);
         }
         .checkbox-custom:checked::after {
             content: '';
@@ -290,6 +300,17 @@
             color: #dc2626;
             margin-top: 6px;
         }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+        }
+        .badge-green { background: #e6f7eb; color: #028a2e; }
     </style>
 
     <div style="padding:0 0 20px">
@@ -323,24 +344,22 @@
 
             {{-- Step 2 & 3: Process Return --}}
             @if($sale)
-                {{-- Sale Found --}}
                 <div class="sale-found">
                     <div>
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#15803d">{{ $sale->invoice_no }}</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#028a2e">{{ $sale->invoice_no }}</div>
                         <div style="font-size:12px;color:#6b7280;margin-top:2px">
                             {{ $sale->created_at->format('d M Y, h:i A') }} ·
                             {{ $sale->customer->name ?? 'Walk-in Customer' }} ·
                             KES {{ number_format($sale->total, 2) }}
                         </div>
                     </div>
-                    <span class="badge" style="background:#dcfce7;color:#15803d;font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;font-family:'Outfit',sans-serif">Found</span>
+                    <span class="badge badge-green">Found</span>
                 </div>
 
                 <form method="POST" action="{{ route('returns.store') }}">
                     @csrf
                     <input type="hidden" name="sale_id" value="{{ $sale->id }}" />
 
-                    {{-- Step 2: Select Items --}}
                     <div class="form-panel" style="padding:0;overflow:hidden">
                         <div style="padding:18px 24px;border-bottom:1px solid #f1f3f8">
                             <div class="section-title" style="margin-bottom:0">
@@ -364,7 +383,7 @@
                                     <tr>
                                         <td>
                                             <input type="hidden" name="items[{{ $i }}][sale_item_id]" value="{{ $item->id }}" />
-                                            <span class="fw6" style="color:#111827">{{ $item->product_name }}</span>
+                                            <span class="fw6" style="color:#02182F">{{ $item->product_name }}</span>
                                         </td>
                                         <td style="font-size:12px;color:#6b7280">{{ $item->qty }}</td>
                                         <td class="mono" style="font-size:12px;color:#6b7280">KES {{ number_format($item->unit_price, 2) }}</td>
@@ -379,7 +398,7 @@
                                                 Return to stock
                                             </label>
                                         </td>
-                                        <td class="mono fw6" style="text-align:right;font-size:13px;color:#111827"
+                                        <td class="mono fw6" style="text-align:right;font-size:13px;color:#02182F"
                                             id="refund-{{ $i }}" data-price="{{ $item->unit_price }}">
                                             KES 0.00
                                         </td>
@@ -388,7 +407,7 @@
                             </tbody>
                             <tfoot>
                                 <tr style="background:#fafbff">
-                                    <td colspan="5" style="text-align:right;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:#111827">
+                                    <td colspan="5" style="text-align:right;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:#02182F">
                                         Total Refund:
                                     </td>
                                     <td class="mono fw7" style="text-align:right;font-size:18px;color:#dc2626" id="total-refund">
@@ -399,7 +418,6 @@
                         </table>
                     </div>
 
-                    {{-- Step 3: Return Details --}}
                     <div class="form-panel">
                         <div class="section-title">
                             <span class="step-badge">3</span>

@@ -3,12 +3,14 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Inventory</p>
-                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#02182F;line-height:1.2">
                     Stock Management
                 </h1>
             </div>
             <a href="{{ route('stock.history') }}"
-               style="background:transparent;color:#6b7280;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s">
+               style="background:transparent;color:#6b7280;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s"
+               onmouseover="this.style.borderColor='#03A737';this.style.color='#03A737';this.style.background='#e6f7eb'"
+               onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#6b7280';this.style.background='transparent'">
                 View History
             </a>
         </div>
@@ -16,6 +18,16 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        
+        :root {
+            --brand-green: #03A737;
+            --brand-green-light: #e6f7eb;
+            --brand-green-dark: #028a2e;
+            --brand-blue: #3D7BE7;
+            --brand-blue-light: #edf3fd;
+            --brand-black: #02182F;
+            --brand-white: #FFFEFE;
+        }
         
         .dash-wrap { display: flex; flex-direction: column; gap: 20px; }
         
@@ -48,6 +60,7 @@
             font-weight: 700;
             line-height: 1;
             margin-bottom: 6px;
+            color: #02182F;
         }
         .stat-card-sub {
             font-family: 'Outfit', sans-serif;
@@ -66,36 +79,32 @@
         }
         .stat-icon svg { width: 18px; height: 18px; }
         
-        .card-blue   { background: #eff4ff; border-color: #c7d7fb; }
-        .card-blue   .stat-card-label  { color: #3b5fd6; }
-        .card-blue   .stat-card-value  { color: #1a3fad; }
-        .card-blue   .stat-card-sub    { color: #6b85d6; }
-        .card-blue   .stat-icon        { background: #dbeafe; }
-        .card-blue   .stat-icon svg    { color: #1a56db; }
+        .card-blue   { background: #edf3fd; border-color: #c4d9fb; }
+        .card-blue   .stat-card-label  { color: #2b5fc4; }
+        .card-blue   .stat-card-sub    { color: #3D7BE7; }
+        .card-blue   .stat-icon        { background: #dbe8fc; }
+        .card-blue   .stat-icon svg    { color: #3D7BE7; }
         
         .card-yellow { background: #fffbeb; border-color: #fde68a; }
         .card-yellow .stat-card-label  { color: #a16207; }
-        .card-yellow .stat-card-value  { color: #854d0e; }
         .card-yellow .stat-card-sub    { color: #ca8a04; }
         .card-yellow .stat-icon        { background: #fef3c7; }
         .card-yellow .stat-icon svg    { color: #d97706; }
         
-        .card-red    { background: #fff1f2; border-color: #fecdd3; }
+        .card-red    { background: #fef2f2; border-color: #fecdd3; }
         .card-red    .stat-card-label  { color: #be123c; }
-        .card-red    .stat-card-value  { color: #881337; }
         .card-red    .stat-card-sub    { color: #e11d48; }
         .card-red    .stat-icon        { background: #ffe4e6; }
         .card-red    .stat-icon svg    { color: #e11d48; }
         
-        .card-teal   { background: #f0fdfa; border-color: #99f6e4; }
-        .card-teal   .stat-card-label  { color: #0f766e; }
-        .card-teal   .stat-card-value  { color: #134e4a; }
-        .card-teal   .stat-card-sub    { color: #2dd4bf; }
-        .card-teal   .stat-icon        { background: #ccfbf1; }
-        .card-teal   .stat-icon svg    { color: #0d9488; }
+        .card-green  { background: #e6f7eb; border-color: #b8e6c4; }
+        .card-green  .stat-card-label  { color: #028a2e; }
+        .card-green  .stat-card-sub    { color: #03A737; }
+        .card-green  .stat-icon        { background: #ccf4d6; }
+        .card-green  .stat-icon svg    { color: #03A737; }
         
         .panel {
-            background: #ffffff;
+            background: var(--brand-white);
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             overflow: hidden;
@@ -111,14 +120,14 @@
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
             font-weight: 700;
-            color: #111827;
+            color: #02182F;
         }
         
         .two-col { display: grid; grid-template-columns: 360px 1fr; gap: 16px; }
         @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
         
         .form-panel {
-            background: #ffffff;
+            background: var(--brand-white);
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             padding: 24px;
@@ -136,9 +145,7 @@
             border-bottom: 1px solid #f1f3f8;
         }
         
-        .form-group {
-            margin-bottom: 14px;
-        }
+        .form-group { margin-bottom: 14px; }
         
         .form-label {
             font-family: 'Outfit', sans-serif;
@@ -158,15 +165,15 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
-            color: #111827;
+            color: var(--brand-black);
             background: #fafbff;
             transition: all 0.15s ease;
             outline: none;
         }
         .form-input:focus {
-            border-color: #1a56db;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: var(--brand-green);
+            background: var(--brand-white);
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         .form-input::placeholder { color: #c4c9d6; }
         
@@ -177,7 +184,7 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
-            color: #111827;
+            color: var(--brand-black);
             background: #fafbff;
             transition: all 0.15s ease;
             outline: none;
@@ -189,9 +196,9 @@
             cursor: pointer;
         }
         .form-select:focus {
-            border-color: #1a56db;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: var(--brand-green);
+            background-color: var(--brand-white);
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
         .form-textarea {
@@ -201,7 +208,7 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
-            color: #111827;
+            color: var(--brand-black);
             background: #fafbff;
             transition: all 0.15s ease;
             outline: none;
@@ -209,16 +216,16 @@
             min-height: 60px;
         }
         .form-textarea:focus {
-            border-color: #1a56db;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: var(--brand-green);
+            background: var(--brand-white);
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
         .btn-primary {
             width: 100%;
             padding: 11px 20px;
-            background: #1a56db;
-            color: white;
+            background: var(--brand-green);
+            color: var(--brand-white);
             border: none;
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
@@ -226,12 +233,12 @@
             font-weight: 600;
             letter-spacing: 0.01em;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
+            box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
             transition: all 0.15s;
         }
         .btn-primary:hover {
-            background: #1e40af;
-            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.35);
+            background: var(--brand-green-dark);
+            box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35);
             transform: translateY(-1px);
         }
         
@@ -267,7 +274,7 @@
             border-radius: 50%;
             margin-right: 6px;
         }
-        .stock-dot.green  { background: #22c55e; }
+        .stock-dot.green  { background: #03A737; }
         .stock-dot.yellow { background: #eab308; }
         .stock-dot.red    { background: #ef4444; }
         
@@ -280,7 +287,7 @@
             font-weight: 600;
             font-family: 'Outfit', sans-serif;
         }
-        .badge-green  { background: #dcfce7; color: #15803d; }
+        .badge-green  { background: #e6f7eb; color: #028a2e; }
         .badge-yellow { background: #fef9c3; color: #a16207; }
         .badge-red    { background: #fee2e2; color: #b91c1c; }
         
@@ -304,8 +311,8 @@
 
         {{-- Flash Messages --}}
         @if(session('success'))
-            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;font-family:'Outfit',sans-serif;font-size:13px;color:#15803d;font-weight:500;display:flex;align-items:center;gap:10px">
-                <svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24">
+            <div style="background:#e6f7eb;border:1px solid #b8e6c4;border-radius:10px;padding:14px 18px;font-family:'Outfit',sans-serif;font-size:13px;color:#028a2e;font-weight:500;display:flex;align-items:center;gap:10px">
+                <svg width="16" height="16" fill="none" stroke="#03A737" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 {{ session('success') }}
@@ -355,7 +362,7 @@
                 <div class="stat-card-sub">Urgent attention needed</div>
             </div>
 
-            <div class="stat-card card-teal">
+            <div class="stat-card card-green">
                 <div class="stat-icon">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
@@ -444,7 +451,7 @@
                                 @endphp
                                 <tr>
                                     <td>
-                                        <div class="fw6" style="color:#111827">{{ $product->name }}</div>
+                                        <div class="fw6" style="color:#02182F">{{ $product->name }}</div>
                                         @if($product->sku)
                                             <div class="mono" style="font-size:11px;color:#9ca3af">{{ $product->sku }}</div>
                                         @endif
@@ -453,7 +460,7 @@
                                         {{ $product->category->name ?? '—' }}
                                     </td>
                                     <td>
-                                        <span class="mono fw7" style="font-size:15px;color:{{ $stockStatus === 'red' ? '#dc2626' : ($stockStatus === 'yellow' ? '#d97706' : '#111827') }}">
+                                        <span class="mono fw7" style="font-size:15px;color:{{ $stockStatus === 'red' ? '#dc2626' : ($stockStatus === 'yellow' ? '#d97706' : '#02182F') }}">
                                             {{ $product->stock_qty }}
                                         </span>
                                     </td>
@@ -480,7 +487,7 @@
                         </svg>
                         <p style="font-family:'Outfit',sans-serif;font-size:14px;color:#9ca3af;margin-bottom:6px">No tracked products found</p>
                         <a href="{{ route('products.create') }}" 
-                           style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:#1a56db;text-decoration:none">
+                           style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:#03A737;text-decoration:none">
                             Add products with stock tracking →
                         </a>
                     </div>

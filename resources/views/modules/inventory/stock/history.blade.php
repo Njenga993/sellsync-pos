@@ -3,7 +3,7 @@
         <div class="flex items-center gap-4">
             <a href="{{ route('stock.index') }}" 
                style="display:flex;align-items:center;gap:6px;color:#9ca3af;font-size:13px;text-decoration:none;padding:6px 10px;border-radius:8px;border:1px solid #e4e7ef;font-family:'Outfit',sans-serif;transition:all .15s"
-               onmouseover="this.style.borderColor='#1a56db';this.style.color='#1a56db';this.style.background='#eff4ff'"
+               onmouseover="this.style.borderColor='#03A737';this.style.color='#03A737';this.style.background='#e6f7eb'"
                onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#9ca3af';this.style.background='transparent'">
                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -12,7 +12,7 @@
             </a>
             <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Inventory</p>
-                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#02182F;line-height:1.2">
                     Stock Movement History
                 </h1>
             </div>
@@ -25,7 +25,7 @@
         .dash-wrap { display: flex; flex-direction: column; gap: 20px; }
         
         .filter-bar {
-            background: #ffffff;
+            background: #FFFEFE;
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             padding: 18px 22px;
@@ -56,7 +56,7 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
-            color: #111827;
+            color: #02182F;
             background: #fafbff;
             transition: all 0.15s;
             outline: none;
@@ -69,27 +69,27 @@
             min-width: 160px;
         }
         .filter-select:focus {
-            border-color: #1a56db;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: #03A737;
+            background-color: #FFFEFE;
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
         .btn-filter {
             padding: 8px 18px;
-            background: #1a56db;
-            color: white;
+            background: #03A737;
+            color: #FFFEFE;
             border: none;
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
+            box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
             transition: all 0.15s;
         }
         .btn-filter:hover {
-            background: #1e40af;
-            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.35);
+            background: #028a2e;
+            box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35);
         }
         
         .btn-reset {
@@ -106,13 +106,13 @@
             display: inline-block;
         }
         .btn-reset:hover {
-            border-color: #1a56db;
-            color: #1a56db;
-            background: #eff4ff;
+            border-color: #03A737;
+            color: #03A737;
+            background: #e6f7eb;
         }
         
         .panel {
-            background: #ffffff;
+            background: #FFFEFE;
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             overflow: hidden;
@@ -128,7 +128,7 @@
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
             font-weight: 700;
-            color: #111827;
+            color: #02182F;
         }
         .panel-meta {
             font-family: 'Outfit', sans-serif;
@@ -172,18 +172,18 @@
             font-weight: 600;
             font-family: 'Outfit', sans-serif;
         }
-        .badge-green  { background: #dcfce7; color: #15803d; }
+        .badge-green  { background: #e6f7eb; color: #028a2e; }
         .badge-red    { background: #fee2e2; color: #b91c1c; }
-        .badge-blue   { background: #dbeafe; color: #1d4ed8; }
+        .badge-blue   { background: #edf3fd; color: #2b5fc4; }
         .badge-yellow { background: #fef9c3; color: #a16207; }
         .badge-purple { background: #f3e8ff; color: #7c3aed; }
         
         .mono { font-family: 'JetBrains Mono', monospace; }
         .fw6 { font-weight: 600; }
         .fw7 { font-weight: 700; }
-        .text-brand { color: #1a56db; }
+        .text-brand { color: #03A737; }
         
-        .qty-positive { color: #16a34a; }
+        .qty-positive { color: #03A737; }
         .qty-negative { color: #dc2626; }
         
         .empty-state {
@@ -275,7 +275,7 @@
                                         <div class="mono" style="font-size:11px;color:#9ca3af">{{ $movement->created_at->format('h:i A') }}</div>
                                     </td>
                                     <td>
-                                        <div class="fw6" style="color:#111827">
+                                        <div class="fw6" style="color:#02182F">
                                             {{ $movement->product->name ?? '—' }}
                                         </div>
                                         @if($movement->product->sku ?? false)
@@ -295,7 +295,7 @@
                                         </span>
                                     </td>
                                     <td class="mono" style="font-size:12px;color:#6b7280">{{ $movement->before_qty }}</td>
-                                    <td class="mono fw6" style="font-size:13px;color:#111827">{{ $movement->after_qty }}</td>
+                                    <td class="mono fw6" style="font-size:13px;color:#02182F">{{ $movement->after_qty }}</td>
                                     <td>
                                         <div style="font-size:12px;color:#374151">{{ $movement->reference ?? '—' }}</div>
                                         @if($movement->notes)

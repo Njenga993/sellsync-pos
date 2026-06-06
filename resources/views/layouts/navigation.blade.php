@@ -1,22 +1,22 @@
 <nav style="
     position:fixed; left:0; top:0; width:260px; height:100vh;
-    background:#ffffff; border-right:1px solid #e4e7ef;
+    background:#FFFEFE; border-right:1px solid #e4e7ef;
     display:flex; flex-direction:column; overflow-y:auto;
     z-index:50; font-family:'Outfit',sans-serif;
     box-shadow:1px 0 0 #f1f3f8;
 " id="pos-sidebar">
 
     {{-- Logo / Brand --}}
-    <div style="padding:22px 20px 18px;border-bottom:1px solid #f1f3f8">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-            <div style="width:38px;height:38px;background:#eff4ff;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                <svg width="20" height="20" fill="none" stroke="#1a56db" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-                </svg>
+    <div style="padding:24px 20px 20px;border-bottom:1px solid #f1f3f8">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+            <div style="flex-shrink:0">
+                <img src="{{ asset('images/sellsyncLogo.png') }}" 
+                     alt="SellSync-POS" 
+                     style="width:64px;height:64px;object-fit:contain;display:block">
             </div>
             <div>
-                <div style="font-size:16px;font-weight:700;color:#111827;line-height:1">SellSync</div>
-                <div style="font-size:11px;color:#9ca3af;margin-top:2px;font-weight:500;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em">POS</div>
+                <div style="font-size:17px;font-weight:700;color:#02182F;line-height:1">SellSync</div>
+                <div style="font-size:11px;color:#03A737;margin-top:3px;font-weight:600;font-family:'JetBrains Mono',monospace;letter-spacing:0.08em">POS</div>
             </div>
         </div>
         <div style="font-size:11px;color:#9ca3af;font-weight:500">{{ auth()->user()->tenant->name ?? 'Your Store' }}</div>
@@ -29,9 +29,9 @@
 if (!function_exists('navItem')) {
     function navItem($route, $label, $icon, $match = null) {
         $active = $match ? request()->routeIs($match) : request()->routeIs($route);
-        $bg     = $active ? 'background:#eff4ff' : '';
-        $color  = $active ? 'color:#1a56db;font-weight:600' : 'color:#4b5563;font-weight:500';
-        $bar    = $active ? '<span style="position:absolute;left:0;top:20%;height:60%;width:3px;background:#1a56db;border-radius:0 3px 3px 0"></span>' : '';
+        $bg     = $active ? 'background:#e6f7eb' : '';
+        $color  = $active ? 'color:#03A737;font-weight:600' : 'color:#4b5563;font-weight:500';
+        $bar    = $active ? '<span style="position:absolute;left:0;top:20%;height:60%;width:3px;background:#03A737;border-radius:0 3px 3px 0"></span>' : '';
         $url    = route($route);
         return "
         <a href=\"{$url}\" style=\"display:flex;align-items:center;gap:11px;padding:9px 14px;border-radius:10px;text-decoration:none;font-size:13.5px;transition:all .12s;position:relative;{$bg};{$color}\">
@@ -168,11 +168,11 @@ if (!function_exists('navItem')) {
     {{-- Footer / User --}}
     <div style="padding:14px 16px 16px;border-top:1px solid #f1f3f8;margin-top:auto">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-            <div style="width:36px;height:36px;background:#1a56db;border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px;flex-shrink:0">
+            <div style="width:36px;height:36px;background:#03A737;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#FFFEFE;font-weight:700;font-size:13px;flex-shrink:0">
                 {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
             </div>
             <div style="flex:1;min-width:0">
-                <div style="font-size:13px;font-weight:600;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ auth()->user()->name }}</div>
+                <div style="font-size:13px;font-weight:600;color:#02182F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ auth()->user()->name }}</div>
                 <div style="font-size:11px;color:#9ca3af;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ auth()->user()->email }}</div>
             </div>
         </div>

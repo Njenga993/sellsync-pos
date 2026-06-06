@@ -4,7 +4,25 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>SellSync-POS — Smart Point of Sale</title>
+        {{-- SEO Meta Tags --}}
+        <title>SellSync-POS — Smart Point of Sale for African Retailers</title>
+        <meta name="description" content="SellSync-POS is a powerful point of sale system for retail shops, supermarkets, pharmacies, and restaurants. Manage sales, inventory, customers, and reports all in one place.">
+        <meta name="keywords" content="POS system, point of sale, retail POS, inventory management, sales tracking, Kenya POS, African POS, supermarket POS, pharmacy POS">
+        <meta name="author" content="SellSync-POS">
+        <meta name="robots" content="index, follow">
+        <link rel="canonical" href="https://sellsync-pos-production.up.railway.app">
+        
+        {{-- Open Graph / Social --}}
+        <meta property="og:title" content="SellSync-POS — Smart Point of Sale for African Retailers">
+        <meta property="og:description" content="Manage sales, inventory, customers, and reports all in one powerful POS system.">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://sellsync-pos-production.up.railway.app">
+        <meta property="og:image" content="{{ asset('images/sellsync-og.png') }}">
+        
+        {{-- Twitter Card --}}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="SellSync-POS — Smart Point of Sale">
+        <meta name="twitter:description" content="Manage sales, inventory, customers, and reports all in one powerful POS system.">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -17,31 +35,39 @@
         @else
             <style>
                 /*! tailwindcss v4.0.7 | MIT License | https://tailwindcss.com */
-                /* [Keeping your existing Tailwind base styles here - they remain the same] */
             </style>
         @endif
 
         <style>
-            /* SellSync-POS Brand Styles */
+            /* ══════════════════════════════════════
+               SELLSYNC-POS BRAND COLORS
+               Green: #03A737 | White: #FFFEFE | Black: #02182F | Blue: #3D7BE7
+            ══════════════════════════════════════ */
             :root {
-                --brand-blue: #1a56db;
-                --brand-blue-light: #eff4ff;
-                --brand-blue-dark: #1a3fad;
-                --brand-teal: #0d9488;
-                --brand-teal-light: #f0fdfa;
-                --brand-indigo: #7c3aed;
-                --brand-indigo-light: #f5f3ff;
-                --brand-green: #16a34a;
-                --brand-green-light: #f0fdf4;
+                --brand-green: #03A737;
+                --brand-green-light: #e6f7eb;
+                --brand-green-dark: #028a2e;
+                --brand-blue: #3D7BE7;
+                --brand-blue-light: #edf3fd;
+                --brand-blue-dark: #2b5fc4;
+                --brand-black: #02182F;
+                --brand-black-light: #f0f2f5;
+                --brand-white: #FFFEFE;
                 --brand-red: #dc2626;
                 --brand-red-light: #fef2f2;
+                --brand-yellow: #d97706;
+                --brand-yellow-light: #fffbeb;
+                --text-1: #02182F;
+                --text-2: #4b5563;
+                --text-3: #9ca3af;
+                --border: #e4e7ef;
             }
 
             * { box-sizing: border-box; }
 
             body {
                 font-family: 'Outfit', sans-serif;
-                background: linear-gradient(135deg, #fafbff 0%, #eff4ff 100%);
+                background: linear-gradient(160deg, #FFFEFE 0%, #e6f7eb 50%, #edf3fd 100%);
                 margin: 0;
                 min-height: 100vh;
             }
@@ -72,10 +98,15 @@
                 align-items: center;
                 gap: 12px;
             }
+
+            @media(min-width: 640px) { 
+    .logo-img { width: 48px; height: 48px; } 
+}
+
             .logo-icon {
                 width: 38px;
                 height: 38px;
-                background: #eff4ff;
+                background: var(--brand-green);
                 border-radius: 10px;
                 display: flex;
                 align-items: center;
@@ -86,7 +117,7 @@
             .logo-icon svg {
                 width: 20px;
                 height: 20px;
-                color: #1a56db;
+                color: var(--brand-white);
             }
             @media(min-width: 640px) { .logo-icon svg { width: 22px; height: 22px; } }
 
@@ -94,7 +125,7 @@
                 font-family: 'Outfit', sans-serif;
                 font-size: 18px;
                 font-weight: 700;
-                color: #111827;
+                color: var(--brand-black);
                 line-height: 1;
             }
             @media(min-width: 640px) { .logo-text { font-size: 20px; } }
@@ -102,9 +133,9 @@
             .logo-sub {
                 font-family: 'JetBrains Mono', monospace;
                 font-size: 10px;
-                color: #6b7280;
-                font-weight: 500;
-                letter-spacing: 0.05em;
+                color: var(--brand-green);
+                font-weight: 600;
+                letter-spacing: 0.08em;
             }
             @media(min-width: 640px) { .logo-sub { font-size: 11px; } }
 
@@ -118,8 +149,8 @@
 
             /* ── Buttons ── */
             .btn-primary {
-                background: #1a56db;
-                color: white;
+                background: var(--brand-green);
+                color: var(--brand-white);
                 padding: 9px 18px;
                 border-radius: 10px;
                 font-size: 12px;
@@ -127,21 +158,21 @@
                 text-decoration: none;
                 font-family: 'Outfit', sans-serif;
                 letter-spacing: 0.01em;
-                box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
+                box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
                 transition: all 0.15s;
                 display: inline-block;
                 white-space: nowrap;
             }
             @media(min-width: 640px) { .btn-primary { padding: 10px 22px; font-size: 13px; } }
             .btn-primary:hover {
-                background: #1e40af;
-                box-shadow: 0 4px 12px rgba(26, 86, 219, 0.35);
+                background: var(--brand-green-dark);
+                box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35);
                 transform: translateY(-1px);
             }
 
             .btn-secondary {
                 background: transparent;
-                color: #1a56db;
+                color: var(--brand-green);
                 padding: 9px 18px;
                 border-radius: 10px;
                 font-size: 12px;
@@ -149,14 +180,14 @@
                 text-decoration: none;
                 font-family: 'Outfit', sans-serif;
                 letter-spacing: 0.01em;
-                border: 1.5px solid #1a56db;
+                border: 1.5px solid var(--brand-green);
                 transition: all 0.15s;
                 display: inline-block;
                 white-space: nowrap;
             }
             @media(min-width: 640px) { .btn-secondary { padding: 10px 22px; font-size: 13px; } }
             .btn-secondary:hover {
-                background: #eff4ff;
+                background: var(--brand-green-light);
             }
 
             .btn-hero {
@@ -177,7 +208,7 @@
                 display: inline-flex;
                 align-items: center;
                 gap: 8px;
-                background: #eff4ff;
+                background: var(--brand-green-light);
                 padding: 5px 14px;
                 border-radius: 99px;
                 margin-bottom: 16px;
@@ -187,14 +218,14 @@
                 width: 7px;
                 height: 7px;
                 border-radius: 50%;
-                background: #1a56db;
+                background: var(--brand-green);
                 display: inline-block;
             }
             @media(min-width: 640px) { .hero-badge-dot { width: 8px; height: 8px; } }
             .hero-badge-text {
                 font-size: 10px;
                 font-weight: 600;
-                color: #1a56db;
+                color: var(--brand-green);
                 font-family: 'Outfit', sans-serif;
                 letter-spacing: 0.02em;
             }
@@ -204,7 +235,7 @@
                 font-family: 'Outfit', sans-serif;
                 font-size: 28px;
                 font-weight: 700;
-                color: #111827;
+                color: var(--brand-black);
                 line-height: 1.15;
                 margin-bottom: 12px;
             }
@@ -215,7 +246,7 @@
             .hero-subtitle {
                 font-family: 'Outfit', sans-serif;
                 font-size: 14px;
-                color: #6b7280;
+                color: var(--text-2);
                 line-height: 1.6;
                 max-width: 560px;
                 margin: 0 auto 20px;
@@ -243,18 +274,18 @@
             @media(min-width: 768px) { .features-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
 
             .brand-card {
-                background: #ffffff;
-                border: 1px solid #e4e7ef;
+                background: var(--brand-white);
+                border: 1px solid var(--border);
                 border-radius: 14px;
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+                box-shadow: 0 1px 3px rgba(2, 24, 47, 0.04);
                 transition: all 0.15s ease;
                 padding: 20px 16px;
                 text-align: center;
             }
             @media(min-width: 768px) { .brand-card { padding: 24px 20px; } }
             .brand-card:hover {
-                border-color: #1a56db;
-                box-shadow: 0 4px 12px rgba(26, 86, 219, 0.1);
+                border-color: var(--brand-green);
+                box-shadow: 0 4px 12px rgba(3, 167, 55, 0.1);
             }
 
             .feature-icon {
@@ -273,41 +304,45 @@
             }
             @media(min-width: 768px) { .feature-icon svg { width: 24px; height: 24px; } }
 
-            .icon-blue { background: #eff4ff; }
-            .icon-blue svg { color: #1a56db; }
-            .icon-teal { background: #f0fdfa; }
-            .icon-teal svg { color: #0d9488; }
-            .icon-indigo { background: #f5f3ff; }
-            .icon-indigo svg { color: #7c3aed; }
-            .icon-green { background: #f0fdf4; }
-            .icon-green svg { color: #16a34a; }
+            .icon-green { background: var(--brand-green-light); }
+            .icon-green svg { color: var(--brand-green); }
+            .icon-blue { background: var(--brand-blue-light); }
+            .icon-blue svg { color: var(--brand-blue); }
+            .icon-black { background: var(--brand-black-light); }
+            .icon-black svg { color: var(--brand-black); }
+            .icon-yellow { background: var(--brand-yellow-light); }
+            .icon-yellow svg { color: var(--brand-yellow); }
 
             .feature-title {
                 font-family: 'Outfit', sans-serif;
                 font-size: 13px;
                 font-weight: 700;
-                color: #111827;
+                color: var(--brand-black);
                 margin-bottom: 4px;
             }
+
+            @media(min-width: 640px) { 
+    .logo-img { width: 80px !important; height: 80px !important; } 
+}
             @media(min-width: 768px) { .feature-title { font-size: 14px; margin-bottom: 6px; } }
 
             .feature-desc {
                 font-family: 'Outfit', sans-serif;
                 font-size: 11px;
-                color: #9ca3af;
+                color: var(--text-3);
                 line-height: 1.5;
             }
             @media(min-width: 768px) { .feature-desc { font-size: 12px; } }
 
             /* ── Bottom CTA ── */
             .cta-card {
-                background: #ffffff;
-                border: 1px solid #c7d7fb;
+                background: var(--brand-white);
+                border: 1px solid #b8e6c4;
                 border-radius: 14px;
                 padding: 22px 20px;
                 text-align: center;
-                background: linear-gradient(135deg, #eff4ff 0%, #f0fdfa 100%);
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+                background: linear-gradient(135deg, var(--brand-green-light) 0%, var(--brand-blue-light) 100%);
+                box-shadow: 0 1px 3px rgba(2, 24, 47, 0.04);
             }
             @media(min-width: 640px) { .cta-card { padding: 28px 32px; } }
 
@@ -315,7 +350,7 @@
                 font-family: 'Outfit', sans-serif;
                 font-size: 15px;
                 font-weight: 700;
-                color: #111827;
+                color: var(--brand-black);
                 margin-bottom: 6px;
             }
             @media(min-width: 640px) { .cta-title { font-size: 16px; margin-bottom: 8px; } }
@@ -323,7 +358,7 @@
             .cta-desc {
                 font-family: 'Outfit', sans-serif;
                 font-size: 12px;
-                color: #6b7280;
+                color: var(--text-2);
                 margin-bottom: 14px;
             }
             @media(min-width: 640px) { .cta-desc { font-size: 13px; margin-bottom: 16px; } }
@@ -331,7 +366,7 @@
             .cta-note {
                 font-family: 'Outfit', sans-serif;
                 font-size: 10px;
-                color: #9ca3af;
+                color: var(--text-3);
                 margin-top: 8px;
             }
             @media(min-width: 640px) { .cta-note { font-size: 11px; margin-top: 10px; } }
@@ -345,7 +380,7 @@
             .welcome-footer p {
                 font-family: 'Outfit', sans-serif;
                 font-size: 11px;
-                color: #9ca3af;
+                color: var(--text-3);
             }
             @media(min-width: 640px) { .welcome-footer p { font-size: 12px; } }
         </style>
@@ -357,16 +392,17 @@
             <header class="welcome-header">
                 {{-- Logo --}}
                 <div class="logo-wrap">
-                    <div class="logo-icon">
-                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="logo-text">SellSync</div>
-                        <div class="logo-sub">POS</div>
-                    </div>
-                </div>
+    <div style="width:auto;height:auto">
+        <img src="{{ asset('images/sellsyncLogo.png') }}" 
+             alt="SellSync-POS Logo" 
+             style="width:60px;height:60px;object-fit:contain"
+             class="logo-img">
+    </div>
+    <div>
+        <div class="logo-text">SellSync</div>
+        <div class="logo-sub">POS</div>
+    </div>
+</div>
 
                 {{-- Auth Buttons --}}
                 @if (Route::has('login'))
@@ -391,11 +427,11 @@
                         <span class="hero-badge-text">SMART POS SYSTEM</span>
                     </div>
                     <h1 class="hero-title">
-                        Point of Sale.<br>Perfected.
+                        Point of Sale.<br>Built for Africa.
                     </h1>
                     <p class="hero-subtitle">
                         SellSync-POS gives you everything you need to run your retail business — 
-                        inventory, sales, customers, and reports — all in one beautiful dashboard.
+                        inventory, sales, customers, and reports — all in one powerful, easy-to-use dashboard.
                     </p>
                     <div class="hero-buttons">
                         @if (Route::has('register'))
@@ -409,7 +445,7 @@
                 <div class="features-grid">
                     {{-- POS Terminal --}}
                     <div class="brand-card">
-                        <div class="feature-icon icon-blue">
+                        <div class="feature-icon icon-green">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                             </svg>
@@ -420,7 +456,7 @@
 
                     {{-- Inventory --}}
                     <div class="brand-card">
-                        <div class="feature-icon icon-teal">
+                        <div class="feature-icon icon-blue">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                             </svg>
@@ -431,7 +467,7 @@
 
                     {{-- Customers --}}
                     <div class="brand-card">
-                        <div class="feature-icon icon-indigo">
+                        <div class="feature-icon icon-black">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                             </svg>
@@ -442,7 +478,7 @@
 
                     {{-- Reports --}}
                     <div class="brand-card">
-                        <div class="feature-icon icon-green">
+                        <div class="feature-icon icon-yellow">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                             </svg>

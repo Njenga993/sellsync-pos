@@ -13,23 +13,28 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --brand:       #1a56db;
-            --brand-dark:  #1348c4;
-            --brand-light: #eff4ff;
-            --brand-muted: #dbeafe;
+            --brand:       #03A737;
+            --brand-dark:  #028a2e;
+            --brand-light: #e6f7eb;
+            --brand-muted: #ccf4d6;
+
+            --blue:        #3D7BE7;
+            --blue-light:  #edf3fd;
+            --black:       #02182F;
+            --white:       #FFFEFE;
 
             --bg:          #f8f9fc;
-            --surface:     #ffffff;
+            --surface:     #FFFEFE;
             --surface-2:   #f1f3f8;
             --border:      #e4e7ef;
             --border-2:    #d0d5e8;
 
-            --text-1:      #111827;
+            --text-1:      #02182F;
             --text-2:      #4b5563;
             --text-3:      #9ca3af;
 
             --danger:      #dc2626;
-            --success:     #16a34a;
+            --success:     #03A737;
             --warning:     #d97706;
 
             --radius-sm:   8px;
@@ -37,8 +42,8 @@
             --radius-lg:   16px;
             --radius-xl:   20px;
 
-            --shadow-sm:   0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-            --shadow-md:   0 4px 12px rgba(0,0,0,.08);
+            --shadow-sm:   0 1px 3px rgba(2,24,47,.06), 0 1px 2px rgba(2,24,47,.04);
+            --shadow-md:   0 4px 12px rgba(2,24,47,.08);
         }
 
         body {
@@ -58,7 +63,7 @@
         .right-panel {
             width: 390px; display: flex; flex-direction: column;
             background: var(--surface); border-left: 1px solid var(--border);
-            box-shadow: -4px 0 20px rgba(0,0,0,.04);
+            box-shadow: -4px 0 20px rgba(2,24,47,.04);
         }
         @media(max-width:768px) {
             .right-panel { width: 100%; height: 45%; border-left: none; border-top: 1px solid var(--border); }
@@ -130,7 +135,7 @@
         .user-chip:hover { border-color: var(--brand); background: var(--brand-light); }
         .user-avatar {
             width: 24px; height: 24px; border-radius: 50%;
-            background: var(--brand); color: white;
+            background: var(--brand); color: var(--white);
             font-size: 9px; font-weight: 700;
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
@@ -144,8 +149,8 @@
 
         .user-dropdown {
             display: none; position: absolute; top: calc(100% + 6px); right: 0;
-            background: white; border: 1px solid var(--border); border-radius: var(--radius-md);
-            box-shadow: 0 12px 40px rgba(0,0,0,.12); z-index: 60; min-width: 180px;
+            background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-md);
+            box-shadow: 0 12px 40px rgba(2,24,47,.12); z-index: 60; min-width: 180px;
             padding: 6px; overflow: hidden;
         }
         .user-dropdown.show { display: block; }
@@ -177,7 +182,7 @@
         }
         @media(min-width:640px) { .cat-btn { padding: 6px 16px; font-size: 12px; } }
         .cat-btn:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
-        .cat-btn.active { background: var(--brand); border-color: var(--brand); color: white; font-weight: 600; }
+        .cat-btn.active { background: var(--brand); border-color: var(--brand); color: var(--white); font-weight: 600; }
 
         .product-grid-wrap { flex: 1; overflow-y: auto; padding: 14px 16px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
         @media(min-width:640px) { .product-grid-wrap { padding: 20px 24px; } }
@@ -224,7 +229,7 @@
         .stock-low { color: var(--warning); }
         .stock-out-badge {
             position: absolute; top: 6px; right: 6px;
-            background: var(--danger); color: white;
+            background: var(--danger); color: var(--white);
             font-size: 8px; font-weight: 700; padding: 2px 5px;
             border-radius: 99px; letter-spacing: .04em;
         }
@@ -249,7 +254,7 @@
         .cart-title { font-size: 14px; font-weight: 700; color: var(--text-1); }
         @media(min-width:640px) { .cart-title { font-size: 15px; } }
         .cart-badge {
-            background: var(--brand); color: white;
+            background: var(--brand); color: var(--white);
             font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px;
             transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             min-width: 18px; text-align: center;
@@ -390,7 +395,7 @@
         }
         .toggle-slider::before {
             content: ''; position: absolute; width: 16px; height: 16px;
-            left: 3px; top: 3px; background: white; border-radius: 50%;
+            left: 3px; top: 3px; background: var(--white); border-radius: 50%;
             transition: .2s; box-shadow: var(--shadow-sm);
         }
         @media(min-width:640px) { .toggle-slider::before { width: 18px; height: 18px; } }
@@ -410,8 +415,8 @@
         .pay-btn svg { width: 15px; height: 15px; }
         @media(min-width:640px) { .pay-btn svg { width: 18px; height: 18px; } }
         .pay-btn:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
-        .pay-btn.active { background: var(--brand); border-color: var(--brand); color: white; }
-        .pay-btn.active svg { color: white; }
+        .pay-btn.active { background: var(--brand); border-color: var(--brand); color: var(--white); }
+        .pay-btn.active svg { color: var(--white); }
 
         .amount-section { margin-bottom: 8px; }
         @media(min-width:640px) { .amount-section { margin-bottom: 10px; } }
@@ -463,25 +468,25 @@
 
         .complete-btn {
             width: 100%; padding: 12px; border-radius: var(--radius-md); border: none;
-            background: var(--brand); color: white;
+            background: var(--brand); color: var(--white);
             font-size: 14px; font-weight: 700; font-family: 'Outfit', sans-serif;
             cursor: pointer; letter-spacing: .01em; transition: all .2s;
-            box-shadow: 0 4px 12px rgba(26, 86, 219, .3);
+            box-shadow: 0 4px 12px rgba(3,167,55,.3);
         }
         @media(min-width:640px) { .complete-btn { padding: 14px; font-size: 15px; } }
-        .complete-btn:hover { background: var(--brand-dark); box-shadow: 0 6px 20px rgba(26, 86, 219, .4); transform: translateY(-1px); }
+        .complete-btn:hover { background: var(--brand-dark); box-shadow: 0 6px 20px rgba(3,167,55,.4); transform: translateY(-1px); }
         .complete-btn:active { transform: translateY(0); box-shadow: none; }
         .complete-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
 
         .modal-overlay {
             display: none; position: fixed; inset: 0; z-index: 100;
-            background: rgba(0,0,0,.35); backdrop-filter: blur(3px);
+            background: rgba(2,24,47,.35); backdrop-filter: blur(3px);
             align-items: center; justify-content: center;
         }
         .modal-overlay.show { display: flex; }
         .modal-card {
             background: var(--surface); border-radius: var(--radius-xl);
-            padding: 24px 20px; width: 90%; max-width: 360px; box-shadow: 0 24px 60px rgba(0,0,0,.18);
+            padding: 24px 20px; width: 90%; max-width: 360px; box-shadow: 0 24px 60px rgba(2,24,47,.18);
             border: 1px solid var(--border);
             animation: modalIn .22s cubic-bezier(.34,1.56,.64,1);
         }
@@ -489,8 +494,8 @@
         @keyframes modalIn { from { opacity:0; transform:scale(.88) translateY(12px); } to { opacity:1; transform:none; } }
 
         .modal-icon-wrap {
-            width: 56px; height: 56px; border-radius: 50%; border: 2px solid #bbf7d0;
-            background: #f0fdf4; display: flex; align-items: center; justify-content: center;
+            width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--brand-muted);
+            background: var(--brand-light); display: flex; align-items: center; justify-content: center;
             margin: 0 auto 14px;
         }
         @media(min-width:640px) { .modal-icon-wrap { width: 64px; height: 64px; margin-bottom: 18px; } }
@@ -527,7 +532,7 @@
         .modal-btn-outline:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
         .modal-btn-solid {
             flex: 1; padding: 10px; border-radius: var(--radius-md); border: none;
-            background: var(--brand); color: white;
+            background: var(--brand); color: var(--white);
             font-size: 12px; font-weight: 700;
             cursor: pointer; font-family: 'Outfit', sans-serif; transition: all .15s;
         }
@@ -536,7 +541,7 @@
 
         .toast {
             position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-            background: var(--text-1); color: white; padding: 10px 20px;
+            background: var(--text-1); color: var(--white); padding: 10px 20px;
             border-radius: var(--radius-md); font-size: 13px; font-weight: 500;
             z-index: 200; box-shadow: var(--shadow-md); white-space: nowrap;
             animation: toastIn .2s ease;
@@ -550,8 +555,6 @@
     </style>
 </head>
 <body>
-
-    
 
 <div id="pos-app">
 
@@ -634,7 +637,7 @@
         <div class="product-grid-wrap">
             <div class="product-grid" id="product-grid">
                 @php
-                    $iconColors = ['#1a56db','#0d9488','#7c3aed','#16a34a','#d97706','#dc2626','#0891b2','#4f46e5'];
+                    $iconColors = ['#03A737','#3D7BE7','#02182F','#03A737','#d97706','#dc2626','#3D7BE7','#02182F'];
                 @endphp
                 @foreach($products as $product)
                     @php 
@@ -666,7 +669,6 @@
 
                         @if($product->track_stock)
     @if($product->stock_qty <= 0)
-        {{-- Out of stock is already handled by the card class --}}
     @elseif($product->stock_qty <= $product->low_stock_alert)
         <div class="product-stock stock-low">Only {{ $product->stock_qty }} left</div>
     @else
@@ -786,7 +788,7 @@
             <div id="split-payment" style="display:none">
                 <div class="split-box">
                     <div class="split-row-inp">
-                        <svg fill="none" stroke="#16a34a" stroke-width="1.5" viewBox="0 0 24 24">
+                        <svg fill="none" stroke="#03A737" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                         <span class="split-lbl">Cash</span>
@@ -794,7 +796,7 @@
                             placeholder="0.00" min="0" step="0.01" oninput="updateSplitChange()" />
                     </div>
                     <div class="split-row-inp">
-                        <svg fill="none" stroke="#1a56db" stroke-width="1.5" viewBox="0 0 24 24">
+                        <svg fill="none" stroke="#3D7BE7" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
                         </svg>
                         <span class="split-lbl">Card</span>
@@ -802,7 +804,7 @@
                             placeholder="0.00" min="0" step="0.01" oninput="updateSplitChange()" />
                     </div>
                     <div class="split-row-inp">
-                        <svg fill="none" stroke="#7c3aed" stroke-width="1.5" viewBox="0 0 24 24">
+                        <svg fill="none" stroke="#02182F" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
                         </svg>
                         <span class="split-lbl">M-Pesa</span>
@@ -921,16 +923,13 @@ document.getElementById('search-input').addEventListener('blur', function() {
 let barcodeBuffer = '';
 let barcodeTimer = null;
 
-// Barcode scan via search box + Enter
 document.getElementById('search-input').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
         e.preventDefault();
         const barcode = this.value.trim();
         if (barcode) {
-            // Show all products first (undo any search filtering)
             document.querySelectorAll('.product-card').forEach(c => c.style.display = '');
             document.getElementById('no-results').style.display = 'none';
-            // Reset category filter to "All"
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             const allBtn = document.querySelector('.cat-btn[data-cat="all"]');
             if (allBtn) allBtn.classList.add('active');
@@ -941,9 +940,7 @@ document.getElementById('search-input').addEventListener('keydown', function(e) 
     }
 });
 
-// Global keyboard listener for physical barcode scanners
 document.addEventListener('keydown', function(e) {
-    // Don't capture if user is typing in any input
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
     
     if (e.key.length === 1) {
@@ -959,7 +956,7 @@ document.addEventListener('keydown', function(e) {
 });
 
 function addProductByBarcode(barcode) {
-    console.log('Searching for barcode/SKU:', barcode); // Debug log
+    console.log('Searching for barcode/SKU:', barcode);
     
     const allCards = document.querySelectorAll('.product-card');
     let found = null;
@@ -968,7 +965,7 @@ function addProductByBarcode(barcode) {
         const cardBarcode = (card.dataset.barcode || '').trim();
         const cardSku = (card.dataset.sku || '').trim();
         
-        console.log('Checking:', cardSku, cardBarcode); // Debug log
+        console.log('Checking:', cardSku, cardBarcode);
         
         if (cardBarcode.toLowerCase() === barcode.toLowerCase() || cardSku.toLowerCase() === barcode.toLowerCase()) {
             found = card;
@@ -978,10 +975,9 @@ function addProductByBarcode(barcode) {
     
     if (found && !found.classList.contains('out-of-stock')) {
         addToCart(found);
-        // Flash effect
         found.style.transform = 'scale(0.95)';
-        found.style.borderColor = '#16a34a';
-        found.style.boxShadow = '0 0 0 3px rgba(22,163,74,0.3)';
+        found.style.borderColor = '#03A737';
+        found.style.boxShadow = '0 0 0 3px rgba(3,167,55,0.3)';
         setTimeout(() => {
             found.style.transform = '';
             found.style.borderColor = '';
@@ -989,7 +985,7 @@ function addProductByBarcode(barcode) {
         }, 300);
         toast('Added: ' + found.dataset.name, '');
     } else if (!found) {
-        console.log('Not found. Available SKUs:', [...allCards].map(c => c.dataset.sku).join(', ')); // Debug
+        console.log('Not found. Available SKUs:', [...allCards].map(c => c.dataset.sku).join(', '));
         toast('Product not found: ' + barcode, 'error');
     }
 }

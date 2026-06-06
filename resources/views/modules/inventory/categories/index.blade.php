@@ -3,12 +3,14 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Inventory</p>
-                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#02182F;line-height:1.2">
                     Categories
                 </h1>
             </div>
             <a href="{{ route('categories.create') }}"
-               style="background:#1a56db;color:white;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;letter-spacing:.01em;box-shadow:0 2px 8px rgba(26,86,219,.25);transition:all .15s">
+               style="background:#03A737;color:#FFFEFE;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;letter-spacing:.01em;box-shadow:0 2px 8px rgba(3,167,55,.25);transition:all .15s"
+               onmouseover="this.style.background='#028a2e';this.style.boxShadow='0 4px 12px rgba(3,167,55,.35)'"
+               onmouseout="this.style.background='#03A737';this.style.boxShadow='0 2px 8px rgba(3,167,55,.25)'">
                 + Add Category
             </a>
         </div>
@@ -18,7 +20,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
         
         .panel {
-            background: #ffffff;
+            background: #FFFEFE;
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             overflow: hidden;
@@ -77,12 +79,12 @@
             font-weight: 600;
             font-family: 'Outfit', sans-serif;
         }
-        .badge-green  { background: #dcfce7; color: #15803d; }
+        .badge-green  { background: #e6f7eb; color: #028a2e; }
         .badge-gray   { background: #f3f4f6; color: #6b7280; }
-        .badge-blue   { background: #dbeafe; color: #1d4ed8; }
+        .badge-blue   { background: #edf3fd; color: #2b5fc4; }
         
         .mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
-        .text-brand { color: #1a56db; }
+        .text-brand { color: #03A737; }
         .fw6 { font-weight: 600; }
         .fw7 { font-weight: 700; }
         
@@ -93,8 +95,8 @@
             text-decoration: none;
             transition: all 0.15s;
         }
-        .action-link.edit { color: #1a56db; }
-        .action-link.edit:hover { color: #1e40af; text-decoration: underline; }
+        .action-link.edit { color: #03A737; }
+        .action-link.edit:hover { color: #028a2e; text-decoration: underline; }
         .action-link.delete { color: #dc2626; background: none; border: none; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 600; }
         .action-link.delete:hover { color: #b91c1c; text-decoration: underline; }
         
@@ -119,8 +121,8 @@
             height: 24px;
             padding: 0 8px;
             border-radius: 99px;
-            background: #eff4ff;
-            color: #1a56db;
+            background: #e6f7eb;
+            color: #03A737;
             font-size: 11px;
             font-weight: 700;
             font-family: 'JetBrains Mono', monospace;
@@ -142,8 +144,8 @@
 
         {{-- Flash Messages --}}
         @if(session('success'))
-            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;font-family:'Outfit',sans-serif;font-size:13px;color:#15803d;font-weight:500;display:flex;align-items:center;gap:10px">
-                <svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24">
+            <div style="background:#e6f7eb;border:1px solid #b8e6c4;border-radius:10px;padding:14px 18px;font-family:'Outfit',sans-serif;font-size:13px;color:#028a2e;font-weight:500;display:flex;align-items:center;gap:10px">
+                <svg width="16" height="16" fill="none" stroke="#03A737" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 {{ session('success') }}
@@ -173,8 +175,8 @@
                     </thead>
                     <tbody>
                         @php
-                            $iconBgColors = ['#eff4ff','#f0fdfa','#f5f3ff','#f0fdf4','#fffbeb','#fef2f2'];
-                            $iconColors   = ['#1a56db','#0d9488','#7c3aed','#16a34a','#d97706','#dc2626'];
+                            $iconBgColors = ['#e6f7eb','#edf3fd','#f0f2f5','#fff7ed','#fffbeb','#fef2f2'];
+                            $iconColors   = ['#03A737','#3D7BE7','#02182F','#d97706','#a16207','#dc2626'];
                         @endphp
                         @foreach($categories as $category)
                             @php
@@ -190,7 +192,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
                                             </svg>
                                         </div>
-                                        <span class="fw6" style="color:#111827">{{ $category->name }}</span>
+                                        <span class="fw6" style="color:#02182F">{{ $category->name }}</span>
                                     </div>
                                 </td>
                                 <td>
@@ -234,7 +236,7 @@
                     </svg>
                     <p style="font-family:'Outfit',sans-serif;font-size:14px;color:#9ca3af;margin-bottom:6px">No categories yet</p>
                     <a href="{{ route('categories.create') }}" 
-                       style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:#1a56db;text-decoration:none">
+                       style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:#03A737;text-decoration:none">
                         Add your first category →
                     </a>
                 </div>

@@ -3,7 +3,7 @@
         <div class="flex items-center gap-4">
             <a href="{{ route('returns.index') }}" 
                style="display:flex;align-items:center;gap:6px;color:#9ca3af;font-size:13px;text-decoration:none;padding:6px 10px;border-radius:8px;border:1px solid #e4e7ef;font-family:'Outfit',sans-serif;transition:all .15s"
-               onmouseover="this.style.borderColor='#1a56db';this.style.color='#1a56db';this.style.background='#eff4ff'"
+               onmouseover="this.style.borderColor='#03A737';this.style.color='#03A737';this.style.background='#e6f7eb'"
                onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#9ca3af';this.style.background='transparent'">
                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -13,7 +13,7 @@
             <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Finance</p>
                 <div style="display:flex;align-items:center;gap:12px">
-                    <h1 style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:#111827;line-height:1.2">
+                    <h1 style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:#02182F;line-height:1.2">
                         {{ $return->return_number }}
                     </h1>
                     @php
@@ -39,7 +39,7 @@
         .dash-wrap { display: flex; flex-direction: column; gap: 16px; }
         
         .panel {
-            background: #ffffff;
+            background: #FFFEFE;
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             overflow: hidden;
@@ -67,13 +67,13 @@
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
             font-weight: 600;
-            color: #111827;
+            color: #02182F;
         }
         .info-block-value a {
-            color: #1a56db;
+            color: #03A737;
             text-decoration: none;
         }
-        .info-block-value a:hover { text-decoration: underline; }
+        .info-block-value a:hover { color: #028a2e; text-decoration: underline; }
         
         .refund-amount {
             font-family: 'JetBrains Mono', monospace;
@@ -91,8 +91,8 @@
             font-weight: 600;
             font-family: 'Outfit', sans-serif;
         }
-        .badge-green  { background: #dcfce7; color: #15803d; }
-        .badge-blue   { background: #dbeafe; color: #1d4ed8; }
+        .badge-green  { background: #e6f7eb; color: #028a2e; }
+        .badge-blue   { background: #edf3fd; color: #2b5fc4; }
         .badge-yellow { background: #fef9c3; color: #a16207; }
         .badge-red    { background: #fee2e2; color: #b91c1c; }
         .badge-gray   { background: #f3f4f6; color: #6b7280; }
@@ -132,16 +132,15 @@
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
             font-weight: 700;
-            color: #111827;
+            color: #02182F;
         }
     </style>
 
     <div class="dash-wrap" style="padding:0 0 20px">
 
-        {{-- Flash Message --}}
         @if(session('success'))
-            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;font-family:'Outfit',sans-serif;font-size:13px;color:#15803d;font-weight:500;display:flex;align-items:center;gap:10px">
-                <svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24">
+            <div style="background:#e6f7eb;border:1px solid #b8e6c4;border-radius:10px;padding:14px 18px;font-family:'Outfit',sans-serif;font-size:13px;color:#028a2e;font-weight:500;display:flex;align-items:center;gap:10px">
+                <svg width="16" height="16" fill="none" stroke="#03A737" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 {{ session('success') }}
@@ -208,10 +207,10 @@
                 <tbody>
                     @foreach($return->items as $item)
                         <tr>
-                            <td class="fw6" style="color:#111827">{{ $item->product_name }}</td>
+                            <td class="fw6" style="color:#02182F">{{ $item->product_name }}</td>
                             <td style="font-size:12px;color:#6b7280">{{ $item->qty }}</td>
                             <td class="mono" style="font-size:12px;color:#6b7280">KES {{ number_format($item->unit_price, 2) }}</td>
-                            <td class="mono fw6" style="color:#111827">KES {{ number_format($item->subtotal, 2) }}</td>
+                            <td class="mono fw6" style="color:#02182F">KES {{ number_format($item->subtotal, 2) }}</td>
                             <td>
                                 @if($item->restock)
                                     <span class="badge badge-green">Restocked</span>
@@ -224,7 +223,7 @@
                 </tbody>
                 <tfoot>
                     <tr style="background:#fafbff">
-                        <td colspan="3" style="text-align:right;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:#111827">
+                        <td colspan="3" style="text-align:right;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:#02182F">
                             Total Refund
                         </td>
                         <td class="mono fw7 text-refund" style="font-size:16px">

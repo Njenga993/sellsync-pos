@@ -4,7 +4,7 @@
             <div class="flex items-center gap-4">
                 <a href="{{ route('purchase-orders.index') }}" 
                    style="display:flex;align-items:center;gap:6px;color:#9ca3af;font-size:13px;text-decoration:none;padding:6px 10px;border-radius:8px;border:1px solid #e4e7ef;font-family:'Outfit',sans-serif;transition:all .15s"
-                   onmouseover="this.style.borderColor='#1a56db';this.style.color='#1a56db';this.style.background='#eff4ff'"
+                   onmouseover="this.style.borderColor='#03A737';this.style.color='#03A737';this.style.background='#e6f7eb'"
                    onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#9ca3af';this.style.background='transparent'">
                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -14,7 +14,7 @@
                 <div>
                     <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Purchase Order</p>
                     <div style="display:flex;align-items:center;gap:12px">
-                        <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                        <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#02182F;line-height:1.2">
                             {{ $purchaseOrder->po_number }}
                         </h1>
                         @php
@@ -42,7 +42,7 @@
         .dash-wrap { display: flex; flex-direction: column; gap: 16px; }
         
         .panel {
-            background: #ffffff;
+            background: #FFFEFE;
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             overflow: hidden;
@@ -70,7 +70,7 @@
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
             font-weight: 600;
-            color: #111827;
+            color: #02182F;
         }
         .info-block-sub {
             font-size: 11px;
@@ -111,8 +111,8 @@
             font-weight: 600;
             font-family: 'Outfit', sans-serif;
         }
-        .badge-green  { background: #dcfce7; color: #15803d; }
-        .badge-blue   { background: #dbeafe; color: #1d4ed8; }
+        .badge-green  { background: #e6f7eb; color: #028a2e; }
+        .badge-blue   { background: #edf3fd; color: #2b5fc4; }
         .badge-yellow { background: #fef9c3; color: #a16207; }
         .badge-red    { background: #fee2e2; color: #b91c1c; }
         .badge-gray   { background: #f3f4f6; color: #6b7280; }
@@ -122,8 +122,8 @@
         .fw7 { font-weight: 700; }
         
         .btn-receive {
-            background: #16a34a;
-            color: white;
+            background: #03A737;
+            color: #FFFEFE;
             padding: 10px 20px;
             border-radius: 10px;
             font-size: 13px;
@@ -131,16 +131,16 @@
             font-family: 'Outfit', sans-serif;
             border: none;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
+            box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
             transition: all 0.15s;
         }
         .btn-receive:hover {
-            background: #15803d;
-            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35);
+            background: #028a2e;
+            box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35);
             transform: translateY(-1px);
         }
         
-        .qty-received-full { color: #16a34a; font-weight: 700; }
+        .qty-received-full { color: #03A737; font-weight: 700; }
         .qty-received-partial { color: #d97706; }
         
         .receive-input {
@@ -150,20 +150,20 @@
             border-radius: 8px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 13px;
-            color: #111827;
+            color: #02182F;
             background: #fafbff;
             text-align: center;
             transition: all 0.15s;
             outline: none;
         }
         .receive-input:focus {
-            border-color: #16a34a;
-            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.08);
+            border-color: #03A737;
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
         .completed-banner {
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
+            background: #e6f7eb;
+            border: 1px solid #b8e6c4;
             border-radius: 14px;
             padding: 18px 22px;
             display: flex;
@@ -171,7 +171,7 @@
             gap: 12px;
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
-            color: #15803d;
+            color: #028a2e;
             font-weight: 500;
         }
     </style>
@@ -180,8 +180,8 @@
 
         {{-- Flash Message --}}
         @if(session('success'))
-            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;font-family:'Outfit',sans-serif;font-size:13px;color:#15803d;font-weight:500;display:flex;align-items:center;gap:10px">
-                <svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24">
+            <div style="background:#e6f7eb;border:1px solid #b8e6c4;border-radius:10px;padding:14px 18px;font-family:'Outfit',sans-serif;font-size:13px;color:#028a2e;font-weight:500;display:flex;align-items:center;gap:10px">
+                <svg width="16" height="16" fill="none" stroke="#03A737" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 {{ session('success') }}
@@ -232,7 +232,7 @@
         {{-- Items + Receive Form --}}
         <div class="panel">
             <div style="padding:18px 22px;border-bottom:1px solid #f1f3f8">
-                <span style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:#111827">Order Items</span>
+                <span style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:#02182F">Order Items</span>
             </div>
 
             @if(in_array($purchaseOrder->status, ['ordered', 'partial']))
@@ -260,7 +260,7 @@
                             $receivedClass = $item->qty_received >= $item->qty_ordered ? 'qty-received-full' : 'qty-received-partial';
                         @endphp
                         <tr>
-                            <td class="fw6" style="color:#111827">{{ $item->product_name }}</td>
+                            <td class="fw6" style="color:#02182F">{{ $item->product_name }}</td>
                             <td class="mono" style="font-size:12px;color:#6b7280">{{ $item->qty_ordered }}</td>
                             <td>
                                 <span class="mono fw7 {{ $receivedClass }}">{{ $item->qty_received }}</span>
@@ -271,7 +271,7 @@
                                 @endif
                             </td>
                             <td class="mono" style="font-size:12px;color:#6b7280">KES {{ number_format($item->unit_cost, 2) }}</td>
-                            <td class="mono fw6" style="color:#111827">KES {{ number_format($item->subtotal, 2) }}</td>
+                            <td class="mono fw6" style="color:#02182F">KES {{ number_format($item->subtotal, 2) }}</td>
                             @if(in_array($purchaseOrder->status, ['ordered', 'partial']))
                                 <td>
                                     <input type="hidden" name="items[{{ $i }}][id]" value="{{ $item->id }}" />
@@ -288,7 +288,7 @@
             <div style="padding:16px 22px;border-top:1px solid #f1f3f8;display:flex;justify-content:space-between;align-items:center">
                 <div>
                     <span style="font-size:13px;color:#6b7280;font-family:'Outfit',sans-serif">Total: </span>
-                    <span class="mono fw7" style="font-size:16px;color:#111827">KES {{ number_format($purchaseOrder->total, 2) }}</span>
+                    <span class="mono fw7" style="font-size:16px;color:#02182F">KES {{ number_format($purchaseOrder->total, 2) }}</span>
                 </div>
                 @if(in_array($purchaseOrder->status, ['ordered', 'partial']))
                     <button type="submit" class="btn-receive">

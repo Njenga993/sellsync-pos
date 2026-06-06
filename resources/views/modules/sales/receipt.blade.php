@@ -9,12 +9,14 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --brand:       #1a56db;
-            --text-1:      #111827;
+            --brand:       #03A737;
+            --brand-dark:  #028a2e;
+            --text-1:      #02182F;
             --text-2:      #4b5563;
             --text-3:      #9ca3af;
             --border:      #e4e7ef;
-            --success:     #16a34a;
+            --success:     #03A737;
+            --white:       #FFFEFE;
         }
 
         /* ── Screen View ── */
@@ -25,7 +27,7 @@
             margin: 0 auto;
             padding: 20px 16px;
             color: var(--text-1);
-            background: #ffffff;
+            background: var(--white);
         }
 
         .center { text-align: center; }
@@ -168,8 +170,8 @@
         }
 
         .loyalty-section {
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
+            background: #e6f7eb;
+            border: 1px solid #b8e6c4;
             border-radius: 8px;
             padding: 8px 10px;
             margin: 8px 0;
@@ -178,7 +180,7 @@
         .loyalty-row { display: flex; justify-content: space-between; align-items: center; }
         .loyalty-label {
             font-size: 10px;
-            color: #15803d;
+            color: #028a2e;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -188,7 +190,7 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
             font-weight: 700;
-            color: #15803d;
+            color: #028a2e;
         }
 
         .receipt-footer {
@@ -208,7 +210,7 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 9px;
             letter-spacing: 0.1em;
-            color: #111827;
+            color: #02182F;
         }
 
         /* ── Buttons (screen only) ── */
@@ -222,7 +224,7 @@
             flex: 1;
             padding: 10px 16px;
             background: var(--brand);
-            color: white;
+            color: var(--white);
             border: none;
             border-radius: 10px;
             cursor: pointer;
@@ -230,7 +232,7 @@
             font-size: 13px;
             font-weight: 600;
             letter-spacing: 0.01em;
-            box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
+            box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
             transition: all 0.15s;
             display: flex;
             align-items: center;
@@ -239,14 +241,14 @@
         }
 
         .btn-primary:hover {
-            background: #1e40af;
-            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.35);
+            background: var(--brand-dark);
+            box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35);
         }
 
         .btn-secondary {
             flex: 1;
             padding: 10px 16px;
-            background: #ffffff;
+            background: var(--white);
             color: var(--text-2);
             border: 1.5px solid var(--border);
             border-radius: 10px;
@@ -260,7 +262,7 @@
         .btn-secondary:hover {
             border-color: var(--brand);
             color: var(--brand);
-            background: #eff4ff;
+            background: #e6f7eb;
         }
 
         .watermark {
@@ -270,7 +272,7 @@
             transform: translate(-50%, -50%) rotate(-25deg);
             font-size: 60px;
             font-weight: 700;
-            color: rgba(26, 86, 219, 0.04);
+            color: rgba(3, 167, 55, 0.04);
             pointer-events: none;
             z-index: -1;
             white-space: nowrap;
@@ -283,7 +285,7 @@
         @media print {
             @page { 
                 margin: 0; 
-                size: 80mm 297mm; /* Standard 80mm thermal roll */
+                size: 80mm 297mm;
             }
             
             body { 
@@ -297,12 +299,10 @@
                 print-color-adjust: exact;
             }
             
-            /* Hide everything not needed for print */
             .no-print,
             .btn-group,
             .watermark { display: none !important; }
             
-            /* Convert colors to grayscale for thermal */
             .divider { border-color: #000; }
             .divider-solid { border-color: #000; }
             .business-name { font-size: 13px; color: #000; }

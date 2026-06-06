@@ -3,17 +3,21 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Finance</p>
-                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+                <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#02182F;line-height:1.2">
                     Stock Valuation Report
                 </h1>
             </div>
             <div class="flex gap-2">
                 <a href="{{ route('reports.profit-loss') }}"
-                   style="background:transparent;color:#6b7280;padding:9px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s">
+                   style="background:transparent;color:#6b7280;padding:9px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s"
+                   onmouseover="this.style.borderColor='#03A737';this.style.color='#03A737';this.style.background='#e6f7eb'"
+                   onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#6b7280';this.style.background='transparent'">
                     P&L Report
                 </a>
                 <a href="{{ route('reports.cashier-performance') }}"
-                   style="background:transparent;color:#6b7280;padding:9px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s">
+                   style="background:transparent;color:#6b7280;padding:9px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s"
+                   onmouseover="this.style.borderColor='#03A737';this.style.color='#03A737';this.style.background='#e6f7eb'"
+                   onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#6b7280';this.style.background='transparent'">
                     Cashier Performance
                 </a>
             </div>
@@ -52,6 +56,7 @@
             font-weight: 700;
             line-height: 1;
             margin-bottom: 4px;
+            color: #02182F;
         }
         .stat-card-sub {
             font-family: 'Outfit', sans-serif;
@@ -60,26 +65,22 @@
         
         .card-gray   { background: #f9fafb; border-color: #e5e7eb; }
         .card-gray   .stat-card-label  { color: #6b7280; }
-        .card-gray   .stat-card-value  { color: #111827; }
         .card-gray   .stat-card-sub    { color: #9ca3af; }
         
-        .card-blue   { background: #eff4ff; border-color: #c7d7fb; }
-        .card-blue   .stat-card-label  { color: #3b5fd6; }
-        .card-blue   .stat-card-value  { color: #1a3fad; }
-        .card-blue   .stat-card-sub    { color: #6b85d6; }
+        .card-blue   { background: #edf3fd; border-color: #c4d9fb; }
+        .card-blue   .stat-card-label  { color: #2b5fc4; }
+        .card-blue   .stat-card-sub    { color: #3D7BE7; }
         
-        .card-green  { background: #f0fdf4; border-color: #bbf7d0; }
-        .card-green  .stat-card-label  { color: #15803d; }
-        .card-green  .stat-card-value  { color: #14532d; }
-        .card-green  .stat-card-sub    { color: #22c55e; }
+        .card-green  { background: #e6f7eb; border-color: #b8e6c4; }
+        .card-green  .stat-card-label  { color: #028a2e; }
+        .card-green  .stat-card-sub    { color: #03A737; }
         
-        .card-red    { background: #fff1f2; border-color: #fecdd3; }
+        .card-red    { background: #fef2f2; border-color: #fecdd3; }
         .card-red    .stat-card-label  { color: #be123c; }
-        .card-red    .stat-card-value  { color: #881337; }
         .card-red    .stat-card-sub    { color: #e11d48; }
         
         .panel {
-            background: #ffffff;
+            background: #FFFEFE;
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             overflow: hidden;
@@ -96,7 +97,7 @@
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
             font-weight: 700;
-            color: #111827;
+            color: #02182F;
         }
         .panel-meta {
             font-family: 'Outfit', sans-serif;
@@ -138,7 +139,7 @@
             font-weight: 600;
             font-family: 'Outfit', sans-serif;
         }
-        .badge-green  { background: #dcfce7; color: #15803d; }
+        .badge-green  { background: #e6f7eb; color: #028a2e; }
         .badge-yellow { background: #fef9c3; color: #a16207; }
         .badge-red    { background: #fee2e2; color: #b91c1c; }
         
@@ -151,7 +152,7 @@
             font-weight: 600;
             font-family: 'JetBrains Mono', monospace;
         }
-        .margin-high   { background: #dcfce7; color: #15803d; }
+        .margin-high   { background: #e6f7eb; color: #028a2e; }
         .margin-medium { background: #fef9c3; color: #a16207; }
         .margin-low    { background: #fee2e2; color: #b91c1c; }
         
@@ -162,15 +163,15 @@
             border-radius: 50%;
             margin-right: 6px;
         }
-        .stock-dot.green  { background: #22c55e; }
+        .stock-dot.green  { background: #03A737; }
         .stock-dot.yellow { background: #eab308; }
         .stock-dot.red    { background: #ef4444; }
         
         .mono { font-family: 'JetBrains Mono', monospace; }
         .fw6 { font-weight: 600; }
         .fw7 { font-weight: 700; }
-        .text-brand { color: #1a56db; }
-        .text-positive { color: #16a34a; }
+        .text-brand { color: #03A737; }
+        .text-positive { color: #03A737; }
         .text-danger { color: #dc2626; }
         
         .empty-state {
@@ -206,13 +207,19 @@
                 <div class="stat-card-value">{{ $summary['out_of_stock'] }} / {{ $summary['low_stock'] }}</div>
                 <div class="stat-card-sub">Out of stock / Low stock</div>
             </div>
+        </div>
+
+        {{-- Export Button --}}
+        <div style="display:flex;justify-content:flex-end">
             <a href="{{ route('reports.stock-valuation.export', request()->query()) }}" 
-   style="background:transparent;color:#6b7280;padding:8px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s;display:inline-flex;align-items:center;gap:6px">
-    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-    </svg>
-    Export PDF
-</a>
+               style="background:transparent;color:#6b7280;padding:8px 16px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;border:1.5px solid #e4e7ef;transition:all .15s;display:inline-flex;align-items:center;gap:6px"
+               onmouseover="this.style.borderColor='#03A737';this.style.color='#03A737';this.style.background='#e6f7eb'"
+               onmouseout="this.style.borderColor='#e4e7ef';this.style.color='#6b7280';this.style.background='transparent'">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+                Export PDF
+            </a>
         </div>
 
         {{-- Valuation by Category --}}
@@ -240,7 +247,7 @@
                                 $marginBadge = $margin >= 30 ? 'margin-high' : ($margin >= 10 ? 'margin-medium' : 'margin-low');
                             @endphp
                             <tr>
-                                <td class="fw6" style="color:#111827">{{ $catName ?? 'Uncategorised' }}</td>
+                                <td class="fw6" style="color:#02182F">{{ $catName ?? 'Uncategorised' }}</td>
                                 <td class="mono" style="font-size:12px;color:#6b7280">{{ $data['count'] }}</td>
                                 <td class="mono" style="font-size:12px;color:#6b7280">KES {{ number_format($data['cost_value'], 2) }}</td>
                                 <td class="mono fw6 text-brand">KES {{ number_format($data['sell_value'], 2) }}</td>
@@ -293,14 +300,14 @@
                                 @endphp
                                 <tr>
                                     <td>
-                                        <div class="fw6" style="color:#111827">{{ $product->name }}</div>
+                                        <div class="fw6" style="color:#02182F">{{ $product->name }}</div>
                                         @if($product->sku)
                                             <div class="mono" style="font-size:11px;color:#9ca3af">{{ $product->sku }}</div>
                                         @endif
                                     </td>
                                     <td style="font-size:12px;color:#6b7280">{{ $product->category->name ?? '—' }}</td>
                                     <td>
-                                        <span class="mono fw7" style="font-size:14px;color:{{ $stockStatus === 'red' ? '#dc2626' : ($stockStatus === 'yellow' ? '#d97706' : '#111827') }}">
+                                        <span class="mono fw7" style="font-size:14px;color:{{ $stockStatus === 'red' ? '#dc2626' : ($stockStatus === 'yellow' ? '#d97706' : '#02182F') }}">
                                             {{ $product->stock_qty }}
                                         </span>
                                     </td>

@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div>
             <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">System</p>
-            <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#111827;line-height:1.2">
+            <h1 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#02182F;line-height:1.2">
                 Business Settings & Receipt Customisation
             </h1>
         </div>
@@ -11,10 +11,20 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
         
+        :root {
+            --brand-green: #03A737;
+            --brand-green-light: #e6f7eb;
+            --brand-green-dark: #028a2e;
+            --brand-blue: #3D7BE7;
+            --brand-blue-light: #edf3fd;
+            --brand-black: #02182F;
+            --brand-white: #FFFEFE;
+        }
+        
         .dash-wrap { display: flex; flex-direction: column; gap: 16px; }
         
         .form-panel {
-            background: #ffffff;
+            background: var(--brand-white);
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             padding: 24px;
@@ -63,15 +73,15 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
-            color: #111827;
+            color: var(--brand-black);
             background: #fafbff;
             transition: all 0.15s ease;
             outline: none;
         }
         .form-input:focus {
-            border-color: #1a56db;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: var(--brand-green);
+            background: var(--brand-white);
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         .form-input::placeholder { color: #c4c9d6; }
         
@@ -82,7 +92,7 @@
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
-            color: #111827;
+            color: var(--brand-black);
             background: #fafbff;
             transition: all 0.15s ease;
             outline: none;
@@ -90,9 +100,9 @@
             min-height: 60px;
         }
         .form-textarea:focus {
-            border-color: #1a56db;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+            border-color: var(--brand-green);
+            background: var(--brand-white);
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
         .form-hint {
@@ -120,12 +130,12 @@
             user-select: none;
         }
         .checkbox-card:hover {
-            border-color: #1a56db;
-            background: #eff4ff;
+            border-color: var(--brand-green);
+            background: var(--brand-green-light);
         }
         .checkbox-card.checked {
-            border-color: #1a56db;
-            background: #eff4ff;
+            border-color: var(--brand-green);
+            background: var(--brand-green-light);
         }
         
         .checkbox-custom {
@@ -134,15 +144,15 @@
             height: 18px;
             border: 1.5px solid #d1d5db;
             border-radius: 5px;
-            background: #ffffff;
+            background: var(--brand-white);
             cursor: pointer;
             transition: all 0.15s;
             position: relative;
             flex-shrink: 0;
         }
         .checkbox-custom:checked {
-            background: #1a56db;
-            border-color: #1a56db;
+            background: var(--brand-green);
+            border-color: var(--brand-green);
         }
         .checkbox-custom:checked::after {
             content: '';
@@ -165,8 +175,8 @@
             cursor: pointer;
         }
         .file-upload-area:hover {
-            border-color: #1a56db;
-            background: #eff4ff;
+            border-color: var(--brand-green);
+            background: var(--brand-green-light);
         }
         
         .file-input {
@@ -183,13 +193,13 @@
             font-family: 'Outfit', sans-serif;
             font-size: 12px;
             font-weight: 600;
-            background: #eff4ff;
-            color: #1a56db;
+            background: var(--brand-green-light);
+            color: var(--brand-green);
             cursor: pointer;
             transition: all 0.15s;
         }
         .file-input::file-selector-button:hover {
-            background: #dbeafe;
+            background: #ccf4d6;
         }
         
         .logo-preview {
@@ -199,7 +209,7 @@
             border: 1px solid #e4e7ef;
             border-radius: 10px;
             padding: 8px;
-            background: #ffffff;
+            background: var(--brand-white);
         }
         .logo-placeholder {
             width: 80px;
@@ -223,22 +233,22 @@
         }
         
         .btn-primary {
-            background: #1a56db;
-            color: white;
+            background: var(--brand-green);
+            color: var(--brand-white);
             padding: 11px 24px;
             border-radius: 10px;
             font-size: 13px;
             font-weight: 600;
             font-family: 'Outfit', sans-serif;
             letter-spacing: 0.01em;
-            box-shadow: 0 2px 8px rgba(26, 86, 219, 0.25);
+            box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
             transition: all 0.15s;
             border: none;
             cursor: pointer;
         }
         .btn-primary:hover {
-            background: #1e40af;
-            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.35);
+            background: var(--brand-green-dark);
+            box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35);
             transform: translateY(-1px);
         }
         
@@ -256,13 +266,13 @@
             display: inline-block;
         }
         .btn-cancel:hover {
-            border-color: #1a56db;
-            color: #1a56db;
-            background: #eff4ff;
+            border-color: var(--brand-green);
+            color: var(--brand-green);
+            background: var(--brand-green-light);
         }
         
         .receipt-preview {
-            background: #ffffff;
+            background: var(--brand-white);
             border: 1px solid #e4e7ef;
             border-radius: 12px;
             padding: 20px 18px;
@@ -270,7 +280,7 @@
             font-family: 'Outfit', sans-serif;
             font-size: 11px;
             color: #374151;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 20px rgba(2,24,47,0.06);
         }
         .receipt-preview .r-divider {
             border-top: 1px dashed #d1d5db;
@@ -293,7 +303,7 @@
         .receipt-preview .r-total {
             font-size: 13px;
             font-weight: 700;
-            color: #111827;
+            color: var(--brand-black);
         }
         .receipt-preview .r-italic { font-style: italic; }
         .receipt-preview .r-text-xs { font-size: 9px; color: #9ca3af; }
@@ -303,8 +313,8 @@
 
         {{-- Flash Message --}}
         @if(session('success'))
-            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 18px;font-family:'Outfit',sans-serif;font-size:13px;color:#15803d;font-weight:500;display:flex;align-items:center;gap:10px">
-                <svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24">
+            <div style="background:#e6f7eb;border:1px solid #b8e6c4;border-radius:10px;padding:14px 18px;font-family:'Outfit',sans-serif;font-size:13px;color:#028a2e;font-weight:500;display:flex;align-items:center;gap:10px">
+                <svg width="16" height="16" fill="none" stroke="#03A737" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 {{ session('success') }}
@@ -465,7 +475,7 @@
                         @if($settings->receipt_show_logo && $settings->logo_path)
                             <img src="{{ Storage::url($settings->logo_path) }}" alt="Logo" class="r-logo" />
                         @endif
-                        <div class="r-center r-bold" style="font-size:13px">{{ auth()->user()->tenant->name }}</div>
+                        <div class="r-center r-bold" style="font-size:13px;color:#02182F">{{ auth()->user()->tenant->name }}</div>
                         @if($settings->receipt_show_address && $settings->address)
                             <div class="r-center r-text-xs">{{ $settings->address }}</div>
                         @endif
@@ -476,7 +486,7 @@
                             <div class="r-center r-text-xs">{{ $settings->email }}</div>
                         @endif
                         @if($settings->receipt_header)
-                            <div class="r-center r-italic" style="margin-top:4px;color:#1a56db;font-weight:500">{{ $settings->receipt_header }}</div>
+                            <div class="r-center r-italic" style="margin-top:4px;color:#03A737;font-weight:500">{{ $settings->receipt_header }}</div>
                         @endif
                         <div class="r-divider"></div>
                         <div class="r-flex r-mono"><span>Invoice:</span><span>INV-XXXX-000001</span></div>

@@ -1,6 +1,5 @@
 <x-app-layout>
 
-
     @php
     if (!function_exists('pieSlice')) {
         function pieSlice($cx, $cy, $r, $startAngle, $endAngle) {
@@ -22,12 +21,14 @@
         <div class="flex items-center justify-between" style="flex-wrap:wrap;gap:12px">
             <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Overview</p>
-                <h1 style="font-family:'Outfit',sans-serif;font-size:clamp(18px,3vw,22px);font-weight:700;color:#111827;line-height:1.2">
+                <h1 style="font-family:'Outfit',sans-serif;font-size:clamp(18px,3vw,22px);font-weight:700;color:#02182F;line-height:1.2">
                     Good {{ now()->hour < 12 ? 'morning' : (now()->hour < 17 ? 'afternoon' : 'evening') }}, {{ Auth::user()->name }}
                 </h1>
             </div>
             <a href="{{ route('pos.index') }}"
-               style="background:#1a56db;color:white;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;letter-spacing:.01em;box-shadow:0 2px 8px rgba(26,86,219,.25);transition:all .15s;white-space:nowrap">
+               style="background:#03A737;color:#FFFEFE;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;font-family:'Outfit',sans-serif;letter-spacing:.01em;box-shadow:0 2px 8px rgba(3,167,55,.25);transition:all .15s;white-space:nowrap"
+               onmouseover="this.style.background='#028a2e';this.style.boxShadow='0 4px 12px rgba(3,167,55,.35)'"
+               onmouseout="this.style.background='#03A737';this.style.boxShadow='0 2px 8px rgba(3,167,55,.25)'">
                 Open POS Terminal
             </a>
         </div>
@@ -35,6 +36,18 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+        /* Brand colors */
+        :root {
+            --green: #03A737;
+            --green-light: #e6f7eb;
+            --green-dark: #028a2e;
+            --blue: #3D7BE7;
+            --blue-light: #edf3fd;
+            --black: #02182F;
+            --black-light: #f0f2f5;
+            --white: #FFFEFE;
+        }
 
         .dash-wrap { display:flex; flex-direction:column; gap:20px; }
 
@@ -89,44 +102,37 @@
         .stat-icon svg { width:16px; height:16px; }
         @media(max-width:640px){ .stat-icon svg{ width:14px;height:14px; } }
 
-        .card-blue   { background:#eff4ff; border-color:#c7d7fb; }
-        .card-blue   .stat-card-label  { color:#3b5fd6; }
-        .card-blue   .stat-card-value  { color:#1a3fad; }
-        .card-blue   .stat-card-sub    { color:#6b85d6; }
-        .card-blue   .stat-icon        { background:#dbeafe; }
-        .card-blue   .stat-icon svg    { color:#1a56db; }
+        .card-green  { background:#e6f7eb; border-color:#b8e6c4; }
+        .card-green  .stat-card-label  { color:#028a2e; }
+        .card-green  .stat-card-value  { color:#02182F; }
+        .card-green  .stat-card-sub    { color:#03A737; }
+        .card-green  .stat-icon        { background:#ccf4d6; }
+        .card-green  .stat-icon svg    { color:#03A737; }
 
-        .card-teal   { background:#f0fdfa; border-color:#99f6e4; }
-        .card-teal   .stat-card-label  { color:#0f766e; }
-        .card-teal   .stat-card-value  { color:#134e4a; }
-        .card-teal   .stat-card-sub    { color:#2dd4bf; }
-        .card-teal   .stat-icon        { background:#ccfbf1; }
-        .card-teal   .stat-icon svg    { color:#0d9488; }
+        .card-blue   { background:#edf3fd; border-color:#c4d9fb; }
+        .card-blue   .stat-card-label  { color:#2b5fc4; }
+        .card-blue   .stat-card-value  { color:#02182F; }
+        .card-blue   .stat-card-sub    { color:#3D7BE7; }
+        .card-blue   .stat-icon        { background:#dbe8fc; }
+        .card-blue   .stat-icon svg    { color:#3D7BE7; }
 
-        .card-indigo { background:#f5f3ff; border-color:#c4b5fd; }
-        .card-indigo .stat-card-label  { color:#5b21b6; }
-        .card-indigo .stat-card-value  { color:#3b0764; }
-        .card-indigo .stat-card-sub    { color:#7c3aed; }
-        .card-indigo .stat-icon        { background:#ede9fe; }
-        .card-indigo .stat-icon svg    { color:#7c3aed; }
+        .card-black  { background:#f0f2f5; border-color:#d4d8e0; }
+        .card-black  .stat-card-label  { color:#4b5563; }
+        .card-black  .stat-card-value  { color:#02182F; }
+        .card-black  .stat-card-sub    { color:#6b7280; }
+        .card-black  .stat-icon        { background:#e4e7ef; }
+        .card-black  .stat-icon svg    { color:#02182F; }
 
-        .card-red    { background:#fff1f2; border-color:#fecdd3; }
+        .card-red    { background:#fef2f2; border-color:#fecdd3; }
         .card-red    .stat-card-label  { color:#be123c; }
         .card-red    .stat-card-value  { color:#881337; }
         .card-red    .stat-card-sub    { color:#e11d48; }
         .card-red    .stat-icon        { background:#ffe4e6; }
         .card-red    .stat-icon svg    { color:#e11d48; }
 
-        .card-green  { background:#f0fdf4; border-color:#bbf7d0; }
-        .card-green  .stat-card-label  { color:#15803d; }
-        .card-green  .stat-card-value  { color:#14532d; }
-        .card-green  .stat-card-sub    { color:#22c55e; }
-        .card-green  .stat-icon        { background:#dcfce7; }
-        .card-green  .stat-icon svg    { color:#16a34a; }
-
         /* ── Panels ── */
         .panel {
-            background: #ffffff;
+            background: #FFFEFE;
             border: 1px solid #e4e7ef;
             border-radius: 14px;
             overflow: hidden;
@@ -140,14 +146,14 @@
         @media(max-width:640px){ .panel-header{ padding:14px 16px; } }
         .panel-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 14px; font-weight: 700; color: #111827;
+            font-size: 14px; font-weight: 700; color: #02182F;
         }
         .panel-link {
             font-family: 'Outfit', sans-serif;
-            font-size: 12px; font-weight: 600; color: #1a56db;
+            font-size: 12px; font-weight: 600; color: #03A737;
             text-decoration: none;
         }
-        .panel-link:hover { text-decoration: underline; }
+        .panel-link:hover { color: #028a2e; text-decoration: underline; }
 
         /* ── Quick Actions ── */
         .actions-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; padding:16px 20px; }
@@ -156,10 +162,10 @@
         .action-btn {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             padding: 16px 10px; border-radius: 12px; border: 1.5px solid #e4e7ef;
-            text-decoration: none; transition: all .15s; background: #fafbff;
+            text-decoration: none; transition: all .15s; background: #FFFEFE;
         }
         @media(max-width:640px){ .action-btn{ padding:14px 8px; } }
-        .action-btn:hover { border-color: #1a56db; background: #eff4ff; }
+        .action-btn:hover { border-color: #03A737; background: #e6f7eb; }
         .action-icon {
             width: 38px; height: 38px; border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
@@ -173,7 +179,7 @@
             font-size: 12px; font-weight: 600; color: #374151; text-align: center;
         }
         @media(max-width:640px){ .action-label{ font-size:11px; } }
-        .action-btn:hover .action-label { color: #1a56db; }
+        .action-btn:hover .action-label { color: #03A737; }
 
         /* ── Charts layout ── */
         .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -197,11 +203,11 @@
         .pie-legend-item { display: flex; align-items: center; gap: 6px; font-family: 'Outfit', sans-serif; font-size: 11px; color: #6b7280; }
         .pie-legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
 
-        .pie-chart-wrap { display: flex; justify-content: center; align-items: center; padding: 10px 0; }
-        .pie-svg { width: 180px; height: 180px; border-radius: 50%; position: relative; }
+        .pie-chart-wrap { display: flex; justify-content: center; align-items: center; padding: 10px 0; position: relative; }
+        .pie-svg { width: 180px; height: 180px; border-radius: 50%; }
         @media(max-width:640px){ .pie-svg{ width:140px;height:140px; } }
         .pie-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
-        .pie-center-value { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; color: #111827; }
+        .pie-center-value { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; color: #02182F; }
         .pie-center-label { font-family: 'Outfit', sans-serif; font-size: 10px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; }
 
         /* ── Three-col layout ── */
@@ -234,7 +240,7 @@
 
         .mono { font-family:'JetBrains Mono',monospace; font-size:13px; }
         @media(max-width:640px){ .mono{ font-size:12px; } }
-        .text-brand { color:#1a56db; }
+        .text-brand { color:#03A737; }
         .fw6 { font-weight:600; }
 
         /* ── Business info ── */
@@ -250,7 +256,7 @@
         .biz-row:nth-last-child(-n+2){ border-bottom:none; }
         @media(max-width:640px){ .biz-row:nth-last-child(-n+2){ border-bottom:1px solid #f1f3f8; } }
         .biz-key { font-size:10px; font-weight:600; color:#9ca3af; text-transform:uppercase; letter-spacing:.06em; }
-        .biz-val { font-size:13px; font-weight:600; color:#111827; font-family:'Outfit',sans-serif; }
+        .biz-val { font-size:13px; font-weight:600; color:#02182F; font-family:'Outfit',sans-serif; }
 
         /* ── Stock alert bar ── */
         .alert-bar {
@@ -275,7 +281,7 @@
         <div class="stat-grid">
 
             {{-- Today's Revenue --}}
-            <div class="stat-card card-blue">
+            <div class="stat-card card-green">
                 <div class="stat-icon">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -287,7 +293,7 @@
             </div>
 
             {{-- Products --}}
-            <div class="stat-card card-teal">
+            <div class="stat-card card-blue">
                 <div class="stat-icon">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
@@ -299,7 +305,7 @@
             </div>
 
             {{-- Customers --}}
-            <div class="stat-card card-indigo">
+            <div class="stat-card card-black">
                 <div class="stat-icon">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -345,32 +351,32 @@
             </div>
             <div class="actions-grid">
                 <a href="{{ route('pos.index') }}" class="action-btn">
-                    <div class="action-icon" style="background:#eff4ff">
-                        <svg fill="none" stroke="#1a56db" stroke-width="2" viewBox="0 0 24 24">
+                    <div class="action-icon" style="background:#e6f7eb">
+                        <svg fill="none" stroke="#03A737" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                         </svg>
                     </div>
                     <span class="action-label">Open POS Terminal</span>
                 </a>
                 <a href="{{ route('products.create') }}" class="action-btn">
-                    <div class="action-icon" style="background:#f0fdfa">
-                        <svg fill="none" stroke="#0d9488" stroke-width="2" viewBox="0 0 24 24">
+                    <div class="action-icon" style="background:#edf3fd">
+                        <svg fill="none" stroke="#3D7BE7" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                         </svg>
                     </div>
                     <span class="action-label">Add Product</span>
                 </a>
                 <a href="{{ route('customers.create') }}" class="action-btn">
-                    <div class="action-icon" style="background:#f5f3ff">
-                        <svg fill="none" stroke="#7c3aed" stroke-width="2" viewBox="0 0 24 24">
+                    <div class="action-icon" style="background:#f0f2f5">
+                        <svg fill="none" stroke="#02182F" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
                         </svg>
                     </div>
                     <span class="action-label">Add Customer</span>
                 </a>
                 <a href="{{ route('reports.profit-loss') }}" class="action-btn">
-                    <div class="action-icon" style="background:#f0fdf4">
-                        <svg fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24">
+                    <div class="action-icon" style="background:#e6f7eb">
+                        <svg fill="none" stroke="#03A737" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                         </svg>
                     </div>
@@ -409,14 +415,14 @@
             <div class="panel">
                 <div class="panel-header">
                     <span class="panel-title">Weekly Revenue</span>
-                    <span class="panel-link" style="font-size:11px;color:#9ca3af;text-decoration:none;cursor:default">Last 7 days</span>
+                    <span style="font-size:11px;color:#9ca3af;font-family:'Outfit',sans-serif">Last 7 days</span>
                 </div>
                 <div class="chart-container">
                     <div class="bar-chart-row">
                         @foreach($weeklyData as $i => $val)
                             @php $height = ($val / $maxWeekly) * 100; @endphp
                             <div class="bar-item">
-                                <div class="bar-fill" style="height:{{ max($height, 3) }}%;background:#1a56db" title="KES {{ number_format($val, 2) }}"></div>
+                                <div class="bar-fill" style="height:{{ max($height, 3) }}%;background:{{ $val > 0 ? '#03A737' : '#e4e7ef' }}" title="KES {{ number_format($val, 2) }}"></div>
                                 <div class="bar-value">{{ $val > 0 ? number_format($val / 1000, 1) . 'k' : '' }}</div>
                                 <div class="bar-label">{{ $weeklyLabels[$i] }}</div>
                             </div>
@@ -441,34 +447,34 @@
                                 $offset = 0;
                             @endphp
                             @if($cashPct > 0)
-                                <path d="{{ pieSlice(18, 18, 15.9, $offset, $offset + $cashDeg) }}" fill="#16a34a" />
+                                <path d="{{ pieSlice(18, 18, 15.9, $offset, $offset + $cashDeg) }}" fill="#03A737" />
                                 @php $offset += $cashDeg; @endphp
                             @endif
                             @if($cardPct > 0)
-                                <path d="{{ pieSlice(18, 18, 15.9, $offset, $offset + $cardDeg) }}" fill="#1a56db" />
+                                <path d="{{ pieSlice(18, 18, 15.9, $offset, $offset + $cardDeg) }}" fill="#3D7BE7" />
                                 @php $offset += $cardDeg; @endphp
                             @endif
                             @if($mobilePct > 0)
-                                <path d="{{ pieSlice(18, 18, 15.9, $offset, $offset + $mobileDeg) }}" fill="#7c3aed" />
+                                <path d="{{ pieSlice(18, 18, 15.9, $offset, $offset + $mobileDeg) }}" fill="#02182F" />
                             @endif
-                            <circle cx="18" cy="18" r="10" fill="white" />
+                            <circle cx="18" cy="18" r="10" fill="#FFFEFE" />
                         </svg>
-                        <div class="pie-center" style="position:absolute">
+                        <div class="pie-center">
                             <div class="pie-center-value">{{ $pieTotal > 0 ? number_format($pieTotal / 1000, 1) . 'k' : '0' }}</div>
                             <div class="pie-center-label">Total</div>
                         </div>
                     </div>
                     <div class="pie-legend">
                         <div class="pie-legend-item">
-                            <span class="pie-legend-dot" style="background:#16a34a"></span>
+                            <span class="pie-legend-dot" style="background:#03A737"></span>
                             Cash ({{ $cashPct }}%)
                         </div>
                         <div class="pie-legend-item">
-                            <span class="pie-legend-dot" style="background:#1a56db"></span>
+                            <span class="pie-legend-dot" style="background:#3D7BE7"></span>
                             Card ({{ $cardPct }}%)
                         </div>
                         <div class="pie-legend-item">
-                            <span class="pie-legend-dot" style="background:#7c3aed"></span>
+                            <span class="pie-legend-dot" style="background:#02182F"></span>
                             M-Pesa ({{ $mobilePct }}%)
                         </div>
                     </div>
@@ -514,7 +520,7 @@
                 @else
                     <div style="padding:40px 20px;text-align:center;font-size:13px;color:#9ca3af;font-family:'Outfit',sans-serif">
                         No transactions yet today.
-                        <br><a href="{{ route('pos.index') }}" style="color:#1a56db;font-weight:600;text-decoration:none">Open the POS to start selling</a>
+                        <br><a href="{{ route('pos.index') }}" style="color:#03A737;font-weight:600;text-decoration:none">Open the POS to start selling</a>
                     </div>
                 @endif
             </div>
@@ -522,7 +528,7 @@
             {{-- Business Info --}}
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">Busines Details</span>
+                    <span class="panel-title">Business Details</span>
                     <a href="{{ route('settings.index') }}" class="panel-link">Edit</a>
                 </div>
                 <div class="biz-grid">
@@ -548,7 +554,7 @@
                     </div>
                     <div class="biz-row">
                         <span class="biz-key">Status</span>
-                        <span class="biz-val" style="color:#16a34a">Active</span>
+                        <span class="biz-val" style="color:#03A737">Active</span>
                     </div>
                 </div>
             </div>
@@ -577,7 +583,7 @@
                     <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid #f1f3f8">
                         <div>
                             <div style="font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;font-family:'Outfit',sans-serif">Revenue</div>
-                            <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:#111827">{{ number_format($monthRevenue, 2) }}</div>
+                            <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:#02182F">{{ number_format($monthRevenue, 2) }}</div>
                             <div style="font-size:10px;color:#9ca3af;font-family:'Outfit',sans-serif;margin-top:2px">{{ $monthCount }} sales</div>
                         </div>
                         <div style="text-align:right">
@@ -589,7 +595,7 @@
                     <div style="display:flex;justify-content:space-between;align-items:center">
                         <span style="font-size:13px;font-weight:600;color:#374151;font-family:'Outfit',sans-serif">Net Profit</span>
                         @php $net = $monthRevenue - $monthExpenses; @endphp
-                        <span style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:{{ $net >= 0 ? '#16a34a' : '#dc2626' }}">
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:{{ $net >= 0 ? '#03A737' : '#dc2626' }}">
                             {{ $net >= 0 ? '+' : '' }}{{ number_format($net, 2) }}
                         </span>
                     </div>
