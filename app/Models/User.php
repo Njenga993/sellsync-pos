@@ -9,6 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use App\Notifications\CustomResetPassword;
 
 class User extends Authenticatable
 {
@@ -63,4 +64,9 @@ class User extends Authenticatable
     {
         return (bool) $this->is_super_admin;
     }
+
+    public function sendPasswordResetNotification($token)
+{
+    $this->notify(new CustomResetPassword($token));
+}
 }
