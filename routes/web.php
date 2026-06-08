@@ -66,8 +66,8 @@ Route::prefix('superadmin')
         Route::delete('/tenants/{tenant}',             [TenantManagementController::class, 'destroy'])->name('tenants.destroy');
     });
 
-// ── Authenticated tenant routes ──
-Route::middleware(['auth'])->group(function () {
+// ── Authenticated tenant routes (email verification enforced) ──
+Route::middleware(['auth', 'verified'])->group(function () {
 
     // POS — rate limited
     Route::get('/pos',                [PosController::class, 'index'])->name('pos.index')->middleware('check_permission:access_pos');
@@ -155,7 +155,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/returns',          [SaleReturnController::class, 'store'])->name('returns.store')->middleware('check_permission:process_returns');
     Route::get('/returns/{return}',  [SaleReturnController::class, 'show'])->name('returns.show')->middleware('check_permission:process_returns');
 
-        // Settings
+    // Settings
     Route::get('/settings',  [SettingsController::class, 'index'])->name('settings.index')->middleware('check_permission:manage_settings');
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update')->middleware('check_permission:manage_settings');
 
