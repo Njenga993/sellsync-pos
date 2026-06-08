@@ -116,8 +116,12 @@
         
         .error-message {
             font-family: 'Outfit', sans-serif; font-size: 12px;
-            color: #dc2626; margin-top: 6px;
+            margin-top: 6px; padding: 8px 12px; border-radius: 8px;
+            display: flex; align-items: flex-start; gap: 6px;
+            line-height: 1.4;
         }
+        .error-message svg { flex-shrink: 0; margin-top: 1px; }
+        
         .remember-label {
             font-family: 'Outfit', sans-serif; font-size: 13px;
             color: #6b7280; cursor: pointer; user-select: none;
@@ -171,8 +175,20 @@
                         <input id="email" class="form-input" type="email" name="email" 
                             value="{{ old('email') }}" placeholder="you@example.com"
                             required autofocus autocomplete="username">
+                        
+                        {{-- Rate-limit / validation error banner --}}
                         @if ($errors->has('email'))
-                            <div class="error-message">{{ $errors->first('email') }}</div>
+                            @php $msg = $errors->first('email'); @endphp
+                            <div class="error-message" style="
+                                {{ str_contains($msg, 'Too many') || (str_contains($msg, 'attempts') && str_contains($msg, '0'))
+                                    ? 'background:#fef2f2;border:1px solid #fecaca;color:#dc2626;'
+                                    : 'background:#fffbeb;border:1px solid #fde68a;color:#92400e;' }}
+                            ">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
+                                <span>{{ $msg }}</span>
+                            </div>
                         @endif
                     </div>
 
@@ -180,9 +196,6 @@
                         <label class="form-label" for="password">Password</label>
                         <input id="password" class="form-input" type="password" name="password" 
                             placeholder="••••••••" required autocomplete="current-password">
-                        @if ($errors->has('password'))
-                            <div class="error-message">{{ $errors->first('password') }}</div>
-                        @endif
                     </div>
 
                     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
@@ -199,6 +212,7 @@
                 </form>
 
                 {{-- Divider --}}
+                @if(Route::has('google.login'))
                 <div style="display:flex;align-items:center;gap:12px;margin:20px 0">
                     <div style="flex:1;height:1px;background:#e4e7ef"></div>
                     <span style="font-size:11px;color:#9ca3af;font-family:'Outfit',sans-serif;text-transform:uppercase;letter-spacing:0.05em">or continue with</span>
@@ -214,6 +228,7 @@
                     </svg>
                     Continue with Google
                 </a>
+                @endif
             </div>
 
             {{-- Register Link --}}
