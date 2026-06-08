@@ -62,9 +62,13 @@ class RegisteredUserController extends Controller
 
         $user->assignRole('admin');
 
+        // Send verification email
         event(new Registered($user));
+
+        // Log the user in
         Auth::login($user);
 
-        return redirect()->route('dashboard');
+        // Redirect to verify-email notice page
+        return redirect()->route('verification.notice');
     }
 }

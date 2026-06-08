@@ -14,7 +14,6 @@ class OtpController extends Controller
 {
     public function show()
     {
-        // User must be partially authenticated (correct email + password, but not fully logged in)
         if (!session()->has('otp_user_id')) {
             return redirect()->route('login');
         }
@@ -42,6 +41,7 @@ class OtpController extends Controller
         if (!$cachedOtp || now()->gt($expiresAt)) {
             Cache::forget('otp_' . $userId);
             Cache::forget('otp_' . $userId . '_expires');
+            Cache::forget('otp_' . $userId . '_attempts');
             session()->forget('otp_user_id');
 
             return back()->withErrors([
@@ -77,11 +77,16 @@ class OtpController extends Controller
         session()->forget('otp_user_id');
 
         Auth::loginUsingId($userId);
+
+        // Mark email as verified — user proved ownership via OTP
+        $user = Auth::user();
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+        }
+
         $request->session()->regenerate();
 
         // Role-based redirect
-        $user = Auth::user();
-
         if ($user->hasRole('cashier')) {
             return redirect()->route('pos.index');
         }
