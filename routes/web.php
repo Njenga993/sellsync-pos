@@ -161,6 +161,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 });
 
+// ── OTP routes (outside auth group — user is partially authenticated) ──
+Route::get('/otp', [App\Http\Controllers\Auth\OtpController::class, 'show'])->name('otp.show');
+Route::post('/otp/verify', [App\Http\Controllers\Auth\OtpController::class, 'verify'])->name('otp.verify');
+Route::post('/otp/resend', [App\Http\Controllers\Auth\OtpController::class, 'resend'])->name('otp.resend');
+
 // ── Google OAuth (outside auth group — user isn't logged in yet) ──
 Route::get('/auth/google/redirect', [App\Http\Controllers\Auth\GoogleAuthController::class, 'redirect'])
     ->name('google.login');
