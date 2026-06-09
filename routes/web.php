@@ -19,6 +19,7 @@ use App\Http\Controllers\Modules\Reports\Controllers\AdvancedReportController;
 use App\Http\Controllers\SuperAdmin\SuperAdminController;
 use App\Http\Controllers\SuperAdmin\TenantManagementController;
 use App\Http\Controllers\Modules\Settings\SettingsController;
+use App\Http\Controllers\Modules\Reports\Controllers\ZReportController;
 
 // ── Welcome ──
 Route::get('/', function () {
@@ -135,6 +136,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/reports/profit-loss',         [AdvancedReportController::class, 'profitLoss'])->name('reports.profit-loss')->middleware('check_permission:view_profit_loss');
     Route::get('/reports/stock-valuation',     [AdvancedReportController::class, 'stockValuation'])->name('reports.stock-valuation')->middleware('check_permission:view_stock_valuation');
     Route::get('/reports/cashier-performance', [AdvancedReportController::class, 'cashierPerformance'])->name('reports.cashier-performance')->middleware('check_permission:view_cashier_performance');
+
+    Route::get('/zreports',              [ZReportController::class, 'index'])->name('zreports.index')->middleware('check_permission:view_reports');
+    Route::get('/zreports/create',       [ZReportController::class, 'create'])->name('zreports.create')->middleware('check_permission:view_reports');
+    Route::post('/zreports',             [ZReportController::class, 'store'])->name('zreports.store')->middleware('check_permission:view_reports');
+    Route::get('/zreports/{zreport}',    [ZReportController::class, 'show'])->name('zreports.show')->middleware('check_permission:view_reports');
 
     // Report Exports
     Route::get('/reports/sales/export', [SalesReportController::class, 'exportPdf'])->name('reports.sales.export')->middleware('check_permission:view_reports');
