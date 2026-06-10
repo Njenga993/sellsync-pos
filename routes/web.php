@@ -20,6 +20,7 @@ use App\Http\Controllers\SuperAdmin\SuperAdminController;
 use App\Http\Controllers\SuperAdmin\TenantManagementController;
 use App\Http\Controllers\Modules\Settings\SettingsController;
 use App\Http\Controllers\Modules\Reports\Controllers\ZReportController;
+use App\Http\Controllers\BranchSetupController;
 
 // ── Welcome ──
 Route::get('/', function () {
@@ -165,6 +166,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/settings',  [SettingsController::class, 'index'])->name('settings.index')->middleware('check_permission:manage_settings');
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update')->middleware('check_permission:manage_settings');
 
+
+    Route::get('/branch-setup',  [BranchSetupController::class, 'show'])->name('branch.setup');
+    Route::post('/branch-setup', [BranchSetupController::class, 'update'])->name('branch.setup.update');
+    Route::get('/branch-setup/skip', [BranchSetupController::class, 'skip'])->name('branch.setup.skip');
 });
 
 // ── OTP routes (outside auth group — user is partially authenticated) ──

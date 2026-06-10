@@ -189,6 +189,22 @@
                         @endif
                     </div>
 
+                    {{-- Number of Branches --}}
+<div class="mb-4">
+    <x-input-label for="branch_count" :value="__('How many branches do you have?')" />
+    <select id="branch_count" name="branch_count"
+        class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500 text-sm">
+        <option value="1"  {{ old('branch_count') == '1'  ? 'selected' : '' }}>Just 1 (single location)</option>
+        <option value="2"  {{ old('branch_count') == '2'  ? 'selected' : '' }}>2 branches</option>
+        <option value="3"  {{ old('branch_count') == '3'  ? 'selected' : '' }}>3 branches</option>
+        <option value="4"  {{ old('branch_count') == '4'  ? 'selected' : '' }}>4 branches</option>
+        <option value="5"  {{ old('branch_count') == '5'  ? 'selected' : '' }}>5 branches</option>
+        <option value="6"  {{ old('branch_count', '1') > '5' ? 'selected' : '' }}>More than 5</option>
+    </select>
+    <p class="text-xs text-gray-400 mt-1">You can add and configure each branch after registration.</p>
+    <x-input-error :messages="$errors->get('branch_count')" class="mt-2" />
+</div>
+
                     <div class="section-label">Your Details</div>
 
                     <div class="two-col">
