@@ -88,7 +88,7 @@ class RegisteredUserController extends Controller
                 ->with('info', "Welcome! You have {$branchCount} branches to set up.");
         }
 
-        // ── Single branch — go straight to dashboard ──
+        // ── Single branch — go straight to verify notice ──
         return redirect()->route('verification.notice');
     }
 }

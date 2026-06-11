@@ -167,9 +167,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update')->middleware('check_permission:manage_settings');
 
 
-    Route::get('/branch-setup',  [BranchSetupController::class, 'show'])->name('branch.setup');
-    Route::post('/branch-setup', [BranchSetupController::class, 'update'])->name('branch.setup.update');
-    Route::get('/branch-setup/skip', [BranchSetupController::class, 'skip'])->name('branch.setup.skip');
+});
+// ── Branch Setup (outside verified group — user isn't verified yet) ──
+Route::middleware(['auth'])->group(function () {
+    Route::get('/branch-setup',       [BranchSetupController::class, 'show'])->name('branch.setup');
+    Route::post('/branch-setup',      [BranchSetupController::class, 'update'])->name('branch.setup.update');
+    Route::get('/branch-setup/skip',  [BranchSetupController::class, 'skip'])->name('branch.setup.skip');
 });
 
 // ── OTP routes (outside auth group — user is partially authenticated) ──
