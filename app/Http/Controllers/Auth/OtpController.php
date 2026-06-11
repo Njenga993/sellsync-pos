@@ -46,7 +46,7 @@ class OtpController extends Controller
             Cache::forget('otp_' . $userId);
             Cache::forget('otp_' . $userId . '_expires');
             Cache::forget('otp_' . $userId . '_attempts');
-            session()->forget(['otp_user_id', 'otp_flow']);
+            session()->forget(['otp_user_id', 'otp_flow', 'branch_setup_complete', 'pending_branch_setup']);
 
             return back()->withErrors([
                 'otp' => 'OTP has expired. Please login again.',
@@ -61,7 +61,7 @@ class OtpController extends Controller
                 Cache::forget('otp_' . $userId);
                 Cache::forget('otp_' . $userId . '_expires');
                 Cache::forget('otp_' . $userId . '_attempts');
-                session()->forget(['otp_user_id', 'otp_flow']);
+                session()->forget(['otp_user_id', 'otp_flow', 'branch_setup_complete', 'pending_branch_setup']);
 
                 return back()->withErrors([
                     'otp' => 'Too many incorrect attempts. Please login again.',
@@ -90,16 +90,17 @@ class OtpController extends Controller
 
         $request->session()->regenerate();
 
-        // If this was a registration flow, check branch setup
+        // Registration flow — go straight to dashboard
+        // Branch setup was already completed before OTP
         if ($flow === 'registration') {
-            $branchCount = \App\Models\Branch::where('tenant_id', $user->tenant_id)->count();
-            if ($branchCount > 1 && !session()->has('branch_setup_complete')) {
-                return redirect()->route('branch.setup')
-                    ->with('info', "Welcome! You have {$branchCount} branches to set up.");
-            }
+            // Clean up branch setup session
+            session()->forget(['branch_setup_complete', 'pending_branch_setup']);
+            
+            return redirect()->route('dashboard')
+                ->with('success', 'Account verified successfully! Welcome to SellSync.');
         }
 
-        // Role-based redirect
+        // Login flow — role-based redirect
         if ($user->hasRole('cashier')) {
             return redirect()->route('pos.index');
         }
