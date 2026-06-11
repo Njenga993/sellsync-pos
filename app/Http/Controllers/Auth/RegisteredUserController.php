@@ -10,7 +10,9 @@ use App\Rules\StrongPassword;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
@@ -75,17 +77,28 @@ class RegisteredUserController extends Controller
 
         $user->assignRole('admin');
 
+        // ── Generate OTP ──
+        $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+        Cache::put('otp_' . $user->id, $otp, now()->addMinutes(5));
+        Cache::put('otp_' . $user->id . '_expires', now()->addMinutes(5), now()->addMinutes(5));
+
+        // ── Send OTP email ──
+        Mail::to($user->email)->send(new \App\Mail\LoginOtpMail($user, $otp));
+
         // ── Log In ──
         Auth::login($user);
 
+        // ── Store OTP flow type ──
+        session()->put('otp_flow', 'registration');
+
         // ── Redirect to Branch Setup if more than 1 branch ──
         if ($branchCount > 1) {
+            session()->put('pending_branch_setup', true);
             return redirect()->route('branch.setup')
                 ->with('info', "Welcome! You have {$branchCount} branches to set up.");
         }
 
         // ── Single branch — go straight to OTP verification ──
-        session()->put('otp_flow', 'registration');
         return redirect()->route('otp.show');
     }
 }
