@@ -46,7 +46,7 @@ Route::get('/dashboard', function () {
     ];
 
     return view('dashboard', compact('stats'));
-})->middleware(['auth', 'verified', 'role_redirect', 'check_permission:view_dashboard'])->name('dashboard');
+})->middleware(['auth', 'role_redirect', 'check_permission:view_dashboard'])->name('dashboard');
 
 // ── Profile ──
 Route::middleware('auth')->group(function () {
@@ -68,8 +68,15 @@ Route::prefix('superadmin')
         Route::delete('/tenants/{tenant}',             [TenantManagementController::class, 'destroy'])->name('tenants.destroy');
     });
 
-// ── Authenticated tenant routes (email verification enforced) ──
-Route::middleware(['auth', 'verified'])->group(function () {
+// ── Branch Setup (auth only — user isn't fully verified yet) ──
+Route::middleware(['auth'])->group(function () {
+    Route::get('/branch-setup',       [BranchSetupController::class, 'show'])->name('branch.setup');
+    Route::post('/branch-setup',      [BranchSetupController::class, 'update'])->name('branch.setup.update');
+    Route::get('/branch-setup/skip',  [BranchSetupController::class, 'skip'])->name('branch.setup.skip');
+});
+
+// ── Authenticated tenant routes ──
+Route::middleware(['auth'])->group(function () {
 
     // POS — rate limited
     Route::get('/pos',                [PosController::class, 'index'])->name('pos.index')->middleware('check_permission:access_pos');
@@ -166,19 +173,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/settings',  [SettingsController::class, 'index'])->name('settings.index')->middleware('check_permission:manage_settings');
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update')->middleware('check_permission:manage_settings');
 
-
 });
-// ── Branch Setup (outside verified group — user isn't verified yet) ──
+
+// ── OTP routes (outside verified group — user isn't verified yet) ──
 Route::middleware(['auth'])->group(function () {
-    Route::get('/branch-setup',       [BranchSetupController::class, 'show'])->name('branch.setup');
-    Route::post('/branch-setup',      [BranchSetupController::class, 'update'])->name('branch.setup.update');
-    Route::get('/branch-setup/skip',  [BranchSetupController::class, 'skip'])->name('branch.setup.skip');
+    Route::get('/otp', [App\Http\Controllers\Auth\OtpController::class, 'show'])->name('otp.show');
+    Route::post('/otp/verify', [App\Http\Controllers\Auth\OtpController::class, 'verify'])->name('otp.verify');
+    Route::post('/otp/resend', [App\Http\Controllers\Auth\OtpController::class, 'resend'])->name('otp.resend');
 });
-
-// ── OTP routes (outside auth group — user is partially authenticated) ──
-Route::get('/otp', [App\Http\Controllers\Auth\OtpController::class, 'show'])->name('otp.show');
-Route::post('/otp/verify', [App\Http\Controllers\Auth\OtpController::class, 'verify'])->name('otp.verify');
-Route::post('/otp/resend', [App\Http\Controllers\Auth\OtpController::class, 'resend'])->name('otp.resend');
 
 // ── Google OAuth (outside auth group — user isn't logged in yet) ──
 Route::get('/auth/google/redirect', [App\Http\Controllers\Auth\GoogleAuthController::class, 'redirect'])

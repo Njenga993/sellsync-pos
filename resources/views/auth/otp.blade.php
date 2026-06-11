@@ -129,17 +129,35 @@
             {{-- OTP Form --}}
             <div class="form-card">
                 <div style="text-align:center;margin-bottom:20px">
-                    <div style="width:48px;height:48px;background:#e6f7eb;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px">
-                        <svg width="24" height="24" fill="none" stroke="#03A737" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                        </svg>
-                    </div>
-                    <h2 style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;color:#02182F;margin-bottom:6px">
-                        Enter OTP
-                    </h2>
-                    <p style="font-family:'Outfit',sans-serif;font-size:13px;color:#6b7280;line-height:1.5">
-                        We've sent a 6-digit code to your email. Enter it below to continue.
-                    </p>
+                    @php $flow = $flow ?? 'login'; @endphp
+                    
+                    @if($flow === 'registration')
+                        {{-- Registration Icon --}}
+                        <div style="width:48px;height:48px;background:#e6f7eb;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px">
+                            <svg width="24" height="24" fill="none" stroke="#03A737" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <h2 style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;color:#02182F;margin-bottom:6px">
+                            Verify Your Email
+                        </h2>
+                        <p style="font-family:'Outfit',sans-serif;font-size:13px;color:#6b7280;line-height:1.5">
+                            Enter the OTP code sent to your email to finalize your registration and verify your account.
+                        </p>
+                    @else
+                        {{-- Login Icon --}}
+                        <div style="width:48px;height:48px;background:#edf3fd;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px">
+                            <svg width="24" height="24" fill="none" stroke="#3D7BE7" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <h2 style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;color:#02182F;margin-bottom:6px">
+                            Two-Factor Authentication
+                        </h2>
+                        <p style="font-family:'Outfit',sans-serif;font-size:13px;color:#6b7280;line-height:1.5">
+                            Enter the OTP code sent to your email to complete the login process.
+                        </p>
+                    @endif
                 </div>
 
                 <form method="POST" action="{{ route('otp.verify') }}">
@@ -161,7 +179,11 @@
                     </div>
 
                     <button type="submit" class="btn-submit">
-                        Verify & Login
+                        @if($flow === 'registration')
+                            Verify & Continue
+                        @else
+                            Verify & Login
+                        @endif
                     </button>
                 </form>
 

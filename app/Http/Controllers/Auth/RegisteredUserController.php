@@ -7,7 +7,6 @@ use App\Models\Branch;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Rules\StrongPassword;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -76,9 +75,6 @@ class RegisteredUserController extends Controller
 
         $user->assignRole('admin');
 
-        // ── Send Verification Email ──
-        event(new Registered($user));
-
         // ── Log In ──
         Auth::login($user);
 
@@ -88,7 +84,8 @@ class RegisteredUserController extends Controller
                 ->with('info', "Welcome! You have {$branchCount} branches to set up.");
         }
 
-        // ── Single branch — go straight to verify notice ──
-        return redirect()->route('verification.notice');
+        // ── Single branch — go straight to OTP verification ──
+        session()->put('otp_flow', 'registration');
+        return redirect()->route('otp.show');
     }
 }

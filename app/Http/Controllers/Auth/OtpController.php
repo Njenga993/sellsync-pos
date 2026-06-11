@@ -18,7 +18,9 @@ class OtpController extends Controller
             return redirect()->route('login');
         }
 
-        return view('auth.otp');
+        $flow = session()->get('otp_flow', 'login');
+
+        return view('auth.otp', compact('flow'));
     }
 
     public function verify(Request $request)
@@ -35,6 +37,8 @@ class OtpController extends Controller
             ]);
         }
 
+        $flow = session()->get('otp_flow', 'login');
+
         $cachedOtp = Cache::get('otp_' . $userId);
         $expiresAt = Cache::get('otp_' . $userId . '_expires');
 
@@ -42,7 +46,7 @@ class OtpController extends Controller
             Cache::forget('otp_' . $userId);
             Cache::forget('otp_' . $userId . '_expires');
             Cache::forget('otp_' . $userId . '_attempts');
-            session()->forget('otp_user_id');
+            session()->forget(['otp_user_id', 'otp_flow']);
 
             return back()->withErrors([
                 'otp' => 'OTP has expired. Please login again.',
@@ -57,7 +61,7 @@ class OtpController extends Controller
                 Cache::forget('otp_' . $userId);
                 Cache::forget('otp_' . $userId . '_expires');
                 Cache::forget('otp_' . $userId . '_attempts');
-                session()->forget('otp_user_id');
+                session()->forget(['otp_user_id', 'otp_flow']);
 
                 return back()->withErrors([
                     'otp' => 'Too many incorrect attempts. Please login again.',
@@ -74,7 +78,7 @@ class OtpController extends Controller
         Cache::forget('otp_' . $userId);
         Cache::forget('otp_' . $userId . '_expires');
         Cache::forget('otp_' . $userId . '_attempts');
-        session()->forget('otp_user_id');
+        session()->forget(['otp_user_id', 'otp_flow']);
 
         Auth::loginUsingId($userId);
 
@@ -85,6 +89,15 @@ class OtpController extends Controller
         }
 
         $request->session()->regenerate();
+
+        // If this was a registration flow, check branch setup
+        if ($flow === 'registration') {
+            $branchCount = \App\Models\Branch::where('tenant_id', $user->tenant_id)->count();
+            if ($branchCount > 1 && !session()->has('branch_setup_complete')) {
+                return redirect()->route('branch.setup')
+                    ->with('info', "Welcome! You have {$branchCount} branches to set up.");
+            }
+        }
 
         // Role-based redirect
         if ($user->hasRole('cashier')) {

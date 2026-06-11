@@ -71,6 +71,9 @@ class AuthenticatedSessionController extends Controller
         // Store user ID in session for OTP verification
         session()->put('otp_user_id', $user->id);
 
+        // Store the OTP flow type: 'login' or 'registration'
+        session()->put('otp_flow', 'login');
+
         // Send OTP email
         Mail::to($user->email)->send(new \App\Mail\LoginOtpMail($user, $otp));
 
