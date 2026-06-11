@@ -43,12 +43,14 @@ class BranchSetupController extends Controller
             }
         }
 
-        return redirect()->route('verification.notice')
-            ->with('success', 'Branches set up successfully. Welcome to SellSync!');
+        // Redirect to OTP verification, not email verification
+        return redirect()->route('otp.show')
+            ->with('status', 'Branches saved! Enter the OTP sent to your email to continue.');
     }
 
     public function skip()
     {
-        return redirect()->route('verification.notice');
+        // Redirect to OTP verification, not email verification
+        return redirect()->route('otp.show');
     }
 }
