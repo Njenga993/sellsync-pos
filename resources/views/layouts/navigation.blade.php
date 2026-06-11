@@ -45,28 +45,28 @@ if (!function_exists('navItem')) {
 
         {{-- Branch Switcher --}}
         @php
-            $branches = \App\Models\Branch::where('tenant_id', auth()->user()->tenant_id)
+            $navBranches = \App\Models\Branch::where('tenant_id', auth()->user()->tenant_id)
                 ->where('status', 'active')
                 ->orderBy('is_main', 'desc')
                 ->orderBy('name')
                 ->get();
-            $currentBranch = $branches->firstWhere('id', auth()->user()->branch_id);
         @endphp
-        @if($branches->count() > 1)
-        <div style="padding:6px 10px;margin-bottom:4px">
-            <div style="position:relative">
-                <select onchange="window.location.href=this.value" 
+        @if($navBranches->count() > 1)
+        <div style="padding:6px 10px;margin-bottom:6px">
+            <form method="POST" action="" id="branch-switch-form" style="position:relative">
+                @csrf
+                <select name="branch_id" onchange="document.getElementById('branch-switch-form').submit()" 
                     style="width:100%;padding:8px 12px;padding-right:32px;border:1.5px solid #e4e7ef;border-radius:10px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;color:#02182F;background:#fafbff;cursor:pointer;outline:none;appearance:none;
                     background-image:url('data:image/svg+xml,%3Csvg width=%2710%27 height=%277%27 fill=%27none%27 stroke=%27%239ca3af%27 stroke-width=%272%27 viewBox=%270 0 24 24%27%3E%3Cpath stroke-linecap=%27round%27 stroke-linejoin=%27round%27 d=%27M6 9l6 6 6-6%27/%3E%3C/svg%3E');
                     background-repeat:no-repeat;background-position:right 10px center">
-                    @foreach($branches as $branch)
-                        <option value="{{ route('branches.switch', $branch) }}" 
-                            {{ auth()->user()->branch_id === $branch->id ? 'selected' : '' }}>
-                            {{ $branch->name }} {{ $branch->is_main ? ' (Main)' : '' }}
+                    @foreach($navBranches as $navBranch)
+                        <option value="{{ $navBranch->id }}" 
+                            {{ auth()->user()->branch_id === $navBranch->id ? 'selected' : '' }}>
+                            {{ $navBranch->name }} {{ $navBranch->is_main ? ' (Main)' : '' }}
                         </option>
                     @endforeach
                 </select>
-            </div>
+            </form>
         </div>
         @endif
 
@@ -136,13 +136,6 @@ if (!function_exists('navItem')) {
                     'staff.*'
                 ) !!}
             @endcan
-
-                        @can('manage_settings')
-                {!! navItem('branches.index', 'Branches',
-                    '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>',
-                    'branches.*'
-                ) !!}
-            @endcan
         @endcanany
 
         {{-- Finance & Reports --}}
@@ -203,6 +196,11 @@ if (!function_exists('navItem')) {
                 '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>',
                 'settings.*'
             ) !!}
+
+            {!! navItem('branches.index', 'Branches',
+                '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>',
+                'branches.*'
+            ) !!}
         @endcan
     </div>
 
@@ -234,3 +232,18 @@ if (!function_exists('navItem')) {
         </form>
     </div>
 </nav>
+
+<script>
+// Branch switcher - set the form action dynamically
+(function() {
+    var form = document.getElementById('branch-switch-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var branchId = this.querySelector('select').value;
+            this.action = '/branches/' + branchId + '/switch';
+            this.submit();
+        });
+    }
+})();
+</script>
