@@ -21,6 +21,7 @@ use App\Http\Controllers\SuperAdmin\TenantManagementController;
 use App\Http\Controllers\Modules\Settings\SettingsController;
 use App\Http\Controllers\Modules\Reports\Controllers\ZReportController;
 use App\Http\Controllers\BranchSetupController;
+use App\Http\Controllers\Modules\Inventory\Controllers\BranchController;
 
 // ── Welcome ──
 Route::get('/', function () {
@@ -138,6 +139,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('staff/{staff}/edit', [StaffController::class, 'edit'])->name('staff.edit')->middleware('check_permission:manage_staff');
     Route::put('staff/{staff}',      [StaffController::class, 'update'])->name('staff.update')->middleware('check_permission:manage_staff');
     Route::delete('staff/{staff}',   [StaffController::class, 'destroy'])->name('staff.destroy')->middleware('check_permission:manage_staff');
+
+
+    // Branches
+Route::get('/branches',              [BranchController::class, 'index'])->name('branches.index')->middleware('check_permission:manage_settings');
+Route::get('/branches/create',       [BranchController::class, 'create'])->name('branches.create')->middleware('check_permission:manage_settings');
+Route::post('/branches',             [BranchController::class, 'store'])->name('branches.store')->middleware('check_permission:manage_settings');
+Route::get('/branches/{branch}/edit',[BranchController::class, 'edit'])->name('branches.edit')->middleware('check_permission:manage_settings');
+Route::put('/branches/{branch}',     [BranchController::class, 'update'])->name('branches.update')->middleware('check_permission:manage_settings');
+Route::delete('/branches/{branch}',  [BranchController::class, 'destroy'])->name('branches.destroy')->middleware('check_permission:manage_settings');
+Route::post('/branches/{branch}/switch', [BranchController::class, 'switch'])->name('branches.switch');
 
     // Reports
     Route::get('/reports/sales',               [SalesReportController::class,    'index'])->name('reports.sales')->middleware('check_permission:view_reports');

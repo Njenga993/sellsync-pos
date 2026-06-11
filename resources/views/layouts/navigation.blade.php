@@ -43,6 +43,33 @@ if (!function_exists('navItem')) {
 }
 @endphp
 
+        {{-- Branch Switcher --}}
+        @php
+            $branches = \App\Models\Branch::where('tenant_id', auth()->user()->tenant_id)
+                ->where('status', 'active')
+                ->orderBy('is_main', 'desc')
+                ->orderBy('name')
+                ->get();
+            $currentBranch = $branches->firstWhere('id', auth()->user()->branch_id);
+        @endphp
+        @if($branches->count() > 1)
+        <div style="padding:6px 10px;margin-bottom:4px">
+            <div style="position:relative">
+                <select onchange="window.location.href=this.value" 
+                    style="width:100%;padding:8px 12px;padding-right:32px;border:1.5px solid #e4e7ef;border-radius:10px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;color:#02182F;background:#fafbff;cursor:pointer;outline:none;appearance:none;
+                    background-image:url('data:image/svg+xml,%3Csvg width=%2710%27 height=%277%27 fill=%27none%27 stroke=%27%239ca3af%27 stroke-width=%272%27 viewBox=%270 0 24 24%27%3E%3Cpath stroke-linecap=%27round%27 stroke-linejoin=%27round%27 d=%27M6 9l6 6 6-6%27/%3E%3C/svg%3E');
+                    background-repeat:no-repeat;background-position:right 10px center">
+                    @foreach($branches as $branch)
+                        <option value="{{ route('branches.switch', $branch) }}" 
+                            {{ auth()->user()->branch_id === $branch->id ? 'selected' : '' }}>
+                            {{ $branch->name }} {{ $branch->is_main ? ' (Main)' : '' }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        @endif
+
         {{-- Main --}}
         <div style="font-size:10px;font-weight:700;color:#c4c9d6;text-transform:uppercase;letter-spacing:.08em;padding:6px 14px 4px;margin-top:4px">Main</div>
 
@@ -107,6 +134,13 @@ if (!function_exists('navItem')) {
                 {!! navItem('staff.index', 'Staff',
                     '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>',
                     'staff.*'
+                ) !!}
+            @endcan
+
+                        @can('manage_settings')
+                {!! navItem('branches.index', 'Branches',
+                    '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>',
+                    'branches.*'
                 ) !!}
             @endcan
         @endcanany
