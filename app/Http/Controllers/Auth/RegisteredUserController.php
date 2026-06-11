@@ -66,13 +66,14 @@ class RegisteredUserController extends Controller
 
         // ── Create Admin User on Main Branch ──
         $user = User::create([
-            'tenant_id' => $tenant->id,
-            'branch_id' => $mainBranch->id,
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'phone'     => $request->phone,
-            'password'  => Hash::make($request->password),
-            'status'    => 'active',
+            'tenant_id'   => $tenant->id,
+            'branch_id'   => $mainBranch->id,
+            'name'        => $request->name,
+            'email'       => $request->email,
+            'phone'       => $request->phone,
+            'password'    => Hash::make($request->password),
+            'status'      => 'active',
+            'email_verified_at' => now(), // Auto-verify — OTP handles verification
         ]);
 
         $user->assignRole('admin');
@@ -89,16 +90,16 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         // ── Store OTP flow type ──
+        session()->put('otp_user_id', $user->id);
         session()->put('otp_flow', 'registration');
 
         // ── Redirect to Branch Setup if more than 1 branch ──
         if ($branchCount > 1) {
-            session()->put('pending_branch_setup', true);
             return redirect()->route('branch.setup')
                 ->with('info', "Welcome! You have {$branchCount} branches to set up.");
         }
 
-        // ── Single branch — go straight to OTP verification ──
+        // ── Single branch — go straight to OTP ──
         return redirect()->route('otp.show');
     }
 }
