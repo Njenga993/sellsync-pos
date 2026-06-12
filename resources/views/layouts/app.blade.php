@@ -5,12 +5,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'SellSync-POS') }}</title>
+        <title>
+            @hasSection('title')
+                @yield('title') — {{ auth()->user()->tenant->name ?? config('app.name', 'SellSync-POS') }}
+            @else
+                {{ request()->route() ? ucfirst(str_replace(['.', '_', '-'], ' ', request()->route()->getName() ?? 'Dashboard')) : 'Dashboard' }} — {{ auth()->user()->tenant->name ?? config('app.name', 'SellSync-POS') }}
+            @endif
+        </title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=outfit:400,500,600,700" rel="stylesheet" />
         <link href="https://fonts.bunny.net/css?family=jetbrains-mono:400,500,600" rel="stylesheet" />
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="{{ asset('images/sellsyncLogo.png') }}" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])

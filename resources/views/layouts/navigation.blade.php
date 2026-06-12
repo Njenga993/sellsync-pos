@@ -1,29 +1,32 @@
 <nav style="
-    position:fixed; left:0; top:0; width:260px; height:100vh;
+    position:fixed; left:0; top:0; width:268px; height:100vh;
     background:#FFFEFE; border-right:1px solid #e4e7ef;
     display:flex; flex-direction:column; overflow-y:auto;
     z-index:50; font-family:'Outfit',sans-serif;
-    box-shadow:1px 0 0 #f1f3f8;
+    box-shadow:2px 0 12px rgba(2,24,47,.04);
 " id="pos-sidebar">
 
     {{-- Logo / Brand --}}
-    <div style="padding:24px 20px 20px;border-bottom:1px solid #f1f3f8">
-        <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+    <a href="{{ route('dashboard') }}" style="text-decoration:none;display:block;padding:26px 22px 20px;border-bottom:1px solid #f1f3f8;transition:background .15s" onmouseover="this.style.background='#fafbff'" onmouseout="this.style.background='transparent'">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
             <div style="flex-shrink:0">
                 <img src="{{ asset('images/sellsyncLogo.png') }}" 
                      alt="SellSync-POS" 
-                     style="width:64px;height:64px;object-fit:contain;display:block">
+                     style="width:48px;height:48px;object-fit:contain;display:block;border-radius:12px">
             </div>
             <div>
-                <div style="font-size:17px;font-weight:700;color:#02182F;line-height:1">SellSync</div>
-                <div style="font-size:11px;color:#03A737;margin-top:3px;font-weight:600;font-family:'JetBrains Mono',monospace;letter-spacing:0.08em">POS</div>
+                <div style="font-size:17px;font-weight:800;color:#02182F;line-height:1;letter-spacing:-0.01em">SellSync</div>
+                <div style="font-size:10px;color:#03A737;margin-top:3px;font-weight:700;font-family:'JetBrains Mono',monospace;letter-spacing:0.1em">POS</div>
             </div>
         </div>
-        <div style="font-size:11px;color:#9ca3af;font-weight:500">{{ auth()->user()->tenant->name ?? 'Your Store' }}</div>
-    </div>
+        <div style="display:flex;align-items:center;gap:6px">
+            <span style="width:7px;height:7px;border-radius:50%;background:#03A737;flex-shrink:0"></span>
+            <span style="font-size:11px;color:#9ca3af;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ auth()->user()->tenant->name ?? 'Your Store' }}</span>
+        </div>
+    </a>
 
     {{-- Navigation --}}
-    <div style="flex:1;padding:12px 10px;display:flex;flex-direction:column;gap:1px;overflow-y:auto">
+    <div style="flex:1;padding:8px 10px;display:flex;flex-direction:column;gap:1px;overflow-y:auto">
 
         @php
 if (!function_exists('navItem')) {
@@ -34,9 +37,11 @@ if (!function_exists('navItem')) {
         $bar    = $active ? '<span style="position:absolute;left:0;top:20%;height:60%;width:3px;background:#03A737;border-radius:0 3px 3px 0"></span>' : '';
         $url    = route($route);
         return "
-        <a href=\"{$url}\" style=\"display:flex;align-items:center;gap:11px;padding:9px 14px;border-radius:10px;text-decoration:none;font-size:13.5px;transition:all .12s;position:relative;{$bg};{$color}\">
+        <a href=\"{$url}\" style=\"display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:11px;text-decoration:none;font-size:13px;transition:all .15s;position:relative;{$bg};{$color}\"
+           onmouseover=\"if(!this.classList.contains('active-nav')){this.style.background='#fafbff';}\"
+           onmouseout=\"if(!this.classList.contains('active-nav')){this.style.background='';}\">
             {$bar}
-            <span style=\"width:30px;display:flex;align-items:center;justify-content:center;flex-shrink:0\">{$icon}</span>
+            <span style=\"width:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:0.7\">{$icon}</span>
             <span style=\"flex:1\">{$label}</span>
         </a>";
     }
@@ -52,30 +57,37 @@ if (!function_exists('navItem')) {
                 ->get();
         @endphp
         @if($navBranches->count() > 1)
-        <div style="padding:6px 10px;margin-bottom:6px">
+        <div style="padding:4px 10px;margin-bottom:2px">
             <form method="POST" action="" id="branch-switch-form" style="position:relative">
                 @csrf
-                <select name="branch_id" onchange="document.getElementById('branch-switch-form').submit()" 
-                    style="width:100%;padding:8px 12px;padding-right:32px;border:1.5px solid #e4e7ef;border-radius:10px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;color:#02182F;background:#fafbff;cursor:pointer;outline:none;appearance:none;
-                    background-image:url('data:image/svg+xml,%3Csvg width=%2710%27 height=%277%27 fill=%27none%27 stroke=%27%239ca3af%27 stroke-width=%272%27 viewBox=%270 0 24 24%27%3E%3Cpath stroke-linecap=%27round%27 stroke-linejoin=%27round%27 d=%27M6 9l6 6 6-6%27/%3E%3C/svg%3E');
-                    background-repeat:no-repeat;background-position:right 10px center">
-                    @foreach($navBranches as $navBranch)
-                        <option value="{{ $navBranch->id }}" 
-                            {{ auth()->user()->branch_id === $navBranch->id ? 'selected' : '' }}>
-                            {{ $navBranch->name }} {{ $navBranch->is_main ? ' (Main)' : '' }}
-                        </option>
-                    @endforeach
-                </select>
+                <div style="position:relative">
+                    <div style="position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none;z-index:1">
+                        <svg width="12" height="12" fill="none" stroke="#9ca3af" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    </div>
+                    <select name="branch_id" id="branch-select"
+                        style="width:100%;padding:9px 12px 9px 34px;padding-right:30px;border:1.5px solid #e4e7ef;border-radius:10px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;color:#02182F;background:#fafbff;cursor:pointer;outline:none;appearance:none;transition:all .15s;
+                        background-image:url('data:image/svg+xml,%3Csvg width=%2710%27 height=%277%27 fill=%27none%27 stroke=%27%239ca3af%27 stroke-width=%272%27 viewBox=%270 0 24 24%27%3E%3Cpath stroke-linecap=%27round%27 stroke-linejoin=%27round%27 d=%27M6 9l6 6 6-6%27/%3E%3C/svg%3E');
+                        background-repeat:no-repeat;background-position:right 10px center;"
+                        onfocus="this.style.borderColor='#03A737';this.style.boxShadow='0 0 0 3px rgba(3,167,55,.08)'"
+                        onblur="this.style.borderColor='#e4e7ef';this.style.boxShadow='none'">
+                        @foreach($navBranches as $navBranch)
+                            <option value="{{ $navBranch->id }}" 
+                                {{ auth()->user()->branch_id === $navBranch->id ? 'selected' : '' }}>
+                                {{ $navBranch->name }} {{ $navBranch->is_main ? '· Main' : '' }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
             </form>
         </div>
         @endif
 
         {{-- Main --}}
-        <div style="font-size:10px;font-weight:700;color:#c4c9d6;text-transform:uppercase;letter-spacing:.08em;padding:6px 14px 4px;margin-top:4px">Main</div>
+        <div style="font-size:9px;font-weight:700;color:#c4c9d6;text-transform:uppercase;letter-spacing:.1em;padding:8px 14px 4px;margin-top:4px">Main</div>
 
         @can('view_dashboard')
             {!! navItem('dashboard', 'Dashboard',
-                '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>'
+                '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>'
             ) !!}
         @endcan
 
@@ -88,7 +100,7 @@ if (!function_exists('navItem')) {
 
         {{-- Inventory --}}
         @canany(['view_products', 'manage_products', 'manage_stock', 'manage_suppliers'])
-            <div style="font-size:10px;font-weight:700;color:#c4c9d6;text-transform:uppercase;letter-spacing:.08em;padding:6px 14px 4px;margin-top:8px">Inventory</div>
+            <div style="font-size:9px;font-weight:700;color:#c4c9d6;text-transform:uppercase;letter-spacing:.1em;padding:8px 14px 4px;margin-top:8px">Inventory</div>
 
             @can('view_products')
                 {!! navItem('products.index', 'Products',
@@ -121,7 +133,7 @@ if (!function_exists('navItem')) {
 
         {{-- People --}}
         @canany(['view_customers', 'manage_staff'])
-            <div style="font-size:10px;font-weight:700;color:#c4c9d6;text-transform:uppercase;letter-spacing:.08em;padding:6px 14px 4px;margin-top:8px">People</div>
+            <div style="font-size:9px;font-weight:700;color:#c4c9d6;text-transform:uppercase;letter-spacing:.1em;padding:8px 14px 4px;margin-top:8px">People</div>
 
             @can('view_customers')
                 {!! navItem('customers.index', 'Customers',
@@ -140,7 +152,7 @@ if (!function_exists('navItem')) {
 
         {{-- Finance & Reports --}}
         @canany(['view_reports', 'view_profit_loss', 'view_stock_valuation', 'view_cashier_performance', 'manage_expenses', 'process_returns'])
-            <div style="font-size:10px;font-weight:700;color:#c4c9d6;text-transform:uppercase;letter-spacing:.08em;padding:6px 14px 4px;margin-top:8px">Finance</div>
+            <div style="font-size:9px;font-weight:700;color:#c4c9d6;text-transform:uppercase;letter-spacing:.1em;padding:8px 14px 4px;margin-top:8px">Finance</div>
 
             @can('view_reports')
                 {!! navItem('reports.sales', 'Sales Report',
@@ -181,7 +193,7 @@ if (!function_exists('navItem')) {
             @endcan
 
             @can('view_reports')
-              {!! navItem('zreports.index', 'Z-Report (End of Day)',
+              {!! navItem('zreports.index', 'Z-Report',
               '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>',
               'zreports.*'
               ) !!}
@@ -190,7 +202,7 @@ if (!function_exists('navItem')) {
 
         {{-- System --}}
         @can('manage_settings')
-            <div style="font-size:10px;font-weight:700;color:#c4c9d6;text-transform:uppercase;letter-spacing:.08em;padding:6px 14px 4px;margin-top:8px">System</div>
+            <div style="font-size:9px;font-weight:700;color:#c4c9d6;text-transform:uppercase;letter-spacing:.1em;padding:8px 14px 4px;margin-top:8px">System</div>
 
             {!! navItem('settings.index', 'Settings',
                 '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>',
@@ -205,44 +217,47 @@ if (!function_exists('navItem')) {
     </div>
 
     {{-- Footer / User --}}
-    <div style="padding:14px 16px 16px;border-top:1px solid #f1f3f8;margin-top:auto">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-            <div style="width:36px;height:36px;background:#03A737;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#FFFEFE;font-weight:700;font-size:13px;flex-shrink:0">
+    <div style="padding:16px;border-top:1px solid #f1f3f8;margin-top:auto;background:#fafbff">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+            <div style="width:38px;height:38px;background:linear-gradient(135deg,#03A737,#028a2e);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#FFFEFE;font-weight:700;font-size:13px;flex-shrink:0;box-shadow:0 2px 8px rgba(3,167,55,.2)">
                 {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
             </div>
             <div style="flex:1;min-width:0">
-                <div style="font-size:13px;font-weight:600;color:#02182F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ auth()->user()->name }}</div>
-                <div style="font-size:11px;color:#9ca3af;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ auth()->user()->email }}</div>
+                <div style="font-size:13px;font-weight:600;color:#02182F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2">{{ auth()->user()->name }}</div>
+                <div style="font-size:11px;color:#9ca3af;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px">{{ auth()->user()->email }}</div>
             </div>
         </div>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" style="
-                display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;
+                display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:10px 12px;
                 border-radius:10px;background:transparent;border:1.5px solid #e4e7ef;
-                font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;
+                font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;
                 color:#6b7280;cursor:pointer;transition:all .15s;
             " onmouseover="this.style.background='#fef2f2';this.style.borderColor='#dc2626';this.style.color='#dc2626'"
                onmouseout="this.style.background='transparent';this.style.borderColor='#e4e7ef';this.style.color='#6b7280'">
-                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                 </svg>
-                Log Out
+                Sign Out
             </button>
         </form>
     </div>
 </nav>
 
 <script>
-// Branch switcher - set the form action dynamically
 (function() {
     var form = document.getElementById('branch-switch-form');
     if (form) {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            var branchId = this.querySelector('select').value;
-            this.action = '/branches/' + branchId + '/switch';
-            this.submit();
+        var select = document.getElementById('branch-select');
+        var previousValue = select.value;
+        
+        select.addEventListener('change', function() {
+            var branchId = this.value;
+            if (branchId && branchId !== previousValue) {
+                form.action = '/branches/' + branchId + '/switch';
+                form.submit();
+            }
         });
     }
 })();

@@ -97,12 +97,8 @@ class SaleReturnController extends Controller
 
             if ($item['restock']) {
                 $product   = Product::find($item['product_id']);
-                $beforeQty = $product->getStockForBranch($branchId);
-                $afterQty  = $beforeQty + $item['qty'];
-
-                $product->branches()->syncWithoutDetaching([
-                    $branchId => ['stock_qty' => $afterQty]
-                ]);
+                $beforeQty = $product->stock_qty;
+                $product->increment('stock_qty', $item['qty']);
 
                 StockMovement::create([
                     'tenant_id'  => $tenantId,
@@ -112,7 +108,7 @@ class SaleReturnController extends Controller
                     'type'       => 'return',
                     'qty'        => $item['qty'],
                     'before_qty' => $beforeQty,
-                    'after_qty'  => $afterQty,
+                    'after_qty'  => $beforeQty + $item['qty'],
                     'reference'  => $return->return_number,
                     'notes'      => 'Restocked from return: ' . $return->return_number,
                 ]);

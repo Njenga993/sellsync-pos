@@ -25,105 +25,68 @@
             gap: 14px;
             flex-wrap: wrap;
         }
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
+        .filter-group { display: flex; flex-direction: column; gap: 4px; }
         .filter-label {
             font-family: 'Outfit', sans-serif;
-            font-size: 10px;
-            font-weight: 600;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
+            font-size: 10px; font-weight: 600; color: #9ca3af;
+            text-transform: uppercase; letter-spacing: 0.06em;
         }
-        .filter-input {
+        .filter-input, .filter-select {
             padding: 9px 12px;
-            border: 1.5px solid #e4e7ef;
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            color: #02182F;
-            background: #fafbff;
-            transition: all 0.15s;
-            outline: none;
+            border: 1.5px solid #e4e7ef; border-radius: 10px;
+            font-family: 'Outfit', sans-serif; font-size: 13px;
+            color: #02182F; background: #fafbff;
+            transition: all 0.15s; outline: none;
         }
-        .filter-input:focus {
-            border-color: #03A737;
-            background: #FFFEFE;
+        .filter-input:focus, .filter-select:focus {
+            border-color: #03A737; background: #FFFEFE;
             box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
+        }
+        .filter-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' fill='none' stroke='%239ca3af' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 12px center;
+            padding-right: 36px; cursor: pointer;
         }
         
         .btn-filter {
-            padding: 9px 18px;
-            background: #03A737;
-            color: #FFFEFE;
-            border: none;
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
+            padding: 9px 18px; background: #03A737; color: #FFFEFE;
+            border: none; border-radius: 10px;
+            font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600;
+            cursor: pointer; box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
             transition: all 0.15s;
         }
-        .btn-filter:hover {
-            background: #028a2e;
-            box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35);
-        }
+        .btn-filter:hover { background: #028a2e; box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35); }
         
         .btn-reset {
-            padding: 9px 18px;
-            background: transparent;
-            color: #6b7280;
-            border: 1.5px solid #e4e7ef;
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.15s;
-            display: inline-block;
+            padding: 9px 18px; background: transparent; color: #6b7280;
+            border: 1.5px solid #e4e7ef; border-radius: 10px;
+            font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600;
+            text-decoration: none; transition: all 0.15s; display: inline-block;
         }
-        .btn-reset:hover {
-            border-color: #03A737;
-            color: #03A737;
-            background: #e6f7eb;
-        }
+        .btn-reset:hover { border-color: #03A737; color: #03A737; background: #e6f7eb; }
         
         .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
         }
         @media (max-width: 768px) { .stat-grid { grid-template-columns: 1fr; } }
         
         .stat-card {
-            border-radius: 14px;
-            padding: 20px 22px 18px;
+            border-radius: 14px; padding: 20px 22px 18px;
             border: 1px solid transparent;
         }
         .stat-card-label {
             font-family: 'Outfit', sans-serif;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.07em;
+            font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.07em;
             margin-bottom: 8px;
         }
         .stat-card-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 24px;
-            font-weight: 700;
-            line-height: 1;
-            margin-bottom: 4px;
-            color: #02182F;
+            font-size: 24px; font-weight: 700; line-height: 1;
+            margin-bottom: 4px; color: #02182F;
         }
-        .stat-card-sub {
-            font-family: 'Outfit', sans-serif;
-            font-size: 11px;
-        }
+        .stat-card-sub { font-family: 'Outfit', sans-serif; font-size: 11px; }
         
         .card-red    { background: #fef2f2; border-color: #fecdd3; }
         .card-red    .stat-card-label  { color: #be123c; }
@@ -138,219 +101,119 @@
         .card-blue   .stat-card-sub    { color: #3D7BE7; }
         
         .layout-3-2 {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 16px;
-            align-items: start;
+            display: grid; grid-template-columns: 1fr 2fr; gap: 16px; align-items: start;
         }
         @media (max-width: 1024px) { .layout-3-2 { grid-template-columns: 1fr; } }
         
         .form-panel {
-            background: #FFFEFE;
-            border: 1px solid #e4e7ef;
-            border-radius: 14px;
-            padding: 22px;
-            margin-bottom: 14px;
+            background: #FFFEFE; border: 1px solid #e4e7ef;
+            border-radius: 14px; padding: 22px; margin-bottom: 14px;
         }
         .form-panel:last-child { margin-bottom: 0; }
         
         .section-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 10px;
-            font-weight: 700;
-            color: #c4c9d6;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 16px;
-            padding-bottom: 10px;
+            font-size: 10px; font-weight: 700; color: #c4c9d6;
+            text-transform: uppercase; letter-spacing: 0.08em;
+            margin-bottom: 16px; padding-bottom: 10px;
             border-bottom: 1px solid #f1f3f8;
         }
         
-        .form-group {
-            margin-bottom: 12px;
-        }
+        .form-group { margin-bottom: 12px; }
         
         .form-label {
             font-family: 'Outfit', sans-serif;
-            font-size: 11px;
-            font-weight: 600;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 5px;
-            display: block;
+            font-size: 11px; font-weight: 600; color: #6b7280;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            margin-bottom: 5px; display: block;
         }
         
         .form-input {
-            width: 100%;
-            padding: 9px 12px;
-            border: 1.5px solid #e4e7ef;
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            color: #02182F;
-            background: #fafbff;
-            transition: all 0.15s ease;
-            outline: none;
+            width: 100%; padding: 9px 12px;
+            border: 1.5px solid #e4e7ef; border-radius: 10px;
+            font-family: 'Outfit', sans-serif; font-size: 13px;
+            color: #02182F; background: #fafbff;
+            transition: all 0.15s ease; outline: none;
         }
         .form-input:focus {
-            border-color: #03A737;
-            background: #FFFEFE;
+            border-color: #03A737; background: #FFFEFE;
             box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         .form-input::placeholder { color: #c4c9d6; }
         
         .form-select {
-            width: 100%;
-            padding: 9px 12px;
-            border: 1.5px solid #e4e7ef;
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            color: #02182F;
-            background: #fafbff;
-            transition: all 0.15s ease;
-            outline: none;
+            width: 100%; padding: 9px 12px;
+            border: 1.5px solid #e4e7ef; border-radius: 10px;
+            font-family: 'Outfit', sans-serif; font-size: 13px;
+            color: #02182F; background: #fafbff;
+            transition: all 0.15s ease; outline: none;
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' fill='none' stroke='%239ca3af' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            padding-right: 36px;
-            cursor: pointer;
+            background-repeat: no-repeat; background-position: right 12px center;
+            padding-right: 36px; cursor: pointer;
         }
         .form-select:focus {
-            border-color: #03A737;
-            background-color: #FFFEFE;
+            border-color: #03A737; background-color: #FFFEFE;
             box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
         .form-textarea {
-            width: 100%;
-            padding: 9px 12px;
-            border: 1.5px solid #e4e7ef;
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            color: #02182F;
-            background: #fafbff;
-            transition: all 0.15s ease;
-            outline: none;
-            resize: vertical;
-            min-height: 56px;
+            width: 100%; padding: 9px 12px;
+            border: 1.5px solid #e4e7ef; border-radius: 10px;
+            font-family: 'Outfit', sans-serif; font-size: 13px;
+            color: #02182F; background: #fafbff;
+            transition: all 0.15s ease; outline: none;
+            resize: vertical; min-height: 56px;
         }
         .form-textarea:focus {
-            border-color: #03A737;
-            background: #FFFEFE;
+            border-color: #03A737; background: #FFFEFE;
             box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
         }
         
-        .color-input {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            border: 1.5px solid #e4e7ef;
-            cursor: pointer;
-            padding: 2px;
-        }
+        .color-input { width: 36px; height: 36px; border-radius: 8px; border: 1.5px solid #e4e7ef; cursor: pointer; padding: 2px; }
         
         .btn-primary {
-            width: 100%;
-            padding: 10px 16px;
-            background: #03A737;
-            color: #FFFEFE;
-            border: none;
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
+            width: 100%; padding: 10px 16px; background: #03A737; color: #FFFEFE;
+            border: none; border-radius: 10px;
+            font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600;
+            cursor: pointer; box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
             transition: all 0.15s;
         }
-        .btn-primary:hover {
-            background: #028a2e;
-            box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35);
-            transform: translateY(-1px);
-        }
+        .btn-primary:hover { background: #028a2e; box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35); transform: translateY(-1px); }
         
         .btn-dark {
-            width: 100%;
-            padding: 10px 16px;
-            background: #02182F;
-            color: #FFFEFE;
-            border: none;
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s;
+            width: 100%; padding: 10px 16px; background: #02182F; color: #FFFEFE;
+            border: none; border-radius: 10px;
+            font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600;
+            cursor: pointer; transition: all 0.15s;
         }
-        .btn-dark:hover {
-            background: #1f2937;
-        }
+        .btn-dark:hover { background: #1f2937; }
         
-        .panel {
-            background: #FFFEFE;
-            border: 1px solid #e4e7ef;
-            border-radius: 14px;
-            overflow: hidden;
-        }
+        .panel { background: #FFFEFE; border: 1px solid #e4e7ef; border-radius: 14px; overflow: hidden; }
         .panel-padded { padding: 22px; }
         
         .panel-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 22px;
-            border-bottom: 1px solid #f1f3f8;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 22px; border-bottom: 1px solid #f1f3f8;
         }
-        .panel-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            color: #02182F;
-        }
-        .panel-meta {
-            font-family: 'Outfit', sans-serif;
-            font-size: 12px;
-            color: #9ca3af;
-        }
+        .panel-title { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; color: #02182F; }
+        .panel-meta { font-family: 'Outfit', sans-serif; font-size: 12px; color: #9ca3af; }
         
-        .data-table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            font-family: 'Outfit', sans-serif; 
-        }
+        .data-table { width: 100%; border-collapse: collapse; font-family: 'Outfit', sans-serif; }
         .data-table th {
-            text-align: left;
-            font-size: 10px;
-            font-weight: 700;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            padding: 12px 16px;
-            background: #fafbff;
-            border-bottom: 1px solid #f1f3f8;
+            text-align: left; font-size: 10px; font-weight: 700; color: #9ca3af;
+            text-transform: uppercase; letter-spacing: 0.06em;
+            padding: 12px 16px; background: #fafbff; border-bottom: 1px solid #f1f3f8;
         }
-        .data-table td {
-            padding: 14px 16px;
-            font-size: 13px;
-            color: #374151;
-            border-bottom: 1px solid #f8f9fb;
-        }
+        .data-table td { padding: 14px 16px; font-size: 13px; color: #374151; border-bottom: 1px solid #f8f9fb; }
         .data-table tr:last-child td { border-bottom: none; }
         .data-table tbody tr:hover td { background: #fafbff; }
         
         .category-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 3px 10px;
-            border-radius: 99px;
-            font-size: 11px;
-            font-weight: 600;
-            font-family: 'Outfit', sans-serif;
-            color: #FFFEFE;
+            display: inline-flex; align-items: center;
+            padding: 3px 10px; border-radius: 99px;
+            font-size: 11px; font-weight: 600;
+            font-family: 'Outfit', sans-serif; color: #FFFEFE;
         }
         
         .mono { font-family: 'JetBrains Mono', monospace; }
@@ -359,52 +222,33 @@
         .text-danger { color: #dc2626; }
         
         .action-link-delete {
-            background: none;
-            border: none;
-            color: #9ca3af;
-            cursor: pointer;
-            font-size: 14px;
-            padding: 4px 8px;
-            border-radius: 6px;
-            transition: all 0.15s;
+            background: none; border: none; color: #9ca3af;
+            cursor: pointer; font-size: 14px; padding: 4px 8px;
+            border-radius: 6px; transition: all 0.15s;
         }
-        .action-link-delete:hover {
-            color: #dc2626;
-            background: #fef2f2;
-        }
+        .action-link-delete:hover { color: #dc2626; background: #fef2f2; }
         
-        .progress-bar {
-            height: 6px;
-            background: #f1f3f8;
-            border-radius: 99px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            border-radius: 99px;
-            transition: width 0.4s ease;
-        }
+        .progress-bar { height: 6px; background: #f1f3f8; border-radius: 99px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 99px; transition: width 0.4s ease; }
         
-        .category-breakdown-row {
-            margin-bottom: 10px;
-        }
+        .category-breakdown-row { margin-bottom: 10px; }
         .category-breakdown-row:last-child { margin-bottom: 0; }
         
         .color-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 6px;
-            flex-shrink: 0;
+            width: 8px; height: 8px; border-radius: 50%;
+            display: inline-block; margin-right: 6px; flex-shrink: 0;
         }
         
         .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            color: #9ca3af;
+            text-align: center; padding: 60px 20px;
+            font-family: 'Outfit', sans-serif; font-size: 13px; color: #9ca3af;
+        }
+
+        .branch-mini-tag {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 2px 8px; border-radius: 99px;
+            font-size: 10px; font-weight: 600;
+            background: #edf3fd; color: #2b5fc4;
         }
     </style>
 
@@ -420,9 +264,20 @@
             </div>
         @endif
 
-        {{-- Date Filter --}}
+        {{-- Date Filter + Branch Filter --}}
         <div class="filter-bar">
             <form method="GET" action="{{ route('expenses.index') }}" style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;width:100%">
+                <div class="filter-group">
+                    <span class="filter-label">Branch</span>
+                    <select name="branch_id" class="filter-select">
+                        <option value="">All Branches</option>
+                        @foreach(\App\Models\Branch::where('tenant_id', auth()->user()->tenant_id)->where('status', 'active')->orderBy('is_main', 'desc')->get() as $br)
+                            <option value="{{ $br->id }}" {{ request('branch_id') == $br->id ? 'selected' : '' }}>
+                                {{ $br->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="filter-group">
                     <span class="filter-label">From</span>
                     <input type="date" name="from" value="{{ $from }}" class="filter-input" />
@@ -481,6 +336,18 @@
                     <div class="section-title">Record Expense</div>
                     <form method="POST" action="{{ route('expenses.store') }}">
                         @csrf
+
+                        {{-- Branch Picker --}}
+                        <div class="form-group">
+                            <label class="form-label" for="exp-branch">Branch *</label>
+                            <select name="branch_id" id="exp-branch" required class="form-select">
+                                @foreach(\App\Models\Branch::where('tenant_id', auth()->user()->tenant_id)->where('status', 'active')->orderBy('is_main', 'desc')->get() as $br)
+                                    <option value="{{ $br->id }}" {{ auth()->user()->branch_id == $br->id ? 'selected' : '' }}>
+                                        {{ $br->name }} {{ $br->is_main ? '(Main)' : '' }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <div class="form-group">
                             <label class="form-label" for="exp-title">Title *</label>
@@ -604,6 +471,7 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Title</th>
+                                <th>Branch</th>
                                 <th>Category</th>
                                 <th>Method</th>
                                 <th style="text-align:right">Amount</th>
@@ -620,10 +488,11 @@
                                         <div class="fw6" style="color:#02182F">{{ $expense->title }}</div>
                                         @if($expense->notes)
                                             <div style="font-size:11px;color:#9ca3af;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" 
-                                                 title="{{ $expense->notes }}">
-                                                {{ $expense->notes }}
-                                            </div>
+                                                 title="{{ $expense->notes }}">{{ $expense->notes }}</div>
                                         @endif
+                                    </td>
+                                    <td>
+                                        <span class="branch-mini-tag">{{ $expense->branch->name ?? '—' }}</span>
                                     </td>
                                     <td>
                                         @if($expense->category)

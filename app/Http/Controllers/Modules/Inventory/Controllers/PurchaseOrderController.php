@@ -28,6 +28,7 @@ class PurchaseOrderController extends Controller
         $suppliers = Supplier::where('tenant_id', auth()->user()->tenant_id)
             ->where('status', 'active')->get();
         $products  = Product::where('tenant_id', auth()->user()->tenant_id)
+            ->where('branch_id', auth()->user()->branch_id)
             ->where('status', 'active')->get();
 
         return view('modules.inventory.purchase_orders.create', compact('suppliers', 'products'));
@@ -109,12 +110,8 @@ class PurchaseOrderController extends Controller
             $item->update(['qty_received' => $item->qty_received + $qtyToAdd]);
 
             $product   = $item->product;
-            $beforeQty = $product->getStockForBranch($branchId);
-            $afterQty  = $beforeQty + $qtyToAdd;
-
-            $product->branches()->syncWithoutDetaching([
-                $branchId => ['stock_qty' => $afterQty]
-            ]);
+            $beforeQty = $product->stock_qty;
+            $product->increment('stock_qty', $qtyToAdd);
 
             StockMovement::create([
                 'tenant_id'  => $tenantId,
@@ -124,7 +121,7 @@ class PurchaseOrderController extends Controller
                 'type'       => 'stock_in',
                 'qty'        => $qtyToAdd,
                 'before_qty' => $beforeQty,
-                'after_qty'  => $afterQty,
+                'after_qty'  => $beforeQty + $qtyToAdd,
                 'reference'  => $purchaseOrder->po_number,
                 'notes'      => 'Received from PO: ' . $purchaseOrder->po_number,
             ]);

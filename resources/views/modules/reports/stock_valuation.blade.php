@@ -28,7 +28,45 @@
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
         
         .dash-wrap { display: flex; flex-direction: column; gap: 20px; }
-        
+
+        .branch-select-bar {
+            background: #FFFEFE;
+            border: 1px solid #e4e7ef;
+            border-radius: 14px;
+            padding: 16px 22px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .branch-select-bar .filter-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 10px; font-weight: 600; color: #9ca3af;
+            text-transform: uppercase; letter-spacing: 0.06em;
+        }
+        .branch-select {
+            padding: 9px 12px;
+            border: 1.5px solid #e4e7ef; border-radius: 10px;
+            font-family: 'Outfit', sans-serif; font-size: 13px;
+            color: #02182F; background: #fafbff;
+            transition: all 0.15s; outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' fill='none' stroke='%239ca3af' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 12px center;
+            padding-right: 36px; cursor: pointer; min-width: 200px;
+        }
+        .branch-select:focus {
+            border-color: #03A737; background: #FFFEFE;
+            box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
+        }
+        .btn-go {
+            padding: 9px 18px; background: #03A737; color: #FFFEFE;
+            border: none; border-radius: 10px;
+            font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600;
+            cursor: pointer; transition: all 0.15s;
+        }
+        .btn-go:hover { background: #028a2e; }
+
         .stat-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -44,24 +82,16 @@
         }
         .stat-card-label {
             font-family: 'Outfit', sans-serif;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.07em;
+            font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.07em;
             margin-bottom: 8px;
         }
         .stat-card-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 24px;
-            font-weight: 700;
-            line-height: 1;
-            margin-bottom: 4px;
-            color: #02182F;
+            font-size: 24px; font-weight: 700; line-height: 1;
+            margin-bottom: 4px; color: #02182F;
         }
-        .stat-card-sub {
-            font-family: 'Outfit', sans-serif;
-            font-size: 11px;
-        }
+        .stat-card-sub { font-family: 'Outfit', sans-serif; font-size: 11px; }
         
         .card-gray   { background: #f9fafb; border-color: #e5e7eb; }
         .card-gray   .stat-card-label  { color: #6b7280; }
@@ -87,81 +117,49 @@
         }
         
         .panel-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 22px;
-            border-bottom: 1px solid #f1f3f8;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 22px; border-bottom: 1px solid #f1f3f8;
         }
         .panel-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            color: #02182F;
+            font-size: 14px; font-weight: 700; color: #02182F;
         }
         .panel-meta {
             font-family: 'Outfit', sans-serif;
-            font-size: 12px;
-            color: #9ca3af;
+            font-size: 12px; color: #9ca3af;
         }
         
-        .data-table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            font-family: 'Outfit', sans-serif; 
-        }
+        .data-table { width: 100%; border-collapse: collapse; font-family: 'Outfit', sans-serif; }
         .data-table th {
-            text-align: left;
-            font-size: 10px;
-            font-weight: 700;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            padding: 12px 20px;
-            background: #fafbff;
-            border-bottom: 1px solid #f1f3f8;
+            text-align: left; font-size: 10px; font-weight: 700; color: #9ca3af;
+            text-transform: uppercase; letter-spacing: 0.06em;
+            padding: 12px 20px; background: #fafbff; border-bottom: 1px solid #f1f3f8;
         }
-        .data-table td {
-            padding: 14px 20px;
-            font-size: 13px;
-            color: #374151;
-            border-bottom: 1px solid #f8f9fb;
-        }
+        .data-table td { padding: 14px 20px; font-size: 13px; color: #374151; border-bottom: 1px solid #f8f9fb; }
         .data-table tr:last-child td { border-bottom: none; }
         .data-table tbody tr:hover td { background: #fafbff; }
         
         .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 3px 10px;
-            border-radius: 99px;
-            font-size: 11px;
-            font-weight: 600;
-            font-family: 'Outfit', sans-serif;
+            display: inline-flex; align-items: center;
+            padding: 3px 10px; border-radius: 99px;
+            font-size: 11px; font-weight: 600; font-family: 'Outfit', sans-serif;
         }
         .badge-green  { background: #e6f7eb; color: #028a2e; }
         .badge-yellow { background: #fef9c3; color: #a16207; }
         .badge-red    { background: #fee2e2; color: #b91c1c; }
         
         .margin-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 3px 10px;
-            border-radius: 99px;
-            font-size: 11px;
-            font-weight: 600;
-            font-family: 'JetBrains Mono', monospace;
+            display: inline-flex; align-items: center;
+            padding: 3px 10px; border-radius: 99px;
+            font-size: 11px; font-weight: 600; font-family: 'JetBrains Mono', monospace;
         }
         .margin-high   { background: #e6f7eb; color: #028a2e; }
         .margin-medium { background: #fef9c3; color: #a16207; }
         .margin-low    { background: #fee2e2; color: #b91c1c; }
         
         .stock-dot {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            margin-right: 6px;
+            display: inline-block; width: 6px; height: 6px;
+            border-radius: 50%; margin-right: 6px;
         }
         .stock-dot.green  { background: #03A737; }
         .stock-dot.yellow { background: #eab308; }
@@ -175,17 +173,84 @@
         .text-danger { color: #dc2626; }
         
         .empty-state {
+            text-align: center; padding: 60px 20px;
+            font-family: 'Outfit', sans-serif; font-size: 13px; color: #9ca3af;
+        }
+
+        .branch-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+        .branch-summary-card {
+            background: #fafbff;
+            border: 1px solid #e4e7ef;
+            border-radius: 10px;
+            padding: 14px 16px;
             text-align: center;
-            padding: 60px 20px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            color: #9ca3af;
         }
     </style>
 
     <div class="dash-wrap" style="padding:0 0 20px">
 
-        {{-- Summary Cards --}}
+        {{-- Branch Selector --}}
+        <div class="branch-select-bar">
+            <form method="GET" action="{{ route('reports.stock-valuation') }}" style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap">
+                <div>
+                    <span class="filter-label">Select Branch</span>
+                    <select name="branch_id" class="branch-select" onchange="this.form.submit()">
+                        @foreach(\App\Models\Branch::where('tenant_id', auth()->user()->tenant_id)->where('status', 'active')->orderBy('is_main', 'desc')->get() as $br)
+                            <option value="{{ $br->id }}" {{ request('branch_id', auth()->user()->branch_id) == $br->id ? 'selected' : '' }}>
+                                {{ $br->name }} {{ $br->is_main ? '(Main)' : '' }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </form>
+            <span style="font-size:12px;color:#9ca3af;font-family:'Outfit',sans-serif">
+                Showing stock for: <strong style="color:#02182F">{{ $branchName ?? auth()->user()->branch->name }}</strong>
+            </span>
+        </div>
+
+        {{-- ── ALL BRANCHES QUICK OVERVIEW ── --}}
+        @php
+            $tenantId = auth()->user()->tenant_id;
+            $allBranches = \App\Models\Branch::where('tenant_id', $tenantId)->where('status', 'active')->orderBy('is_main', 'desc')->get();
+        @endphp
+        @if($allBranches->count() > 1)
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">Stock Summary — All Branches</span>
+            </div>
+            <div style="padding:16px 20px">
+                <div class="branch-summary-grid">
+                    @foreach($allBranches as $branch)
+                        @php
+                            $bProducts = \App\Models\Product::where('tenant_id', $tenantId)
+                                ->where('branch_id', $branch->id)
+                                ->where('track_stock', true);
+                            $bCostValue = $bProducts->get()->sum(fn($p) => $p->stock_qty * $p->cost_price);
+                            $bSellValue = $bProducts->get()->sum(fn($p) => $p->stock_qty * $p->price);
+                            $bLowStock = $bProducts->whereColumn('stock_qty', '<=', 'low_stock_alert')->where('stock_qty', '>', 0)->count();
+                            $bOutOfStock = $bProducts->where('stock_qty', '<=', 0)->count();
+                        @endphp
+                        <div class="branch-summary-card" style="{{ auth()->user()->branch_id === $branch->id ? 'border-color:#03A737;box-shadow:0 0 0 2px rgba(3,167,55,0.1)' : '' }}">
+                            <div style="font-size:12px;font-weight:600;color:#02182F;margin-bottom:8px">{{ $branch->name }}</div>
+                            <div style="font-size:10px;color:#9ca3af;margin-bottom:4px">Stock Value</div>
+                            <div style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:#03A737;margin-bottom:6px">KES {{ number_format($bSellValue / 1000, 1) }}k</div>
+                            <div style="display:flex;gap:8px;justify-content:center;font-size:10px">
+                                <span style="color:#dc2626">{{ $bOutOfStock }} out</span>
+                                <span style="color:#9ca3af">·</span>
+                                <span style="color:#d97706">{{ $bLowStock }} low</span>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        @endif
+
+        {{-- Summary Cards — Current Branch --}}
         <div class="stat-grid">
             <div class="stat-card card-gray">
                 <div class="stat-card-label">Cost Value</div>
@@ -251,9 +316,7 @@
                                 <td class="mono" style="font-size:12px;color:#6b7280">{{ $data['count'] }}</td>
                                 <td class="mono" style="font-size:12px;color:#6b7280">KES {{ number_format($data['cost_value'], 2) }}</td>
                                 <td class="mono fw6 text-brand">KES {{ number_format($data['sell_value'], 2) }}</td>
-                                <td>
-                                    <span class="margin-badge {{ $marginBadge }}">{{ $margin }}%</span>
-                                </td>
+                                <td><span class="margin-badge {{ $marginBadge }}">{{ $margin }}%</span></td>
                             </tr>
                         @endforeach
                     </tbody>

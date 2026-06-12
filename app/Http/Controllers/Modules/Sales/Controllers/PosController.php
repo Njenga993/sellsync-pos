@@ -20,6 +20,7 @@ class PosController extends Controller
             ->get();
 
         $products = Product::where('tenant_id', auth()->user()->tenant_id)
+            ->where('branch_id', auth()->user()->branch_id)
             ->where('status', 'active')
             ->with('category')
             ->get();
@@ -54,7 +55,6 @@ class PosController extends Controller
             $unitPrice = $item['price'];
             $lineTotal = round($unitPrice * $qty, 2);
 
-            // Tax inclusive: extract tax from price
             $taxRate   = $product->tax_rate ?? 0;
             $taxAmount = $taxRate > 0
                 ? round($lineTotal - ($lineTotal / (1 + $taxRate / 100)), 2)
@@ -74,16 +74,10 @@ class PosController extends Controller
                 'subtotal'     => $lineTotal,
             ];
 
-            // Deduct stock from branch pivot table
+            // Deduct stock directly
             if ($product->track_stock) {
-                $beforeQty = $product->getStockForBranch($branchId);
-                $afterQty = max(0, $beforeQty - $qty);
-                
-                $product->branches()->syncWithoutDetaching([
-                    $branchId => [
-                        'stock_qty' => $afterQty,
-                    ]
-                ]);
+                $beforeQty = $product->stock_qty;
+                $product->decrement('stock_qty', $qty);
 
                 StockMovement::create([
                     'tenant_id'  => $tenantId,
@@ -93,7 +87,7 @@ class PosController extends Controller
                     'type'       => 'sale',
                     'qty'        => -$qty,
                     'before_qty' => $beforeQty,
-                    'after_qty'  => $afterQty,
+                    'after_qty'  => $beforeQty - $qty,
                     'reference'  => 'POS Sale',
                     'notes'      => 'Auto-recorded from POS',
                 ]);
@@ -104,7 +98,6 @@ class PosController extends Controller
         $total    = round($subtotal - $discount, 2);
         $paid     = round($request->amount_paid, 2);
 
-        // Final payment validation on server side
         if ($paid < $total) {
             return response()->json([
                 'success' => false,
@@ -114,7 +107,6 @@ class PosController extends Controller
 
         $change = round($paid - $total, 2);
 
-        // Handle split payment label
         $paymentMethod = $request->payment_method;
         if ($paymentMethod === 'split' && $request->split_payments) {
             $splits = $request->split_payments;

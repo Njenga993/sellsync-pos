@@ -9,7 +9,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Outfit', sans-serif; font-size: 10px; color: #02182F; padding: 0; }
         
-        /* ── Page Container ── */
         .page { padding: 25px 30px; }
         
         /* ── Header ── */
@@ -23,7 +22,7 @@
         }
         .header-left { flex: 1; }
         .business-name { 
-            font-size: 20px; font-weight: 700; color: #02182F; 
+            font-size: 22px; font-weight: 700; color: #02182F; 
             letter-spacing: -0.01em; line-height: 1.2;
         }
         .business-tagline {
@@ -36,42 +35,21 @@
             font-size: 9px; color: #6b7280; margin-top: 8px; 
             line-height: 1.6;
         }
-        .business-details span {
-            display: inline-block; margin-right: 16px;
-        }
-        .business-details .detail-icon {
-            color: #03A737; font-weight: 700; margin-right: 2px;
-        }
+        .business-details span { display: inline-block; margin-right: 16px; }
+        .business-details .detail-icon { color: #03A737; font-weight: 700; margin-right: 2px; }
         
         .header-right { text-align: right; flex-shrink: 0; }
         .report-badge {
             display: inline-block;
             background: #e6f7eb; color: #03A737;
-            font-size: 8px; font-weight: 700;
+            font-size: 9px; font-weight: 700;
             text-transform: uppercase; letter-spacing: 0.08em;
-            padding: 4px 10px; border-radius: 99px;
+            padding: 5px 12px; border-radius: 99px;
             margin-bottom: 8px;
         }
-        .report-title { 
-            font-size: 16px; font-weight: 700; color: #02182F; 
-        }
+        .report-title { font-size: 18px; font-weight: 700; color: #02182F; }
         .report-period { 
             font-size: 9px; color: #9ca3af; margin-top: 4px;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        
-        /* ── Section Headings ── */
-        .section-title {
-            font-size: 11px; font-weight: 700; color: #02182F;
-            margin: 20px 0 10px; padding-bottom: 8px;
-            border-bottom: 1px solid #e4e7ef;
-            display: flex; align-items: center; gap: 8px;
-        }
-        .section-title .section-icon {
-            width: 20px; height: 20px; border-radius: 5px;
-            background: #e6f7eb; color: #03A737;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 9px; font-weight: 700;
             font-family: 'JetBrains Mono', monospace;
         }
         
@@ -86,36 +64,28 @@
         .section-card-header {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 12px 16px;
+            gap: 10px;
+            padding: 14px 18px;
             background: #fafbff;
             border-bottom: 1px solid #f1f3f8;
         }
         .section-card-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
+            width: 30px; height: 30px;
+            border-radius: 8px;
             background: #e6f7eb;
             color: #03A737;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
         }
         .section-card-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 12px;
-            font-weight: 700;
-            color: #02182F;
-            flex: 1;
+            font-size: 13px; font-weight: 700;
+            color: #02182F; flex: 1;
         }
         .section-card-badge {
-            font-size: 9px;
-            font-weight: 600;
-            color: #9ca3af;
-            background: #f1f3f8;
-            padding: 2px 8px;
-            border-radius: 99px;
+            font-size: 9px; font-weight: 600;
+            color: #9ca3af; background: #f1f3f8;
+            padding: 3px 10px; border-radius: 99px;
         }
         
         /* ── Summary Cards ── */
@@ -123,10 +93,10 @@
             display: flex; gap: 12px; flex-wrap: wrap; margin: 14px 0;
         }
         .summary-card {
-            flex: 1; min-width: 100px;
+            flex: 1; min-width: 120px;
             background: #FFFEFE; border: 1px solid #e4e7ef;
-            border-radius: 10px; padding: 14px 16px;
-            display: flex; align-items: flex-start; gap: 10px;
+            border-radius: 10px; padding: 16px 18px;
+            display: flex; align-items: flex-start; gap: 12px;
         }
         .summary-card-green  { border-color: #b8e6c4; background: #e6f7eb; }
         .summary-card-blue   { border-color: #c4d9fb; background: #edf3fd; }
@@ -134,7 +104,7 @@
         .summary-card-red    { border-color: #fecdd3; background: #fef2f2; }
         
         .summary-card-icon {
-            width: 34px; height: 34px; border-radius: 8px;
+            width: 36px; height: 36px; border-radius: 8px;
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
         }
@@ -155,64 +125,50 @@
         
         .summary-card-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 14px; font-weight: 700; line-height: 1;
+            font-size: 15px; font-weight: 700; line-height: 1;
             color: #02182F; margin-bottom: 2px;
         }
-        .summary-card-sub {
-            font-size: 8px; color: #9ca3af;
-        }
+        .summary-card-sub { font-size: 8px; color: #9ca3af; }
         
         /* ── Mini Bar ── */
         .mini-bar {
             height: 5px; background: #f1f3f8;
             border-radius: 99px; overflow: hidden;
         }
-        .mini-bar-fill {
-            height: 100%; border-radius: 99px;
-        }
+        .mini-bar-fill { height: 100%; border-radius: 99px; }
         
         /* ── Rank Badges ── */
         .rank-badge {
             display: inline-flex; align-items: center; justify-content: center;
             width: 20px; height: 20px; border-radius: 50%;
-            font-size: 9px; font-weight: 700;
-            font-family: 'Outfit', sans-serif;
+            font-size: 9px; font-weight: 700; font-family: 'Outfit', sans-serif;
         }
         .rank-badge-gold   { background: #fef3c7; color: #b45309; }
         .rank-badge-silver { background: #f1f5f9; color: #64748b; }
         .rank-badge-bronze { background: #fef2f2; color: #b91c1c; }
         
         /* ── Tables ── */
-        table { 
-            width: 100%; border-collapse: collapse; 
-            margin: 8px 0 16px; font-size: 9px;
-        }
-        .section-card table { margin: 0; }
+        table { width: 100%; border-collapse: collapse; margin: 0; font-size: 9px; }
         thead th { 
             background: #fafbff; text-align: left; 
             padding: 10px 14px; font-weight: 700; color: #6b7280; 
             text-transform: uppercase; letter-spacing: 0.06em; 
             border-bottom: 2px solid #e4e7ef; font-size: 7px;
         }
-        .section-card thead th { background: #fafbff; }
         tbody td { 
-            padding: 9px 14px; border-bottom: 1px solid #f8f9fb; 
+            padding: 10px 14px; border-bottom: 1px solid #f8f9fb; 
             color: #374151;
         }
-        .section-card tbody td { padding: 10px 14px; }
-        tbody tr:nth-child(even) td { background: #fcfcfd; }
-        .section-card tbody tr:nth-child(even) td { background: #fafbff; }
+        tbody tr:nth-child(even) td { background: #fafbff; }
         tbody tr:last-child td { border-bottom: 1px solid #e4e7ef; }
         
-        .text-right { text-align: right; }
+        .text-right  { text-align: right; }
         .text-center { text-align: center; }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
-        .font-bold { font-weight: 700; }
-        .text-brand { color: #03A737; }
-        .text-green { color: #03A737; }
-        .text-red { color: #dc2626; }
-        .text-muted { color: #9ca3af; }
-        .text-sm { font-size: 8px; }
+        .font-mono   { font-family: 'JetBrains Mono', monospace; }
+        .font-bold   { font-weight: 700; }
+        .text-brand  { color: #03A737 !important; }
+        .text-muted  { color: #9ca3af; }
+        .text-sm     { font-size: 8px; }
         
         /* ── Dot Indicator ── */
         .dot-indicator {
@@ -220,17 +176,6 @@
             border-radius: 50%; margin-right: 6px; flex-shrink: 0;
             vertical-align: middle;
         }
-        
-        /* ── P&L Rows ── */
-        .pl-table { max-width: 480px; }
-        .pl-table td { padding: 10px 14px; border-bottom: 1px solid #f1f3f8; }
-        .pl-table .pl-label { font-weight: 600; font-size: 10px; }
-        .pl-table .pl-total { 
-            font-size: 13px; font-weight: 700; 
-            padding: 12px 14px; 
-        }
-        .pl-table .pl-total-green { background: #e6f7eb; }
-        .pl-table .pl-total-red { background: #fef2f2; }
         
         /* ── Badges ── */
         .badge {
@@ -241,14 +186,10 @@
         .badge-green  { background: #e6f7eb; color: #028a2e; }
         .badge-blue   { background: #edf3fd; color: #2b5fc4; }
         .badge-yellow { background: #fef9c3; color: #a16207; }
-        .badge-red    { background: #fee2e2; color: #b91c1c; }
         .badge-gray   { background: #f3f4f6; color: #6b7280; }
         
         /* ── Empty State ── */
-        .empty-state {
-            text-align: center; padding: 24px 20px;
-            font-size: 10px; color: #9ca3af;
-        }
+        .empty-state { text-align: center; padding: 24px 20px; font-size: 10px; color: #9ca3af; }
         
         /* ── Footer ── */
         .footer {
@@ -261,15 +202,10 @@
         .footer-right { text-align: right; font-family: 'JetBrains Mono', monospace; }
         .footer-brand { font-weight: 700; color: #03A737; }
         
-        /* ── Page Breaks ── */
         .page-break { page-break-before: always; }
         
-        /* ── Print Settings ── */
         @page { 
             margin: 15px; 
-            @top-center {
-                content: element(pageHeader);
-            }
             @bottom-center {
                 content: "Page " counter(page) " of " counter(pages);
                 font-size: 8px; color: #9ca3af; font-family: 'Outfit', sans-serif;
@@ -304,10 +240,8 @@
             </div>
         </div>
 
-        {{-- Content --}}
         @yield('content')
 
-        {{-- Footer --}}
         <div class="footer">
             <div class="footer-left">
                 Generated by <strong>{{ auth()->user()->name }}</strong> on {{ now()->format('d M Y, h:i A') }}

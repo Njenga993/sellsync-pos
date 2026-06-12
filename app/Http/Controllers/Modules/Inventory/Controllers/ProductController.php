@@ -13,6 +13,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::where('tenant_id', auth()->user()->tenant_id)
+            ->where('branch_id', auth()->user()->branch_id)
             ->with('category')
             ->latest()
             ->paginate(20);
@@ -46,8 +47,9 @@ class ProductController extends Controller
             'status'          => ['required', 'in:active,inactive'],
         ]);
 
-        $product = Product::create([
+        Product::create([
             'tenant_id'       => auth()->user()->tenant_id,
+            'branch_id'       => auth()->user()->branch_id,
             'category_id'     => $request->category_id,
             'name'            => $request->name,
             'sku'             => $request->sku ?? 'SKU-' . strtoupper(Str::random(8)),
@@ -55,20 +57,12 @@ class ProductController extends Controller
             'price'           => $request->price,
             'cost_price'      => $request->cost_price ?? 0,
             'tax_rate'        => $request->tax_rate ?? 0,
+            'stock_qty'       => $request->stock_qty ?? 0,
+            'low_stock_alert' => $request->low_stock_alert ?? 5,
             'track_stock'     => $request->boolean('track_stock', true),
             'description'     => $request->description,
             'status'          => $request->status,
         ]);
-
-        // Sync stock to the current branch's pivot table
-        if ($product->track_stock) {
-            $product->branches()->syncWithoutDetaching([
-                auth()->user()->branch_id => [
-                    'stock_qty'       => $request->stock_qty ?? 0,
-                    'low_stock_alert' => $request->low_stock_alert ?? 5,
-                ]
-            ]);
-        }
 
         return redirect()->route('products.index')
             ->with('success', 'Product added successfully.');
@@ -114,20 +108,12 @@ class ProductController extends Controller
             'price'           => $request->price,
             'cost_price'      => $request->cost_price ?? 0,
             'tax_rate'        => $request->tax_rate ?? 0,
+            'stock_qty'       => $request->stock_qty ?? 0,
+            'low_stock_alert' => $request->low_stock_alert ?? 5,
             'track_stock'     => $request->boolean('track_stock', true),
             'description'     => $request->description,
             'status'          => $request->status,
         ]);
-
-        // Sync stock to the current branch's pivot table
-        if ($product->track_stock) {
-            $product->branches()->syncWithoutDetaching([
-                auth()->user()->branch_id => [
-                    'stock_qty'       => $request->stock_qty ?? 0,
-                    'low_stock_alert' => $request->low_stock_alert ?? 5,
-                ]
-            ]);
-        }
 
         return redirect()->route('products.index')
             ->with('success', 'Product updated successfully.');
@@ -141,18 +127,12 @@ class ProductController extends Controller
             ->with('success', 'Product deleted successfully.');
     }
 
-    /**
-     * Show the import form.
-     */
     public function importForm()
     {
         $categories = Category::where('tenant_id', auth()->user()->tenant_id)->get();
         return view('modules.inventory.products.import', compact('categories'));
     }
 
-    /**
-     * Process the CSV import.
-     */
     public function import(Request $request)
     {
         $request->validate([
@@ -162,7 +142,6 @@ class ProductController extends Controller
         $file = $request->file('file');
         $handle = fopen($file->getPathname(), 'r');
         
-        // Read header row
         $header = fgetcsv($handle);
         
         if (!$header) {
@@ -170,12 +149,10 @@ class ProductController extends Controller
             return redirect()->back()->with('error', 'The CSV file appears to be empty.');
         }
         
-        // Normalize header names (trim whitespace, lowercase)
         $header = array_map(function($col) {
             return strtolower(trim($col));
         }, $header);
         
-        // Validate required columns exist
         $requiredColumns = ['name', 'price'];
         $missingColumns = array_diff($requiredColumns, $header);
         
@@ -197,18 +174,13 @@ class ProductController extends Controller
         while (($row = fgetcsv($handle)) !== false) {
             $rowNumber++;
             
-            // Skip completely empty rows
             if (empty(array_filter($row))) {
                 continue;
             }
             
-            // Pad row to match header length
             $row = array_pad($row, count($header), null);
-            
-            // Combine header with row data
             $data = array_combine($header, $row);
             
-            // Validate required fields
             $name = trim($data['name'] ?? '');
             $price = trim($data['price'] ?? '');
             
@@ -224,27 +196,20 @@ class ProductController extends Controller
                 continue;
             }
             
-            // Find or create category
             $categoryId = null;
             $categoryName = trim($data['category'] ?? '');
             if (!empty($categoryName)) {
                 $category = Category::firstOrCreate(
-                    [
-                        'tenant_id' => $tenantId,
-                        'name' => $categoryName,
-                    ],
-                    [
-                        'status' => 'active',
-                        'slug' => Str::slug($categoryName),
-                    ]
+                    ['tenant_id' => $tenantId, 'name' => $categoryName],
+                    ['status' => 'active', 'slug' => Str::slug($categoryName)]
                 );
                 $categoryId = $category->id;
             }
             
-            // Check for duplicate SKU
             $sku = trim($data['sku'] ?? '');
             if (!empty($sku)) {
                 $existingSku = Product::where('tenant_id', $tenantId)
+                    ->where('branch_id', $branchId)
                     ->where('sku', $sku)
                     ->exists();
                 if ($existingSku) {
@@ -254,15 +219,14 @@ class ProductController extends Controller
                 }
             }
             
-            // Generate SKU if empty
             if (empty($sku)) {
                 $sku = 'SKU-' . strtoupper(Str::random(8));
             }
             
-            // Create product
             try {
-                $product = Product::create([
+                Product::create([
                     'tenant_id'       => $tenantId,
+                    'branch_id'       => $branchId,
                     'name'            => $name,
                     'sku'             => $sku,
                     'barcode'         => trim($data['barcode'] ?? '') ?: null,
@@ -270,18 +234,11 @@ class ProductController extends Controller
                     'price'           => floatval($price),
                     'cost_price'      => floatval($data['cost_price'] ?? 0),
                     'tax_rate'        => floatval($data['tax_rate'] ?? 0),
+                    'stock_qty'       => intval($data['stock_qty'] ?? 0),
+                    'low_stock_alert' => intval($data['low_stock_alert'] ?? 5),
                     'track_stock'     => true,
                     'status'          => 'active',
                 ]);
-
-                // Sync stock to branch pivot
-                $product->branches()->syncWithoutDetaching([
-                    $branchId => [
-                        'stock_qty'       => intval($data['stock_qty'] ?? 0),
-                        'low_stock_alert' => intval($data['low_stock_alert'] ?? 5),
-                    ]
-                ]);
-
                 $imported++;
             } catch (\Exception $e) {
                 $skipped++;
@@ -291,13 +248,11 @@ class ProductController extends Controller
         
         fclose($handle);
         
-        // Build success message
         $message = "{$imported} product(s) imported successfully.";
         if ($skipped > 0) {
             $message .= " {$skipped} row(s) skipped.";
         }
         
-        // Log errors if any
         if (!empty($errors) && $imported === 0) {
             return redirect()->back()
                 ->with('error', implode('<br>', array_slice($errors, 0, 10)))

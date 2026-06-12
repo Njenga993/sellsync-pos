@@ -55,10 +55,28 @@
             transition: all 0.15s;
             outline: none;
         }
-        .filter-input:focus {
+        .filter-input:focus, .filter-select:focus {
             border-color: #03A737;
             background: #FFFEFE;
             box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
+        }
+        .filter-select {
+            padding: 9px 12px;
+            border: 1.5px solid #e4e7ef;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            color: #02182F;
+            background: #fafbff;
+            transition: all 0.15s;
+            outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' fill='none' stroke='%239ca3af' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+            cursor: pointer;
+            min-width: 160px;
         }
         
         .btn-filter {
@@ -262,13 +280,52 @@
             font-size: 13px;
             color: #9ca3af;
         }
+
+        .branch-mini-card {
+            text-align: center;
+            padding: 14px 12px;
+            border-radius: 10px;
+            border: 1px solid #e4e7ef;
+            background: #FFFEFE;
+        }
+        .branch-mini-card .branch-mini-name {
+            font-size: 11px;
+            font-weight: 600;
+            color: #02182F;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .branch-mini-card .branch-mini-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 15px;
+            font-weight: 700;
+            color: #03A737;
+        }
+        .branch-mini-card .branch-mini-sub {
+            font-size: 10px;
+            color: #9ca3af;
+            margin-top: 2px;
+        }
     </style>
 
     <div class="dash-wrap" style="padding:0 0 20px">
 
-        {{-- Date Filter --}}
+        {{-- Date Filter + Branch Filter --}}
         <div class="filter-bar">
             <form method="GET" action="{{ route('reports.sales') }}" style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;width:100%">
+                <div class="filter-group">
+                    <span class="filter-label">Branch</span>
+                    <select name="branch_id" class="filter-select">
+                        <option value="">All Branches</option>
+                        @foreach(\App\Models\Branch::where('tenant_id', auth()->user()->tenant_id)->where('status', 'active')->orderBy('is_main', 'desc')->get() as $br)
+                            <option value="{{ $br->id }}" {{ request('branch_id') == $br->id ? 'selected' : '' }}>
+                                {{ $br->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="filter-group">
                     <span class="filter-label">From</span>
                     <input type="date" name="from" value="{{ $from }}" class="filter-input" />
@@ -320,10 +377,45 @@
             </div>
         </div>
 
+        {{-- ── PER-BRANCH BREAKDOWN ── --}}
+        @php
+            $branchBreakdown = \App\Models\Branch::where('tenant_id', auth()->user()->tenant_id)
+                ->where('status', 'active')
+                ->orderBy('is_main', 'desc')
+                ->get()
+                ->map(function($branch) use ($from, $to) {
+                    $branchSales = \App\Models\Sale::where('tenant_id', auth()->user()->tenant_id)
+                        ->where('branch_id', $branch->id)
+                        ->whereBetween(\DB::raw('DATE(created_at)'), [$from, $to]);
+                    return [
+                        'branch' => $branch,
+                        'revenue' => $branchSales->sum('total'),
+                        'transactions' => $branchSales->count(),
+                    ];
+                });
+            $totalAllBranches = $branchBreakdown->sum('revenue') ?: 1;
+        @endphp
+        @if($branchBreakdown->count() > 1)
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">Revenue by Branch</span>
+                <span style="font-size:11px;color:#9ca3af;font-family:'Outfit',sans-serif">{{ \Carbon\Carbon::parse($from)->format('d M') }} — {{ \Carbon\Carbon::parse($to)->format('d M Y') }}</span>
+            </div>
+            <div style="padding:16px 20px;display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:12px">
+                @foreach($branchBreakdown as $bd)
+                    @php $pct = $totalAllBranches > 0 ? round(($bd['revenue'] / $totalAllBranches) * 100) : 0; @endphp
+                    <div class="branch-mini-card" style="{{ auth()->user()->branch_id === $bd['branch']->id ? 'border-color:#03A737;box-shadow:0 0 0 2px rgba(3,167,55,0.1)' : '' }}">
+                        <div class="branch-mini-name">{{ $bd['branch']->name }}</div>
+                        <div class="branch-mini-value">KES {{ number_format($bd['revenue'] / 1000, 1) }}k</div>
+                        <div class="branch-mini-sub">{{ $bd['transactions'] }} sales · {{ $pct }}%</div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
         {{-- Payment Breakdown + Top Products --}}
         <div class="two-col">
-
-            {{-- Payment Methods --}}
             <div class="panel panel-padded">
                 <div class="panel-title" style="margin-bottom:16px">Payment Methods</div>
                 @php
@@ -351,7 +443,6 @@
                 @endforeach
             </div>
 
-            {{-- Top Products --}}
             <div class="panel panel-padded">
                 <div class="panel-title" style="margin-bottom:16px">Top Selling Products</div>
                 @forelse($topProducts as $product)
@@ -386,9 +477,7 @@
                         <tbody>
                             @foreach($dailySales as $day)
                                 <tr>
-                                    <td style="font-size:12px;color:#374151">
-                                        {{ \Carbon\Carbon::parse($day->date)->format('D, d M Y') }}
-                                    </td>
+                                    <td style="font-size:12px;color:#374151">{{ \Carbon\Carbon::parse($day->date)->format('D, d M Y') }}</td>
                                     <td class="mono" style="font-size:12px;color:#6b7280">{{ $day->transactions }}</td>
                                     <td class="mono fw6" style="color:#02182F">KES {{ number_format($day->revenue, 2) }}</td>
                                 </tr>
@@ -407,11 +496,12 @@
             </div>
             @if($sales->count())
                 <div style="overflow-x:auto">
-                    <table class="data-table" style="min-width:900px">
+                    <table class="data-table" style="min-width:1000px">
                         <thead>
                             <tr>
                                 <th>Invoice</th>
                                 <th>Date & Time</th>
+                                <th>Branch</th>
                                 <th>Customer</th>
                                 <th>Cashier</th>
                                 <th>Items</th>
@@ -436,25 +526,20 @@
                                         <div style="font-size:12px;color:#374151">{{ $sale->created_at->format('d M Y') }}</div>
                                         <div class="mono" style="font-size:11px;color:#9ca3af">{{ $sale->created_at->format('h:i A') }}</div>
                                     </td>
+                                    <td style="font-size:12px;color:#6b7280">{{ $sale->branch->name ?? '—' }}</td>
                                     <td style="font-size:12px;color:#6b7280">{{ $sale->customer->name ?? 'Walk-in' }}</td>
                                     <td style="font-size:12px;color:#6b7280">{{ $sale->user->name ?? '—' }}</td>
                                     <td style="font-size:12px;color:#6b7280">{{ $sale->items->count() }} item(s)</td>
-                                    <td>
-                                        <span class="badge {{ $payBadge }}">{{ ucfirst($sale->payment_method) }}</span>
-                                    </td>
+                                    <td><span class="badge {{ $payBadge }}">{{ ucfirst($sale->payment_method) }}</span></td>
                                     <td class="mono fw6" style="color:#02182F">KES {{ number_format($sale->total, 2) }}</td>
-                                    <td>
-                                        <a href="{{ route('pos.receipt', $sale) }}" target="_blank" class="action-link">View</a>
-                                    </td>
+                                    <td><a href="{{ route('pos.receipt', $sale) }}" target="_blank" class="action-link">View</a></td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
                 @if($sales->hasPages())
-                    <div style="padding:14px 20px;border-top:1px solid #f1f3f8">
-                        {{ $sales->links() }}
-                    </div>
+                    <div style="padding:14px 20px;border-top:1px solid #f1f3f8">{{ $sales->links() }}</div>
                 @endif
             @else
                 <div class="empty-state" style="padding:60px">No sales found for this period.</div>

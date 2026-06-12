@@ -71,15 +71,15 @@ class AdvancedReportController extends Controller
         $branchId = auth()->user()->branch_id;
 
         $products = Product::where('tenant_id', $tenantId)
+            ->where('branch_id', $branchId)
             ->where('track_stock', true)
             ->with('category')
+            ->orderBy('stock_qty')
             ->get()
-            ->map(function ($product) use ($branchId) {
-                $stockQty              = $product->getStockForBranch($branchId);
-                $product->stock_qty    = $stockQty;
-                $product->cost_value   = $stockQty * $product->cost_price;
-                $product->sell_value   = $stockQty * $product->price;
-                $product->potential    = $product->sell_value - $product->cost_value;
+            ->map(function ($product) {
+                $product->cost_value  = $product->stock_qty * $product->cost_price;
+                $product->sell_value  = $product->stock_qty * $product->price;
+                $product->potential   = $product->sell_value - $product->cost_value;
                 return $product;
             });
 
@@ -222,15 +222,15 @@ class AdvancedReportController extends Controller
         $branchId = auth()->user()->branch_id;
 
         $products = Product::where('tenant_id', $tenantId)
+            ->where('branch_id', $branchId)
             ->where('track_stock', true)
             ->with('category')
+            ->orderBy('stock_qty')
             ->get()
-            ->map(function ($product) use ($branchId) {
-                $stockQty              = $product->getStockForBranch($branchId);
-                $product->stock_qty    = $stockQty;
-                $product->cost_value   = $stockQty * $product->cost_price;
-                $product->sell_value   = $stockQty * $product->price;
-                $product->potential    = $product->sell_value - $product->cost_value;
+            ->map(function ($product) {
+                $product->cost_value  = $product->stock_qty * $product->cost_price;
+                $product->sell_value  = $product->stock_qty * $product->price;
+                $product->potential   = $product->sell_value - $product->cost_value;
                 return $product;
             });
 

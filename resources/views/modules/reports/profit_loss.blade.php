@@ -39,199 +39,107 @@
             gap: 14px;
             flex-wrap: wrap;
         }
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
+        .filter-group { display: flex; flex-direction: column; gap: 4px; }
         .filter-label {
             font-family: 'Outfit', sans-serif;
-            font-size: 10px;
-            font-weight: 600;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
+            font-size: 10px; font-weight: 600; color: #9ca3af;
+            text-transform: uppercase; letter-spacing: 0.06em;
         }
-        .filter-input {
+        .filter-input, .filter-select {
             padding: 9px 12px;
-            border: 1.5px solid #e4e7ef;
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            color: #02182F;
-            background: #fafbff;
-            transition: all 0.15s;
-            outline: none;
+            border: 1.5px solid #e4e7ef; border-radius: 10px;
+            font-family: 'Outfit', sans-serif; font-size: 13px;
+            color: #02182F; background: #fafbff;
+            transition: all 0.15s; outline: none;
         }
-        .filter-input:focus {
-            border-color: #03A737;
-            background: #FFFEFE;
+        .filter-input:focus, .filter-select:focus {
+            border-color: #03A737; background: #FFFEFE;
             box-shadow: 0 0 0 3px rgba(3, 167, 55, 0.08);
+        }
+        .filter-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' fill='none' stroke='%239ca3af' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 12px center;
+            padding-right: 36px; cursor: pointer; min-width: 160px;
         }
         
         .btn-filter {
-            padding: 9px 18px;
-            background: #03A737;
-            color: #FFFEFE;
-            border: none;
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
+            padding: 9px 18px; background: #03A737; color: #FFFEFE;
+            border: none; border-radius: 10px;
+            font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600;
+            cursor: pointer; box-shadow: 0 2px 8px rgba(3, 167, 55, 0.25);
             transition: all 0.15s;
         }
-        .btn-filter:hover {
-            background: #028a2e;
-            box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35);
-        }
+        .btn-filter:hover { background: #028a2e; box-shadow: 0 4px 12px rgba(3, 167, 55, 0.35); }
         
         .btn-reset {
-            padding: 9px 18px;
-            background: transparent;
-            color: #6b7280;
-            border: 1.5px solid #e4e7ef;
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.15s;
-            display: inline-block;
+            padding: 9px 18px; background: transparent; color: #6b7280;
+            border: 1.5px solid #e4e7ef; border-radius: 10px;
+            font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600;
+            text-decoration: none; transition: all 0.15s; display: inline-block;
         }
-        .btn-reset:hover {
-            border-color: #03A737;
-            color: #03A737;
-            background: #e6f7eb;
-        }
+        .btn-reset:hover { border-color: #03A737; color: #03A737; background: #e6f7eb; }
         
         .panel {
-            background: #FFFEFE;
-            border: 1px solid #e4e7ef;
-            border-radius: 14px;
-            overflow: hidden;
+            background: #FFFEFE; border: 1px solid #e4e7ef;
+            border-radius: 14px; overflow: hidden;
         }
         .panel-padded { padding: 22px; }
         
         .panel-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 22px;
-            border-bottom: 1px solid #f1f3f8;
-            background: #fafbff;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 22px; border-bottom: 1px solid #f1f3f8; background: #fafbff;
         }
         .panel-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            color: #02182F;
+            font-size: 14px; font-weight: 700; color: #02182F;
         }
         .panel-subtitle {
             font-family: 'Outfit', sans-serif;
-            font-size: 11px;
-            color: #9ca3af;
-            font-weight: 500;
-            margin-left: 8px;
+            font-size: 11px; color: #9ca3af; font-weight: 500; margin-left: 8px;
         }
         
         .pl-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 22px;
-            border-bottom: 1px solid #f8f9fb;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 22px; border-bottom: 1px solid #f8f9fb;
         }
         .pl-row:last-child { border-bottom: none; }
-        
         .pl-row-green  { background: #e6f7eb; }
         .pl-row-red    { background: #fef2f2; }
         .pl-row-blue   { background: #edf3fd; }
-        .pl-row-yellow { background: #fffbeb; }
         
-        .pl-label {
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            color: #02182F;
-        }
-        .pl-description {
-            font-family: 'Outfit', sans-serif;
-            font-size: 11px;
-            color: #9ca3af;
-            margin-top: 2px;
-        }
-        .pl-amount {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 15px;
-            font-weight: 700;
-            text-align: right;
-        }
+        .pl-label { font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600; color: #02182F; }
+        .pl-description { font-family: 'Outfit', sans-serif; font-size: 11px; color: #9ca3af; margin-top: 2px; }
+        .pl-amount { font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 700; text-align: right; }
         .pl-amount.positive { color: #03A737; }
         .pl-amount.negative { color: #dc2626; }
         .pl-amount.brand   { color: #3D7BE7; }
         
         .pl-row-total {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             padding: 18px 22px;
         }
         .pl-row-total.green-bg { background: #e6f7eb; }
         .pl-row-total.red-bg   { background: #fef2f2; }
         
-        .pl-total-label {
-            font-family: 'Outfit', sans-serif;
-            font-size: 15px;
-            font-weight: 700;
-            color: #02182F;
-        }
-        .pl-total-amount {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 22px;
-            font-weight: 700;
-        }
+        .pl-total-label { font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700; color: #02182F; }
+        .pl-total-amount { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; }
         .pl-total-amount.positive { color: #03A737; }
         .pl-total-amount.negative { color: #dc2626; }
         
         .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
         
-        .progress-bar {
-            height: 8px;
-            background: #f1f3f8;
-            border-radius: 99px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            border-radius: 99px;
-            transition: width 0.4s ease;
-        }
+        .progress-bar { height: 8px; background: #f1f3f8; border-radius: 99px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 99px; transition: width 0.4s ease; }
         
-        .data-table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            font-family: 'Outfit', sans-serif; 
-        }
+        .data-table { width: 100%; border-collapse: collapse; font-family: 'Outfit', sans-serif; }
         .data-table th {
-            text-align: left;
-            font-size: 10px;
-            font-weight: 700;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            padding: 12px 20px;
-            background: #fafbff;
-            border-bottom: 1px solid #f1f3f8;
+            text-align: left; font-size: 10px; font-weight: 700; color: #9ca3af;
+            text-transform: uppercase; letter-spacing: 0.06em;
+            padding: 12px 20px; background: #fafbff; border-bottom: 1px solid #f1f3f8;
         }
-        .data-table td {
-            padding: 14px 20px;
-            font-size: 13px;
-            color: #374151;
-            border-bottom: 1px solid #f8f9fb;
-        }
+        .data-table td { padding: 14px 20px; font-size: 13px; color: #374151; border-bottom: 1px solid #f8f9fb; }
         .data-table tr:last-child td { border-bottom: none; }
         .data-table tbody tr:hover td { background: #fafbff; }
         
@@ -239,26 +147,42 @@
         .fw6 { font-weight: 600; }
         .fw7 { font-weight: 700; }
         
-        .expense-row {
-            margin-bottom: 12px;
-        }
+        .expense-row { margin-bottom: 12px; }
         .expense-row:last-child { margin-bottom: 0; }
         
         .color-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 6px;
-            flex-shrink: 0;
+            width: 8px; height: 8px; border-radius: 50%;
+            display: inline-block; margin-right: 6px; flex-shrink: 0;
+        }
+
+        .branch-pl-card {
+            background: #fafbff;
+            border: 1px solid #e4e7ef;
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .branch-pl-card.current {
+            border-color: #03A737;
+            box-shadow: 0 0 0 2px rgba(3,167,55,0.1);
         }
     </style>
 
     <div class="dash-wrap" style="padding:0 0 20px">
 
-        {{-- Date Filter --}}
+        {{-- Date Filter + Branch Filter --}}
         <div class="filter-bar">
             <form method="GET" action="{{ route('reports.profit-loss') }}" style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;width:100%">
+                <div class="filter-group">
+                    <span class="filter-label">Branch</span>
+                    <select name="branch_id" class="filter-select">
+                        <option value="">All Branches</option>
+                        @foreach(\App\Models\Branch::where('tenant_id', auth()->user()->tenant_id)->where('status', 'active')->orderBy('is_main', 'desc')->get() as $br)
+                            <option value="{{ $br->id }}" {{ request('branch_id') == $br->id ? 'selected' : '' }}>
+                                {{ $br->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="filter-group">
                     <span class="filter-label">From</span>
                     <input type="date" name="from" value="{{ $from }}" class="filter-input" />
@@ -286,6 +210,67 @@
 </a>
         </div>
 
+        {{-- ── PER-BRANCH NET PROFIT CARDS ── --}}
+        @php
+            $tenantId = auth()->user()->tenant_id;
+            $allBranches = \App\Models\Branch::where('tenant_id', $tenantId)->where('status', 'active')->orderBy('is_main', 'desc')->get();
+        @endphp
+        @if($allBranches->count() > 1 && !request('branch_id'))
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">Net Profit by Branch</span>
+                <span class="panel-subtitle">{{ \Carbon\Carbon::parse($from)->format('d M Y') }} — {{ \Carbon\Carbon::parse($to)->format('d M Y') }}</span>
+            </div>
+            <div style="padding:16px 20px;display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:12px">
+                @foreach($allBranches as $branch)
+                    @php
+                        $bRevenue = \App\Models\Sale::where('tenant_id', $tenantId)
+                            ->where('branch_id', $branch->id)
+                            ->whereBetween(\DB::raw('DATE(created_at)'), [$from, $to])
+                            ->where('status', 'completed')
+                            ->sum('total');
+                        $bCogs = \App\Models\SaleItem::whereHas('sale', fn($q) => $q
+                            ->where('tenant_id', $tenantId)
+                            ->where('branch_id', $branch->id)
+                            ->whereBetween(\DB::raw('DATE(created_at)'), [$from, $to])
+                            ->where('status', 'completed')
+                        )->selectRaw('SUM(cost_price * qty) as total')->value('total') ?? 0;
+                        $bRefunds = \App\Models\SaleReturn::where('tenant_id', $tenantId)
+                            ->where('branch_id', $branch->id)
+                            ->whereBetween(\DB::raw('DATE(created_at)'), [$from, $to])
+                            ->sum('total_refund');
+                        $bExpenses = \App\Models\Expense::where('tenant_id', $tenantId)
+                            ->where('branch_id', $branch->id)
+                            ->whereBetween('expense_date', [$from, $to])
+                            ->sum('amount');
+                        $bNetProfit = $bRevenue - $bCogs - $bRefunds - $bExpenses;
+                    @endphp
+                    <div class="branch-pl-card {{ auth()->user()->branch_id === $branch->id ? 'current' : '' }}">
+                        <div style="font-size:12px;font-weight:600;color:#02182F;margin-bottom:10px">{{ $branch->name }}</div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+                            <span style="font-size:11px;color:#6b7280">Revenue</span>
+                            <span class="mono" style="font-size:12px;color:#374151">KES {{ number_format($bRevenue, 2) }}</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+                            <span style="font-size:11px;color:#6b7280">Costs + Refunds</span>
+                            <span class="mono" style="font-size:12px;color:#dc2626">− KES {{ number_format($bCogs + $bRefunds, 2) }}</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+                            <span style="font-size:11px;color:#6b7280">Expenses</span>
+                            <span class="mono" style="font-size:12px;color:#dc2626">− KES {{ number_format($bExpenses, 2) }}</span>
+                        </div>
+                        <div style="border-top:1px solid #e4e7ef;padding-top:8px;display:flex;justify-content:space-between">
+                            <span style="font-size:12px;font-weight:700;color:#02182F">Net Profit</span>
+                            <span class="mono fw7" style="font-size:14px;color:{{ $bNetProfit >= 0 ? '#03A737' : '#dc2626' }}">
+                                {{ $bNetProfit >= 0 ? '+' : '' }}KES {{ number_format($bNetProfit, 2) }}
+                            </span>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
         {{-- P&L Statement --}}
         <div class="panel">
             <div class="panel-header">
@@ -293,11 +278,15 @@
                     <span class="panel-title">Profit & Loss Statement</span>
                     <span class="panel-subtitle">
                         {{ \Carbon\Carbon::parse($from)->format('d M Y') }} — {{ \Carbon\Carbon::parse($to)->format('d M Y') }}
+                        @if(request('branch_id'))
+                            · {{ \App\Models\Branch::find(request('branch_id'))->name ?? 'Unknown Branch' }}
+                        @else
+                            · All Branches
+                        @endif
                     </span>
                 </div>
             </div>
 
-            {{-- Revenue --}}
             <div class="pl-row pl-row-green">
                 <div>
                     <div class="pl-label">Gross Revenue</div>
@@ -306,7 +295,6 @@
                 <span class="pl-amount positive">KES {{ number_format($revenue, 2) }}</span>
             </div>
 
-            {{-- COGS --}}
             <div class="pl-row pl-row-red">
                 <div>
                     <div class="pl-label">Cost of Goods Sold (COGS)</div>
@@ -315,7 +303,6 @@
                 <span class="pl-amount negative">− KES {{ number_format($cogs, 2) }}</span>
             </div>
 
-            {{-- Refunds --}}
             <div class="pl-row pl-row-red">
                 <div>
                     <div class="pl-label">Refunds Issued</div>
@@ -324,7 +311,6 @@
                 <span class="pl-amount negative">− KES {{ number_format($refunds, 2) }}</span>
             </div>
 
-            {{-- Gross Profit --}}
             <div class="pl-row pl-row-blue">
                 <div>
                     <div class="pl-label">Gross Profit</div>
@@ -333,7 +319,6 @@
                 <span class="pl-amount brand" style="font-size:17px">KES {{ number_format($grossProfit, 2) }}</span>
             </div>
 
-            {{-- Expenses --}}
             <div class="pl-row pl-row-red">
                 <div>
                     <div class="pl-label">Operating Expenses</div>
@@ -342,7 +327,6 @@
                 <span class="pl-amount negative">− KES {{ number_format($expenses, 2) }}</span>
             </div>
 
-            {{-- Net Profit --}}
             <div class="pl-row-total {{ $netProfit >= 0 ? 'green-bg' : 'red-bg' }}">
                 <span class="pl-total-label">Net Profit</span>
                 <span class="pl-total-amount {{ $netProfit >= 0 ? 'positive' : 'negative' }}">
@@ -353,8 +337,6 @@
 
         {{-- Monthly Breakdown + Expenses by Category --}}
         <div class="two-col">
-
-            {{-- Monthly Revenue --}}
             @if($monthlySales->count() > 0)
                 <div class="panel">
                     <div class="panel-header">
@@ -371,13 +353,9 @@
                         <tbody>
                             @foreach($monthlySales as $month)
                                 <tr>
-                                    <td class="fw6" style="color:#02182F">
-                                        {{ \Carbon\Carbon::parse($month->month . '-01')->format('F Y') }}
-                                    </td>
+                                    <td class="fw6" style="color:#02182F">{{ \Carbon\Carbon::parse($month->month . '-01')->format('F Y') }}</td>
                                     <td class="mono" style="font-size:12px;color:#6b7280">{{ $month->transactions }}</td>
-                                    <td class="mono fw6" style="text-align:right;color:#03A737">
-                                        KES {{ number_format($month->revenue, 2) }}
-                                    </td>
+                                    <td class="mono fw6" style="text-align:right;color:#03A737">KES {{ number_format($month->revenue, 2) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -385,7 +363,6 @@
                 </div>
             @endif
 
-            {{-- Expenses by Category --}}
             @if($expensesByCategory->count() > 0)
                 <div class="panel panel-padded">
                     <div style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:#02182F;margin-bottom:16px">
@@ -403,9 +380,7 @@
                             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
                                 <div style="display:flex;align-items:center;gap:6px">
                                     <span class="color-dot" style="background:{{ $color }}"></span>
-                                    <span style="font-size:13px;color:#374151;font-weight:500;font-family:'Outfit',sans-serif">
-                                        {{ $cat->category->name ?? 'Uncategorised' }}
-                                    </span>
+                                    <span style="font-size:13px;color:#374151;font-weight:500;font-family:'Outfit',sans-serif">{{ $cat->category->name ?? 'Uncategorised' }}</span>
                                 </div>
                                 <span style="font-size:12px;color:#6b7280;font-family:'JetBrains Mono',monospace;font-weight:600">
                                     KES {{ number_format($cat->total, 2) }}
@@ -419,7 +394,6 @@
                     @endforeach
                 </div>
             @endif
-
         </div>
     </div>
 </x-app-layout>
