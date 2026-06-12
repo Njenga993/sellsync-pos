@@ -97,6 +97,9 @@ class PurchaseOrderController extends Controller
             'items.*.qty_received'=> ['required', 'integer', 'min:0'],
         ]);
 
+        $tenantId = auth()->user()->tenant_id;
+        $branchId = auth()->user()->branch_id;
+
         foreach ($request->items as $itemData) {
             $item      = PurchaseOrderItem::findOrFail($itemData['id']);
             $qtyToAdd  = (int) $itemData['qty_received'];
@@ -106,17 +109,22 @@ class PurchaseOrderController extends Controller
             $item->update(['qty_received' => $item->qty_received + $qtyToAdd]);
 
             $product   = $item->product;
-            $beforeQty = $product->stock_qty;
-            $product->increment('stock_qty', $qtyToAdd);
+            $beforeQty = $product->getStockForBranch($branchId);
+            $afterQty  = $beforeQty + $qtyToAdd;
+
+            $product->branches()->syncWithoutDetaching([
+                $branchId => ['stock_qty' => $afterQty]
+            ]);
 
             StockMovement::create([
-                'tenant_id'  => auth()->user()->tenant_id,
+                'tenant_id'  => $tenantId,
+                'branch_id'  => $branchId,
                 'product_id' => $product->id,
                 'user_id'    => auth()->id(),
                 'type'       => 'stock_in',
                 'qty'        => $qtyToAdd,
                 'before_qty' => $beforeQty,
-                'after_qty'  => $beforeQty + $qtyToAdd,
+                'after_qty'  => $afterQty,
                 'reference'  => $purchaseOrder->po_number,
                 'notes'      => 'Received from PO: ' . $purchaseOrder->po_number,
             ]);

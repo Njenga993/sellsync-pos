@@ -46,7 +46,7 @@ class ProductController extends Controller
             'status'          => ['required', 'in:active,inactive'],
         ]);
 
-        Product::create([
+        $product = Product::create([
             'tenant_id'       => auth()->user()->tenant_id,
             'category_id'     => $request->category_id,
             'name'            => $request->name,
@@ -55,12 +55,20 @@ class ProductController extends Controller
             'price'           => $request->price,
             'cost_price'      => $request->cost_price ?? 0,
             'tax_rate'        => $request->tax_rate ?? 0,
-            'stock_qty'       => $request->stock_qty ?? 0,
-            'low_stock_alert' => $request->low_stock_alert ?? 5,
             'track_stock'     => $request->boolean('track_stock', true),
             'description'     => $request->description,
             'status'          => $request->status,
         ]);
+
+        // Sync stock to the current branch's pivot table
+        if ($product->track_stock) {
+            $product->branches()->syncWithoutDetaching([
+                auth()->user()->branch_id => [
+                    'stock_qty'       => $request->stock_qty ?? 0,
+                    'low_stock_alert' => $request->low_stock_alert ?? 5,
+                ]
+            ]);
+        }
 
         return redirect()->route('products.index')
             ->with('success', 'Product added successfully.');
@@ -106,12 +114,20 @@ class ProductController extends Controller
             'price'           => $request->price,
             'cost_price'      => $request->cost_price ?? 0,
             'tax_rate'        => $request->tax_rate ?? 0,
-            'stock_qty'       => $request->stock_qty ?? 0,
-            'low_stock_alert' => $request->low_stock_alert ?? 5,
             'track_stock'     => $request->boolean('track_stock', true),
             'description'     => $request->description,
             'status'          => $request->status,
         ]);
+
+        // Sync stock to the current branch's pivot table
+        if ($product->track_stock) {
+            $product->branches()->syncWithoutDetaching([
+                auth()->user()->branch_id => [
+                    'stock_qty'       => $request->stock_qty ?? 0,
+                    'low_stock_alert' => $request->low_stock_alert ?? 5,
+                ]
+            ]);
+        }
 
         return redirect()->route('products.index')
             ->with('success', 'Product updated successfully.');
@@ -176,6 +192,7 @@ class ProductController extends Controller
         $errors = [];
         $rowNumber = 1;
         $tenantId = auth()->user()->tenant_id;
+        $branchId = auth()->user()->branch_id;
         
         while (($row = fgetcsv($handle)) !== false) {
             $rowNumber++;
@@ -244,7 +261,7 @@ class ProductController extends Controller
             
             // Create product
             try {
-                Product::create([
+                $product = Product::create([
                     'tenant_id'       => $tenantId,
                     'name'            => $name,
                     'sku'             => $sku,
@@ -253,11 +270,18 @@ class ProductController extends Controller
                     'price'           => floatval($price),
                     'cost_price'      => floatval($data['cost_price'] ?? 0),
                     'tax_rate'        => floatval($data['tax_rate'] ?? 0),
-                    'stock_qty'       => intval($data['stock_qty'] ?? 0),
-                    'low_stock_alert' => intval($data['low_stock_alert'] ?? 5),
                     'track_stock'     => true,
                     'status'          => 'active',
                 ]);
+
+                // Sync stock to branch pivot
+                $product->branches()->syncWithoutDetaching([
+                    $branchId => [
+                        'stock_qty'       => intval($data['stock_qty'] ?? 0),
+                        'low_stock_alert' => intval($data['low_stock_alert'] ?? 5),
+                    ]
+                ]);
+
                 $imported++;
             } catch (\Exception $e) {
                 $skipped++;

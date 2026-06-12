@@ -12,18 +12,38 @@ class StockController extends Controller
     public function index(Request $request)
     {
         $tenantId = auth()->user()->tenant_id;
+        $branchId = auth()->user()->branch_id;
 
+        // Get products that track stock and have stock in this branch
         $products = Product::where('tenant_id', $tenantId)
             ->where('status', 'active')
             ->where('track_stock', true)
             ->with('category')
-            ->orderBy('stock_qty')
             ->paginate(20);
+
+        // Count low stock and out of stock using the accessors
+        $lowStockCount = 0;
+        $outOfStockCount = 0;
+        
+        $allTracked = Product::where('tenant_id', $tenantId)
+            ->where('track_stock', true)
+            ->get();
+            
+        foreach ($allTracked as $p) {
+            $stock = $p->getStockForBranch($branchId);
+            $alert = $p->low_stock_alert;
+            
+            if ($stock <= 0) {
+                $outOfStockCount++;
+            } elseif ($stock <= $alert) {
+                $lowStockCount++;
+            }
+        }
 
         $summary = [
             'total_products'  => Product::where('tenant_id', $tenantId)->where('track_stock', true)->count(),
-            'low_stock'       => Product::where('tenant_id', $tenantId)->where('track_stock', true)->whereColumn('stock_qty', '<=', 'low_stock_alert')->count(),
-            'out_of_stock'    => Product::where('tenant_id', $tenantId)->where('track_stock', true)->where('stock_qty', '<=', 0)->count(),
+            'low_stock'       => $lowStockCount,
+            'out_of_stock'    => $outOfStockCount,
             'total_movements' => StockMovement::where('tenant_id', $tenantId)->count(),
         ];
 
@@ -59,11 +79,13 @@ class StockController extends Controller
             'reference'  => ['nullable', 'string'],
         ]);
 
-        $product    = Product::findOrFail($request->product_id);
-        $beforeQty  = $product->stock_qty;
+        $tenantId = auth()->user()->tenant_id;
+        $branchId = auth()->user()->branch_id;
+        $product  = Product::findOrFail($request->product_id);
+        $beforeQty = $product->getStockForBranch($branchId);
 
-        if ($request->type === 'stock_out' && $product->stock_qty < $request->qty) {
-            return back()->with('error', 'Not enough stock. Current stock: ' . $product->stock_qty);
+        if ($request->type === 'stock_out' && $beforeQty < $request->qty) {
+            return back()->with('error', 'Not enough stock. Current stock: ' . $beforeQty);
         }
 
         $newQty = match($request->type) {
@@ -78,10 +100,16 @@ class StockController extends Controller
             'adjustment' => $request->qty - $beforeQty,
         };
 
-        $product->update(['stock_qty' => $newQty]);
+        // Update stock in pivot table for this branch
+        $product->branches()->syncWithoutDetaching([
+            $branchId => [
+                'stock_qty' => $newQty,
+            ]
+        ]);
 
         StockMovement::create([
-            'tenant_id'  => auth()->user()->tenant_id,
+            'tenant_id'  => $tenantId,
+            'branch_id'  => $branchId,
             'product_id' => $product->id,
             'user_id'    => auth()->id(),
             'type'       => $request->type,

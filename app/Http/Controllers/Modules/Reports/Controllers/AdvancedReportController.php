@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-
 class AdvancedReportController extends Controller
 {
     public function profitLoss(Request $request)
@@ -69,16 +68,18 @@ class AdvancedReportController extends Controller
     public function stockValuation(Request $request)
     {
         $tenantId = auth()->user()->tenant_id;
+        $branchId = auth()->user()->branch_id;
 
         $products = Product::where('tenant_id', $tenantId)
             ->where('track_stock', true)
             ->with('category')
-            ->orderBy('stock_qty')
             ->get()
-            ->map(function ($product) {
-                $product->cost_value  = $product->stock_qty * $product->cost_price;
-                $product->sell_value  = $product->stock_qty * $product->price;
-                $product->potential   = $product->sell_value - $product->cost_value;
+            ->map(function ($product) use ($branchId) {
+                $stockQty              = $product->getStockForBranch($branchId);
+                $product->stock_qty    = $stockQty;
+                $product->cost_value   = $stockQty * $product->cost_price;
+                $product->sell_value   = $stockQty * $product->price;
+                $product->potential    = $product->sell_value - $product->cost_value;
                 return $product;
             });
 
@@ -91,12 +92,13 @@ class AdvancedReportController extends Controller
             'low_stock'        => $products->filter(fn($p) => $p->isLowStock() && $p->stock_qty > 0)->count(),
         ];
 
-        $byCategory = $products->groupBy('category.name')
-            ->map(fn($group) => [
-                'cost_value' => $group->sum('cost_value'),
-                'sell_value' => $group->sum('sell_value'),
-                'count'      => $group->count(),
-            ]);
+        $byCategory = $products->groupBy(function($p) {
+            return $p->category->name ?? 'Uncategorised';
+        })->map(fn($group) => [
+            'cost_value' => $group->sum('cost_value'),
+            'sell_value' => $group->sum('sell_value'),
+            'count'      => $group->count(),
+        ]);
 
         return view('modules.reports.stock_valuation', compact(
             'products', 'summary', 'byCategory'
@@ -150,7 +152,7 @@ class AdvancedReportController extends Controller
         $hourly = Sale::where('tenant_id', $tenantId)
             ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
             ->where('status', 'completed')
-           ->selectRaw('EXTRACT(HOUR FROM created_at) as hour, COUNT(*) as transactions, SUM(total) as revenue')
+            ->selectRaw('EXTRACT(HOUR FROM created_at) as hour, COUNT(*) as transactions, SUM(total) as revenue')
             ->groupBy('hour')
             ->orderBy('hour')
             ->get();
@@ -161,151 +163,153 @@ class AdvancedReportController extends Controller
     }
 
     public function exportProfitLossPdf(Request $request)
-{
-    $tenantId = auth()->user()->tenant_id;
-    $from     = $request->from ?? now()->startOfMonth()->toDateString();
-    $to       = $request->to   ?? now()->toDateString();
+    {
+        $tenantId = auth()->user()->tenant_id;
+        $from     = $request->from ?? now()->startOfMonth()->toDateString();
+        $to       = $request->to   ?? now()->toDateString();
 
-    $revenue = Sale::where('tenant_id', $tenantId)
-        ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
-        ->where('status', 'completed')
-        ->sum('total');
+        $revenue = Sale::where('tenant_id', $tenantId)
+            ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
+            ->where('status', 'completed')
+            ->sum('total');
 
-    $cogs = \App\Models\SaleItem::whereHas('sale', fn($q) => $q
-        ->where('tenant_id', $tenantId)
-        ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
-        ->where('status', 'completed')
-    )->selectRaw('SUM(cost_price * qty) as total')->value('total') ?? 0;
+        $cogs = SaleItem::whereHas('sale', fn($q) => $q
+            ->where('tenant_id', $tenantId)
+            ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
+            ->where('status', 'completed')
+        )->selectRaw('SUM(cost_price * qty) as total')->value('total') ?? 0;
 
-    $expenses = Expense::where('tenant_id', $tenantId)
-        ->whereBetween('expense_date', [$from, $to])
-        ->sum('amount');
+        $expenses = Expense::where('tenant_id', $tenantId)
+            ->whereBetween('expense_date', [$from, $to])
+            ->sum('amount');
 
-    $refunds = SaleReturn::where('tenant_id', $tenantId)
-        ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
-        ->sum('total_refund');
+        $refunds = SaleReturn::where('tenant_id', $tenantId)
+            ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
+            ->sum('total_refund');
 
-    $grossProfit = $revenue - $cogs - $refunds;
-    $netProfit   = $grossProfit - $expenses;
+        $grossProfit = $revenue - $cogs - $refunds;
+        $netProfit   = $grossProfit - $expenses;
 
-    $monthlySales = Sale::where('tenant_id', $tenantId)
-        ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
-        ->selectRaw("TO_CHAR(created_at, 'YYYY-MM') as month, SUM(total) as revenue, COUNT(*) as transactions")
-        ->groupBy('month')
-        ->orderBy('month')
-        ->get();
+        $monthlySales = Sale::where('tenant_id', $tenantId)
+            ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
+            ->selectRaw("TO_CHAR(created_at, 'YYYY-MM') as month, SUM(total) as revenue, COUNT(*) as transactions")
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
 
-    $expensesByCategory = Expense::where('tenant_id', $tenantId)
-        ->whereBetween('expense_date', [$from, $to])
-        ->with('category')
-        ->selectRaw('expense_category_id, SUM(amount) as total')
-        ->groupBy('expense_category_id')
-        ->orderByDesc('total')
-        ->get();
+        $expensesByCategory = Expense::where('tenant_id', $tenantId)
+            ->whereBetween('expense_date', [$from, $to])
+            ->with('category')
+            ->selectRaw('expense_category_id, SUM(amount) as total')
+            ->groupBy('expense_category_id')
+            ->orderByDesc('total')
+            ->get();
 
-    $pdf = Pdf::loadView('modules.reports.exports.profit_loss', compact(
-        'revenue', 'cogs', 'expenses', 'refunds',
-        'grossProfit', 'netProfit', 'monthlySales',
-        'expensesByCategory', 'from', 'to'
-    ));
-    
-    $pdf->setPaper('a4', 'portrait');
-    
-    return $pdf->download('profit-loss-report-' . $from . '-to-' . $to . '.pdf');
-}
+        $pdf = Pdf::loadView('modules.reports.exports.profit_loss', compact(
+            'revenue', 'cogs', 'expenses', 'refunds',
+            'grossProfit', 'netProfit', 'monthlySales',
+            'expensesByCategory', 'from', 'to'
+        ));
 
-public function exportStockValuationPdf(Request $request)
-{
-    $tenantId = auth()->user()->tenant_id;
+        $pdf->setPaper('a4', 'portrait');
 
-    $products = Product::where('tenant_id', $tenantId)
-        ->where('track_stock', true)
-        ->with('category')
-        ->orderBy('stock_qty')
-        ->get()
-        ->map(function ($product) {
-            $product->cost_value  = $product->stock_qty * $product->cost_price;
-            $product->sell_value  = $product->stock_qty * $product->price;
-            $product->potential   = $product->sell_value - $product->cost_value;
-            return $product;
-        });
+        return $pdf->download('profit-loss-report-' . $from . '-to-' . $to . '.pdf');
+    }
 
-    $summary = [
-        'total_cost_value' => $products->sum('cost_value'),
-        'total_sell_value' => $products->sum('sell_value'),
-        'total_potential'  => $products->sum('potential'),
-        'total_products'   => $products->count(),
-        'out_of_stock'     => $products->where('stock_qty', '<=', 0)->count(),
-        'low_stock'        => $products->filter(fn($p) => $p->isLowStock() && $p->stock_qty > 0)->count(),
-    ];
+    public function exportStockValuationPdf(Request $request)
+    {
+        $tenantId = auth()->user()->tenant_id;
+        $branchId = auth()->user()->branch_id;
 
-    $byCategory = $products->groupBy('category.name')
-        ->map(fn($group) => [
+        $products = Product::where('tenant_id', $tenantId)
+            ->where('track_stock', true)
+            ->with('category')
+            ->get()
+            ->map(function ($product) use ($branchId) {
+                $stockQty              = $product->getStockForBranch($branchId);
+                $product->stock_qty    = $stockQty;
+                $product->cost_value   = $stockQty * $product->cost_price;
+                $product->sell_value   = $stockQty * $product->price;
+                $product->potential    = $product->sell_value - $product->cost_value;
+                return $product;
+            });
+
+        $summary = [
+            'total_cost_value' => $products->sum('cost_value'),
+            'total_sell_value' => $products->sum('sell_value'),
+            'total_potential'  => $products->sum('potential'),
+            'total_products'   => $products->count(),
+            'out_of_stock'     => $products->where('stock_qty', '<=', 0)->count(),
+            'low_stock'        => $products->filter(fn($p) => $p->isLowStock() && $p->stock_qty > 0)->count(),
+        ];
+
+        $byCategory = $products->groupBy(function($p) {
+            return $p->category->name ?? 'Uncategorised';
+        })->map(fn($group) => [
             'cost_value' => $group->sum('cost_value'),
             'sell_value' => $group->sum('sell_value'),
             'count'      => $group->count(),
         ]);
 
-    $pdf = Pdf::loadView('modules.reports.exports.stock_valuation', compact(
-        'products', 'summary', 'byCategory'
-    ));
-    
-    $pdf->setPaper('a4', 'landscape');
-    
-    return $pdf->download('stock-valuation-report-' . now()->format('Y-m-d') . '.pdf');
-}
+        $pdf = Pdf::loadView('modules.reports.exports.stock_valuation', compact(
+            'products', 'summary', 'byCategory'
+        ));
 
-public function exportCashierPerformancePdf(Request $request)
-{
-    $tenantId = auth()->user()->tenant_id;
-    $from     = $request->from ?? now()->startOfMonth()->toDateString();
-    $to       = $request->to   ?? now()->toDateString();
+        $pdf->setPaper('a4', 'landscape');
 
-    $cashiers = User::where('tenant_id', $tenantId)
-        ->with('roles', 'branch')
-        ->get()
-        ->map(function ($user) use ($tenantId, $from, $to) {
-            $sales = Sale::where('tenant_id', $tenantId)
-                ->where('user_id', $user->id)
-                ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
-                ->where('status', 'completed');
+        return $pdf->download('stock-valuation-report-' . now()->format('Y-m-d') . '.pdf');
+    }
 
-            $user->total_sales       = $sales->count();
-            $user->total_revenue     = $sales->sum('total');
-            $user->avg_sale          = $sales->count() > 0
-                ? round($sales->sum('total') / $sales->count(), 2) : 0;
-            $user->total_items       = \App\Models\SaleItem::whereHas('sale', fn($q) => $q
-                ->where('tenant_id', $tenantId)
-                ->where('user_id', $user->id)
-                ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
-            )->sum('qty');
-            $user->total_returns     = SaleReturn::where('tenant_id', $tenantId)
-                ->where('user_id', $user->id)
-                ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
-                ->count();
+    public function exportCashierPerformancePdf(Request $request)
+    {
+        $tenantId = auth()->user()->tenant_id;
+        $from     = $request->from ?? now()->startOfMonth()->toDateString();
+        $to       = $request->to   ?? now()->toDateString();
 
-            return $user;
-        })
-        ->sortByDesc('total_revenue');
+        $cashiers = User::where('tenant_id', $tenantId)
+            ->with('roles', 'branch')
+            ->get()
+            ->map(function ($user) use ($tenantId, $from, $to) {
+                $sales = Sale::where('tenant_id', $tenantId)
+                    ->where('user_id', $user->id)
+                    ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
+                    ->where('status', 'completed');
 
-    $topProducts = \App\Models\SaleItem::whereHas('sale', fn($q) => $q
-        ->where('tenant_id', $tenantId)
-        ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
-        ->where('status', 'completed')
-    )
-    ->selectRaw('product_name, SUM(qty) as total_qty, SUM(subtotal) as total_revenue, SUM((unit_price - cost_price) * qty) as total_profit')
-    ->groupBy('product_name')
-    ->orderByDesc('total_revenue')
-    ->take(10)
-    ->get();
+                $user->total_sales       = $sales->count();
+                $user->total_revenue     = $sales->sum('total');
+                $user->avg_sale          = $sales->count() > 0
+                    ? round($sales->sum('total') / $sales->count(), 2) : 0;
+                $user->total_items       = SaleItem::whereHas('sale', fn($q) => $q
+                    ->where('tenant_id', $tenantId)
+                    ->where('user_id', $user->id)
+                    ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
+                )->sum('qty');
+                $user->total_returns     = SaleReturn::where('tenant_id', $tenantId)
+                    ->where('user_id', $user->id)
+                    ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
+                    ->count();
 
-    $pdf = Pdf::loadView('modules.reports.exports.cashier_performance', compact(
-        'cashiers', 'topProducts', 'from', 'to'
-    ));
-    
-    $pdf->setPaper('a4', 'landscape');
-    
-    return $pdf->download('cashier-performance-report-' . $from . '-to-' . $to . '.pdf');
-}
+                return $user;
+            })
+            ->sortByDesc('total_revenue');
 
+        $topProducts = SaleItem::whereHas('sale', fn($q) => $q
+            ->where('tenant_id', $tenantId)
+            ->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
+            ->where('status', 'completed')
+        )
+        ->selectRaw('product_name, SUM(qty) as total_qty, SUM(subtotal) as total_revenue, SUM((unit_price - cost_price) * qty) as total_profit')
+        ->groupBy('product_name')
+        ->orderByDesc('total_revenue')
+        ->take(10)
+        ->get();
+
+        $pdf = Pdf::loadView('modules.reports.exports.cashier_performance', compact(
+            'cashiers', 'topProducts', 'from', 'to'
+        ));
+
+        $pdf->setPaper('a4', 'landscape');
+
+        return $pdf->download('cashier-performance-report-' . $from . '-to-' . $to . '.pdf');
+    }
 }

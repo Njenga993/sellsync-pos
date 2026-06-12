@@ -50,6 +50,8 @@ class SaleReturnController extends Controller
             'items.*.restock'     => ['nullable', 'boolean'],
         ]);
 
+        $tenantId    = auth()->user()->tenant_id;
+        $branchId    = auth()->user()->branch_id;
         $sale        = Sale::findOrFail($request->sale_id);
         $totalRefund = 0;
         $returnItems = [];
@@ -78,11 +80,11 @@ class SaleReturnController extends Controller
         }
 
         $return = SaleReturn::create([
-            'tenant_id'     => auth()->user()->tenant_id,
-            'branch_id'     => auth()->user()->branch_id,
+            'tenant_id'     => $tenantId,
+            'branch_id'     => $branchId,
             'user_id'       => auth()->id(),
             'sale_id'       => $sale->id,
-            'return_number' => SaleReturn::generateReturnNumber(auth()->user()->tenant_id),
+            'return_number' => SaleReturn::generateReturnNumber($tenantId),
             'total_refund'  => $totalRefund,
             'refund_method' => $request->refund_method,
             'reason'        => $request->reason,
@@ -95,17 +97,22 @@ class SaleReturnController extends Controller
 
             if ($item['restock']) {
                 $product   = Product::find($item['product_id']);
-                $beforeQty = $product->stock_qty;
-                $product->increment('stock_qty', $item['qty']);
+                $beforeQty = $product->getStockForBranch($branchId);
+                $afterQty  = $beforeQty + $item['qty'];
+
+                $product->branches()->syncWithoutDetaching([
+                    $branchId => ['stock_qty' => $afterQty]
+                ]);
 
                 StockMovement::create([
-                    'tenant_id'  => auth()->user()->tenant_id,
+                    'tenant_id'  => $tenantId,
+                    'branch_id'  => $branchId,
                     'product_id' => $product->id,
                     'user_id'    => auth()->id(),
                     'type'       => 'return',
                     'qty'        => $item['qty'],
                     'before_qty' => $beforeQty,
-                    'after_qty'  => $beforeQty + $item['qty'],
+                    'after_qty'  => $afterQty,
                     'reference'  => $return->return_number,
                     'notes'      => 'Restocked from return: ' . $return->return_number,
                 ]);

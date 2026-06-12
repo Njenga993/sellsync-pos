@@ -38,4 +38,14 @@ class Branch extends Model
     {
         return $this->hasMany(Sale::class);
     }
+
+    /**
+     * Products with per-branch stock levels via pivot
+     */
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'branch_product')
+            ->withPivot(['stock_qty', 'low_stock_alert'])
+            ->withTimestamps();
+    }
 }
