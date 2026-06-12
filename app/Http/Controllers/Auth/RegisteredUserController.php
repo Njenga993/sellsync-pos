@@ -80,7 +80,7 @@ class RegisteredUserController extends Controller
         Cache::put('otp_' . $user->id . '_expires', now()->addMinutes(5), now()->addMinutes(5));
 
         // Debug OTP for local testing
-        session()->flash('debug_otp', $otp);
+        //session()->flash('debug_otp', $otp);
 
         // Send OTP email
         Mail::to($user->email)->send(new \App\Mail\LoginOtpMail($user, $otp));

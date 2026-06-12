@@ -126,20 +126,22 @@
                 </div>
             @endif
 
-            {{-- Debug OTP — shows on both login and registration --}}
-            @php
-                $debugOtp = session('debug_otp');
-                if (!$debugOtp && auth()->check()) {
-                    $debugOtp = \Illuminate\Support\Facades\Cache::get('otp_' . auth()->id());
-                }
-                if (!$debugOtp && session()->has('otp_user_id')) {
-                    $debugOtp = \Illuminate\Support\Facades\Cache::get('otp_' . session('otp_user_id'));
-                }
-            @endphp
-            @if($debugOtp)
-                <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:14px;margin-bottom:16px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#854d0e">
-                    Your OTP: {{ $debugOtp }}
-                </div>
+            {{-- Debug OTP — ONLY shown in local environment --}}
+            @if(app()->environment('local'))
+                @php
+                    $debugOtp = session('debug_otp');
+                    if (!$debugOtp && auth()->check()) {
+                        $debugOtp = \Illuminate\Support\Facades\Cache::get('otp_' . auth()->id());
+                    }
+                    if (!$debugOtp && session()->has('otp_user_id')) {
+                        $debugOtp = \Illuminate\Support\Facades\Cache::get('otp_' . session('otp_user_id'));
+                    }
+                @endphp
+                @if($debugOtp)
+                    <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:14px;margin-bottom:16px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#854d0e">
+                        Your OTP: {{ $debugOtp }}
+                    </div>
+                @endif
             @endif
 
             {{-- OTP Form --}}
