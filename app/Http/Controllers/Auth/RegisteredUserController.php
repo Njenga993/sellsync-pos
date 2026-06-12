@@ -34,7 +34,6 @@ class RegisteredUserController extends Controller
             'branch_count'  => ['required', 'integer', 'min:1', 'max:20'],
         ]);
 
-        // ── Create Tenant ──
         $tenant = Tenant::create([
             'id'            => str()->slug($request->business_name) . '-' . str()->random(6),
             'name'          => $request->business_name,
@@ -45,7 +44,6 @@ class RegisteredUserController extends Controller
             'status'        => 'active',
         ]);
 
-        // ── Create Main Branch ──
         $mainBranch = Branch::create([
             'tenant_id' => $tenant->id,
             'name'      => $request->business_name . ' — Main Branch',
@@ -53,7 +51,6 @@ class RegisteredUserController extends Controller
             'status'    => 'active',
         ]);
 
-        // ── Create Additional Placeholder Branches ──
         $branchCount = (int) $request->branch_count;
         for ($i = 2; $i <= $branchCount; $i++) {
             Branch::create([
@@ -64,42 +61,44 @@ class RegisteredUserController extends Controller
             ]);
         }
 
-        // ── Create Admin User on Main Branch ──
         $user = User::create([
-            'tenant_id'   => $tenant->id,
-            'branch_id'   => $mainBranch->id,
-            'name'        => $request->name,
-            'email'       => $request->email,
-            'phone'       => $request->phone,
-            'password'    => Hash::make($request->password),
-            'status'      => 'active',
-            'email_verified_at' => now(), // Auto-verify — OTP handles verification
+            'tenant_id'        => $tenant->id,
+            'branch_id'        => $mainBranch->id,
+            'name'             => $request->name,
+            'email'            => $request->email,
+            'phone'            => $request->phone,
+            'password'         => Hash::make($request->password),
+            'status'           => 'active',
+            'email_verified_at' => now(),
         ]);
 
         $user->assignRole('admin');
 
-        // ── Generate OTP ──
+        // Generate OTP
         $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
         Cache::put('otp_' . $user->id, $otp, now()->addMinutes(5));
         Cache::put('otp_' . $user->id . '_expires', now()->addMinutes(5), now()->addMinutes(5));
 
-        // ── Send OTP email ──
+        // Debug OTP for local testing
+        session()->flash('debug_otp', $otp);
+
+        // Send OTP email
         Mail::to($user->email)->send(new \App\Mail\LoginOtpMail($user, $otp));
 
-        // ── Log In ──
+        // Log in
         Auth::login($user);
 
-        // ── Store OTP flow type ──
+        // Store OTP session — registration flow
         session()->put('otp_user_id', $user->id);
         session()->put('otp_flow', 'registration');
 
-        // ── Redirect to Branch Setup if more than 1 branch ──
+        // Branch setup first (if multiple branches), then OTP
         if ($branchCount > 1) {
             return redirect()->route('branch.setup')
                 ->with('info', "Welcome! You have {$branchCount} branches to set up.");
         }
 
-        // ── Single branch — go straight to OTP ──
+        // Single branch — straight to OTP
         return redirect()->route('otp.show');
     }
 }

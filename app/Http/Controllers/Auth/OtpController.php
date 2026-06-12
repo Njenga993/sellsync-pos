@@ -14,8 +14,13 @@ class OtpController extends Controller
 {
     public function show()
     {
-        if (!session()->has('otp_user_id')) {
+        if (!session()->has('otp_user_id') && !Auth::check()) {
             return redirect()->route('login');
+        }
+
+        if (!session()->has('otp_user_id') && Auth::check()) {
+            session()->put('otp_user_id', Auth::id());
+            session()->put('otp_flow', 'login');
         }
 
         $flow = session()->get('otp_flow', 'login');
@@ -47,9 +52,10 @@ class OtpController extends Controller
             Cache::forget('otp_' . $userId . '_expires');
             Cache::forget('otp_' . $userId . '_attempts');
             session()->forget(['otp_user_id', 'otp_flow', 'branch_setup_complete', 'pending_branch_setup']);
+            Auth::logout();
 
-            return back()->withErrors([
-                'otp' => 'OTP has expired. Please login again.',
+            return redirect()->route('login')->withErrors([
+                'email' => 'OTP has expired. Please login again.',
             ]);
         }
 
@@ -62,9 +68,10 @@ class OtpController extends Controller
                 Cache::forget('otp_' . $userId . '_expires');
                 Cache::forget('otp_' . $userId . '_attempts');
                 session()->forget(['otp_user_id', 'otp_flow', 'branch_setup_complete', 'pending_branch_setup']);
+                Auth::logout();
 
-                return back()->withErrors([
-                    'otp' => 'Too many incorrect attempts. Please login again.',
+                return redirect()->route('login')->withErrors([
+                    'email' => 'Too many incorrect attempts. Please login again.',
                 ]);
             }
 
@@ -74,15 +81,16 @@ class OtpController extends Controller
             ]);
         }
 
-        // OTP correct — complete login
+        // OTP correct
         Cache::forget('otp_' . $userId);
         Cache::forget('otp_' . $userId . '_expires');
         Cache::forget('otp_' . $userId . '_attempts');
         session()->forget(['otp_user_id', 'otp_flow']);
 
-        Auth::loginUsingId($userId);
+        if (!Auth::check()) {
+            Auth::loginUsingId($userId);
+        }
 
-        // Mark email as verified — user proved ownership via OTP
         $user = Auth::user();
         if (!$user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
@@ -90,38 +98,31 @@ class OtpController extends Controller
 
         $request->session()->regenerate();
 
-        // Registration flow — go straight to dashboard
-        // Branch setup was already completed before OTP
+        // Both flows go to dashboard after OTP
         if ($flow === 'registration') {
-            // Clean up branch setup session
             session()->forget(['branch_setup_complete', 'pending_branch_setup']);
-            
             return redirect()->route('dashboard')
                 ->with('success', 'Account verified successfully! Welcome to SellSync.');
         }
 
-        // Login flow — role-based redirect
+        // Login flow
         if ($user->hasRole('cashier')) {
             return redirect()->route('pos.index');
         }
-
         if ($user->hasRole('inventory')) {
             return redirect()->route('stock.index');
         }
-
         return redirect()->intended(route('dashboard'));
     }
 
     public function resend()
     {
         $userId = session()->get('otp_user_id');
-
         if (!$userId) {
             return redirect()->route('login');
         }
 
         $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-
         Cache::put('otp_' . $userId, $otp, now()->addMinutes(5));
         Cache::put('otp_' . $userId . '_expires', now()->addMinutes(5), now()->addMinutes(5));
 

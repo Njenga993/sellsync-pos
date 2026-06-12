@@ -43,22 +43,20 @@ class BranchSetupController extends Controller
             }
         }
 
-        // Mark branch setup as complete so OTP doesn't redirect back here
         session()->put('branch_setup_complete', true);
         session()->forget('pending_branch_setup');
 
-        // Redirect to OTP verification
+        // After branch setup, go to OTP
         return redirect()->route('otp.show')
             ->with('status', 'Branches saved! Enter the OTP sent to your email to continue.');
     }
 
     public function skip()
     {
-        // Mark branch setup as skipped so OTP doesn't redirect back here
         session()->put('branch_setup_complete', true);
         session()->forget('pending_branch_setup');
 
-        // Redirect to OTP verification
+        // After skipping, go to OTP
         return redirect()->route('otp.show');
     }
 }

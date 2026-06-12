@@ -29,7 +29,6 @@ class AuthenticatedSessionController extends Controller
 
         $key = 'login.' . Str::lower($request->email) . '|' . $request->ip();
 
-        // Check if locked out
         if (RateLimiter::tooManyAttempts($key, 3)) {
             $seconds = RateLimiter::availableIn($key);
             $minutes = ceil($seconds / 60);
@@ -38,13 +37,10 @@ class AuthenticatedSessionController extends Controller
             ]);
         }
 
-        // Attempt login
         if (!Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
-            RateLimiter::hit($key, 300); // lock for 5 minutes
-
+            RateLimiter::hit($key, 300);
             $attempts  = RateLimiter::attempts($key);
             $remaining = max(0, 3 - $attempts);
-
             throw ValidationException::withMessages([
                 'email' => $remaining > 0
                     ? "Invalid email or password. You have {$remaining} attempt(s) remaining."
@@ -52,32 +48,26 @@ class AuthenticatedSessionController extends Controller
             ]);
         }
 
-        // Success — clear rate limiter
         RateLimiter::clear($key);
 
-        // Get the authenticated user
         $user = Auth::user();
 
-        // Log them out temporarily (they'll log back in after OTP)
-        Auth::logout();
-
-        // Generate 6-digit OTP
+        // Generate OTP
         $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-
-        // Store OTP in cache for 5 minutes
         Cache::put('otp_' . $user->id, $otp, now()->addMinutes(5));
         Cache::put('otp_' . $user->id . '_expires', now()->addMinutes(5), now()->addMinutes(5));
 
-        // Store user ID in session for OTP verification
-        session()->put('otp_user_id', $user->id);
-
-        // Store the OTP flow type: 'login' or 'registration'
-        session()->put('otp_flow', 'login');
+        // Debug OTP for local testing
+        session()->flash('debug_otp', $otp);
 
         // Send OTP email
         Mail::to($user->email)->send(new \App\Mail\LoginOtpMail($user, $otp));
 
-        // Redirect to OTP page
+        // Store OTP session — login flow (user stays logged in)
+        session()->put('otp_user_id', $user->id);
+        session()->put('otp_flow', 'login');
+
+        // Redirect to OTP — NO logout, NO branch setup
         return redirect()->route('otp.show');
     }
 
